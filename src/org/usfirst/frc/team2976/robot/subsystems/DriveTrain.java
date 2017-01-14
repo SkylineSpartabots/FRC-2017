@@ -42,6 +42,7 @@ public class DriveTrain extends Subsystem {
     	rightBackMotor.set(y);
     	leftBackMotor.set(y);
     }
+    //get numbers of encoder ticks
     private double getRightFrontDriveEncoderCount() {	
     	return rightFrontDriveEncoder.get();
     }
@@ -54,6 +55,22 @@ public class DriveTrain extends Subsystem {
     private double getLeftBackDriveEncoderCount() {	
     	return leftBackDriveEncoder.get();
     }
-    //get velocity for the encoders
+    
+    //get velocities
+    private double getRightFrontDriveEncoderVelocity() {
+    	return rightFrontDriveEncoder.getRate();
+    }
+    private double getLeftFrontDriveEncoderVelocity() {
+    	return leftFrontDriveEncoder.getRate();
+    }
+    private double getRightBackDriveEncoderVelocity() {
+    	return rightBackDriveEncoder.getRate();
+    }
+    private double getLeftBackDriveEncoderVelocity() {
+    	return leftBackDriveEncoder.getRate();
+    }
+    
+    
+    
 }
 

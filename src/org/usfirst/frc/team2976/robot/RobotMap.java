@@ -22,5 +22,8 @@ public class RobotMap {
 	public static final int LeftBackDriveEncoderA = 8; //FIXME
 	public static final int LeftBackDriveEncoderB = 8; //FIXME
 	
+//gyro for drive straight
+	public static final int Gyro = 1;
+	
     
 }
