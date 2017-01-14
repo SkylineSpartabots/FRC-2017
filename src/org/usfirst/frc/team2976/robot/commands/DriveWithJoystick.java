@@ -20,7 +20,7 @@ public class DriveWithJoystick extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double y = Robot.oi.joystick1.getY();
+    	double y = Robot.oi.driveStick.getY(); //??????
     	Robot.drivetrain.drive(y);
     	
     }

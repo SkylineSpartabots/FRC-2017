@@ -25,5 +25,9 @@ public class RobotMap {
 //gyro for drive straight
 	public static final int Gyro = 1;
 	
+//rev counter for wheel
+	public static int wheelRevCounter = 1; //TODO
+	public static int shooterWheel = 0; //TODO
+	
     
 }
