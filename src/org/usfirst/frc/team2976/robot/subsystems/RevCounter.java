@@ -25,14 +25,9 @@ public class RevCounter extends Subsystem {
 	int prevValue = 0;
 	int deltaPos;
 	public RevCounter()	{
-		double left_kp = 0.0003;
-		double left_ki = 0;
-		double left_kd = 0;
-		
 		double right_kp = 0.0003;
 		double right_ki = 0;
 		double right_kd = 0;
-		
 		wheel = new CANTalon(6); //?????????
 		revCounter = new Counter(RobotMap.wheelRevCounter);
 		velocityTimer = new Timer();// create the timer
@@ -69,7 +64,7 @@ public class RevCounter extends Subsystem {
 			deltaPos = (getCount()-prevValue)*10000/samplingTime; 
 			// divide by 6 and multiply by 60 and by then by 1000/samplingtime
 			
-			if (getCount()>10000 || getCount()>10000)	{
+			if (getCount()>10000)	{
 				revCounter.reset();
 			}
 			prevValue = getCount();
