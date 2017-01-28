@@ -2,11 +2,10 @@ package org.usfirst.frc.team2976.robot.subsystems;
 
 import org.usfirst.frc.team2976.robot.RobotMap;
 import org.usfirst.frc.team2976.robot.commands.DriveWithJoystick;
-import edu.wpi.first.wpilibj.CANTalon;
+import com.ctre.*;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.PIDMain;
 import util.PIDSource;
 import util.RPS;	
@@ -34,7 +33,7 @@ public class DriveTrain extends Subsystem  {
 		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
     	leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
     	rightBackMotor = new CANTalon(RobotMap.RightBackDriveMotor);
-    	leftBackMotor = new CANTalon(RobotMap.LeftBackDriveMotor);	
+    	leftBackMotor = new CANTalon(RobotMap.LeftBackDriveMotor);	                                                                                                                            
     	
     	m_drive  = new RobotDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
     	m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
