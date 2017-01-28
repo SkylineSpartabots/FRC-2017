@@ -20,17 +20,17 @@ public class DriveWithJoystick extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		double x = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
+		double lx = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
 		double ly = Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
 		double ry = Robot.oi.driveStick.getRawAxis(OI.Axis.RY.getAxisNumber());
 		double rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
 
-		// SmartDashboard.putNumber("DisplacementX",Robot.drivetrain.rps.ahrs.getDisplacementX());
-		// SmartDashboard.putNumber("DisplacementY",Robot.drivetrain.rps.ahrs.getDisplacementY());
-		// SmartDashboard.putNumber("DisplacementZ",Robot.drivetrain.rps.ahrs.getDisplacementZ());
-
-		// Robot.drivetrain.rotationLockDrive(x, y);
-
+		if(Math.abs(rotation)<0.3)	{
+			Robot.drivetrain.rotationLockDrive(lx, ly);
+		}	else	{
+			Robot.drivetrain.drive(lx, ly, rotation);
+		}
+		/*
 		if (Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()) > 0.1) {
 			Robot.drivetrain.rotationLockDrive(Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()), 0);
 		} else if (Robot.oi.driveStick.getRawAxis(Axis.LTrigger.getAxisNumber()) > 0.1) {
@@ -38,6 +38,7 @@ public class DriveWithJoystick extends Command {
 		} else {
 			Robot.drivetrain.m_drive.tankDrive(ly, ry);
 		}
+		*/
 
 	}
 
