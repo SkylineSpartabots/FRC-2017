@@ -2,6 +2,7 @@ package org.usfirst.frc.team2976.robot.commands;
 import org.usfirst.frc.team2976.robot.OI;
 import org.usfirst.frc.team2976.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
@@ -17,7 +18,12 @@ public class DriveWithJoystick extends Command {
     	double x = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
     	double y = Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
     	double rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
-    	Robot.drivetrain.drive(x, y, rotation);
+    	
+    	SmartDashboard.putNumber("DisplacementX",Robot.drivetrain.rps.ahrs.getDisplacementX());
+    	SmartDashboard.putNumber("DisplacementY",Robot.drivetrain.rps.ahrs.getDisplacementY());
+    	SmartDashboard.putNumber("DisplacementZ",Robot.drivetrain.rps.ahrs.getDisplacementZ());
+    	
+    	Robot.drivetrain.rotationLockDrive(x, y);
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
