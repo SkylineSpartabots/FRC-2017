@@ -24,12 +24,35 @@ public class DriveWithJoystick extends Command {
 		double ly = Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
 		double ry = Robot.oi.driveStick.getRawAxis(OI.Axis.RY.getAxisNumber());
 		double rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
-
-		if(Math.abs(rotation)<0.3)	{
-			Robot.drivetrain.rotationLockDrive(lx, ly);
-		}	else	{
-			Robot.drivetrain.drive(lx, ly, rotation);
+		
+		
+		if (lx > 0){
+			lx = (0.09574*Math.pow(10, lx * 1.059))-0.09574;
+		} else {
+			lx = -1 *lx;
+			lx = -1*((0.09574*Math.pow(10, lx * 1.059))-0.09574);
 		}
+		
+		
+		if (ly > 0) {
+			ly = -1 * ly;
+			ly = -10*((0.09574*Math.pow(10, ly * 1.059))-0.09574);
+		} else {
+			
+			ly = 10*(0.09574*Math.pow(10, ly * 1.059)-0.09574);
+		}
+		
+	
+
+		SmartDashboard.putNumber("LX", lx);
+		SmartDashboard.putNumber("LY", ly);
+		SmartDashboard.putNumber("RY", ry);
+		
+		//if(Math.abs(rotation)<0.3)	{
+			//Robot.drivetrain.rotationLockDrive(lx, ly);
+		//}	else	{
+			Robot.drivetrain.drive(lx, ly, rotation);
+		//}
 		/*
 		if (Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()) > 0.1) {
 			Robot.drivetrain.rotationLockDrive(Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()), 0);
