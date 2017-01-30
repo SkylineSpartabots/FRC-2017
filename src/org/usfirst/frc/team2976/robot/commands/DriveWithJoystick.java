@@ -44,9 +44,9 @@ public class DriveWithJoystick extends Command {
 		
 	
 
-		//SmartDashboard.putNumber("LX", lx);
-		//SmartDashboard.putNumber("LY", ly);
-		//SmartDashboard.putNumber("RY", ry);
+		SmartDashboard.putNumber("LX", lx);
+		SmartDashboard.putNumber("LY", ly);
+		SmartDashboard.putNumber("RY", ry);
 		
 		//if(Math.abs(rotation)<0.3)	{
 			//Robot.drivetrain.rotationLockDrive(lx, ly);
