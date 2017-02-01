@@ -5,6 +5,8 @@ import org.usfirst.frc.team2976.robot.Robot;
 import org.usfirst.frc.team2976.robot.RobotMap;
 import org.usfirst.frc.team2976.robot.commands.DriveWithJoystick;
 import com.ctre.*;
+import edu.wpi.first.wpilibj.Encoder;
+
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,6 +20,9 @@ import util.RPS;
 public class DriveTrain extends Subsystem  {
 	private SpeedController rightFrontMotor, leftFrontMotor;
     private SpeedController rightBackMotor, leftBackMotor;
+    
+    private Encoder rightFrontDriveEncoder, leftFrontDriveEncoder, rightBackDriveEncoder, leftBackDriveEncoder;
+    
     public RobotDrive m_drive;
     public PIDMain rotationLock;
     public PIDSource gyroSource;
@@ -40,6 +45,11 @@ public class DriveTrain extends Subsystem  {
     	leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
     	rightBackMotor = new CANTalon(RobotMap.RightBackDriveMotor);
     	leftBackMotor = new CANTalon(RobotMap.LeftBackDriveMotor);	                                                                                                                            
+    	
+    	rightFrontDriveEncoder = new Encoder(RobotMap.RightFrontDriveEncoderA, RobotMap.RightFrontDriveEncoderB);
+    	leftFrontDriveEncoder = new Encoder(RobotMap.LeftFrontDriveEncoderA, RobotMap.LeftFrontDriveEncoderB);
+    	rightBackDriveEncoder = new Encoder(RobotMap.RightBackDriveEncoderA, RobotMap.RightBackDriveEncoderB);
+    	leftBackDriveEncoder = new Encoder(RobotMap.LeftBackDriveEncoderA, RobotMap.LeftBackDriveEncoderB);
     	
     	m_drive  = new RobotDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
     	m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
@@ -147,7 +157,20 @@ public class DriveTrain extends Subsystem  {
     	SmartDashboard.putNumber("Right Front Motor", round(rightFrontMotor.get()));
     	SmartDashboard.putNumber("Left Front Motor", round(leftFrontMotor.get()));
     	SmartDashboard.putNumber("Right Back Motor", round(rightBackMotor.get()));
-    	SmartDashboard.putNumber("Left Back Motor", round(leftBackMotor.get()));
-    	
+    	SmartDashboard.putNumber("Left Back Motor", round(leftBackMotor.get()));    	
     }
+    //get number of rotations from encoder and compare it to distance
+    private double getRightFrontDriveEncoderCount() {	
+    	return rightFrontDriveEncoder.get();
+    }
+    private double getLeftFrontDriveEncoderCount() {	
+    	return leftFrontDriveEncoder.get();
+    }
+    private double getRightBackDriveEncoderCount() {	
+    	return rightBackDriveEncoder.get();
+    }
+    private double getLeftBackDriveEncoderCount() {	
+    	return leftBackDriveEncoder.get();
+    }
+    
 }
