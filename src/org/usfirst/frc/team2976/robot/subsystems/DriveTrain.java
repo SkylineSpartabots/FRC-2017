@@ -31,7 +31,6 @@ public class DriveTrain extends Subsystem  {
 	public boolean xBox;
 	
 	public DriveTrain()	{
-		//if using Logitech Joystick, set xBox to false
 		xBox = true;
 		rps = new RPS();
 		
@@ -71,53 +70,17 @@ public class DriveTrain extends Subsystem  {
     public double round(double input){
     	double roundOff = Math.round(input*100.0)/100.0;
     	return roundOff;
-    }
-    
+    }   
 //Returns curved values with SlowMode Button   
     public double driveCurve(double input, boolean invert, boolean slowMode){
-    	double value = 0.0;
     	double slider = 1;	
     	if (slowMode){
     		slider = 0.4;
     	}
-    	if (invert == false){
-		if (input > 0){
-			if (input < 0.1) {
-			 input = 0;
-			} else {
-				input = slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
-			}
-		} else {
-			if (input > -0.1){ 
-				input = 0;
-			} else {
-				input = -1 *input;
-				input = -slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);}		
-		}
-    	} else {
-		if (input > 0) {
-			if (input < 0.1) {
-				input = 0;
-			} else {
-			
-				input = slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
-			}
-		} else {
-			if (input > -0.1){
-				input = 0;
-			} else {
-				input = -1 * input;
-				input = -slider*((0.09574*Math.pow(10, input * 1.059)-0.09574));
-			}
-		}	
-    }
-    	value = input;
-		return value;
+		return driveCurve(input, invert, slider);
 }
-    
  //Returns curved drive values with Slider (which indicates sensitivity)    
     public double driveCurve(double input, boolean invert, double slider){
-    	double value = 0.0;
     	slider = (slider + 1)/2;
     	if (invert == false){
 		if (input > 0){
@@ -150,8 +113,7 @@ public class DriveTrain extends Subsystem  {
 			}
 		}	
     }
-    	value = input;
-		return value;
+		return input;
 }
     public void drive(double x, double y, double rotation) {
     	m_drive.mecanumDrive_Cartesian(x, y, rotation, 0);
@@ -161,16 +123,16 @@ public class DriveTrain extends Subsystem  {
     	SmartDashboard.putNumber("Left Back Motor", round(leftBackMotor.get()));    	
     }
     //get number of rotations from encoder and compare it to distance
-    private double getRightFrontDriveEncoderCount() {	
+    double getRightFrontDriveEncoderCount() {	
     	return rightFrontDriveEncoder.get();
     }
-    private double getLeftFrontDriveEncoderCount() {	
+    public double getLeftFrontDriveEncoderCount() {	
     	return leftFrontDriveEncoder.get();
     }
-    private double getRightBackDriveEncoderCount() {	
+    public double getRightBackDriveEncoderCount() {	
     	return rightBackDriveEncoder.get();
     }
-    private double getLeftBackDriveEncoderCount() {	
+    public double getLeftBackDriveEncoderCount() {	
     	return leftBackDriveEncoder.get();
     }
     
