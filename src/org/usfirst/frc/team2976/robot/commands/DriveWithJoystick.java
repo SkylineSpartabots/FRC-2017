@@ -1,7 +1,6 @@
 package org.usfirst.frc.team2976.robot.commands;
 
 import org.usfirst.frc.team2976.robot.OI;
-import org.usfirst.frc.team2976.robot.OI.Axis;
 import org.usfirst.frc.team2976.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,11 +58,12 @@ public class DriveWithJoystick extends Command {
 			SmartDashboard.putNumber("Strafe", Robot.drivetrain.round(strafe));
 			SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
 			
-			//if(Math.abs(rotation)<0.3)	{
-				//Robot.drivetrain.rotationLockDrive(lx, ly);
-			//}	else	{
+			if(Math.abs(rotation)<0.1)	{
+				Robot.drivetrain.rotationLockDrive(strafe,forward);
+			}	else	{
 				Robot.drivetrain.drive(strafe, forward, rotation);
-			//}
+				Robot.drivetrain.rotationLock.setSetpoint(Robot.drivetrain.rps.getAngle());
+			}
 			/*
 			if (Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()) > 0.1) {
 				Robot.drivetrain.rotationLockDrive(Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()), 0);
@@ -73,7 +73,7 @@ public class DriveWithJoystick extends Command {
 				Robot.drivetrain.m_drive.tankDrive(ly, ry);
 			}
 			*/
-	}
+}
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {

@@ -34,7 +34,7 @@ public class DriveTrain extends Subsystem  {
 				return getHeading();
 			}
 		};		
-		rotationLock = new PIDMain(gyroSource, 0, 100, -0.0007, -0.000, 0);	
+		rotationLock = new PIDMain(gyroSource, 0, 100, -0.007, -0.000, 0);	
 		
 		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
     	leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
