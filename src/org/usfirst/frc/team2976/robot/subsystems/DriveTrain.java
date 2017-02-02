@@ -82,41 +82,13 @@ public class DriveTrain extends Subsystem {
 		return driveCurve(input, invert, slider);
 	}
 
-	// Returns curved drive values with Slider (which indicates sensitivity)
+	// Returns curved drive values with slider (which indicates sensitivity)
 	public double driveCurve(double input, boolean invert, double slider) {
-		slider = (slider + 1) / 2;
-		if (invert == false) {
-			if (input > 0) {
-				if (input < 0.1) {
-					input = 0;
-				} else {
-					input = slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
-				}
-			} else {
-				if (input > -0.1) {
-					input = 0;
-				} else {
-					input = -1 * input;
-					input = -slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
-				}
-			}
-		} else {
-			if (input > 0) {
-				if (input < 0.1) {
-					input = 0;
-				} else {
-					input = slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
-				}
-			} else {
-				if (input > -0.1) {
-					input = 0;
-				} else {
-					input = -1 * input;
-					input = -slider * ((0.09574 * Math.pow(10, input * 1.059) - 0.09574));
-				}
-			}
+		if(input < -0.1 || input > 0.1) {
+			input = (0.09574 * Math.pow(10, input * 1.059)) - 0.09574;
+			return (slider + 1) / 2 * ((input > 0) ? input : -input);
 		}
-		return input;
+		return 0;
 	}
 
 	public void drive(double x, double y, double rotation) {
