@@ -1,9 +1,12 @@
 package org.usfirst.frc.team2976.robot.subsystems;
 import java.util.Timer;
 import java.util.TimerTask;
-import org.usfirst.frc.team2976.robot.RobotMap;
-import com.ctre.*;
 
+import org.usfirst.frc.team2976.robot.RobotMap;
+
+//import com.ctre.*;
+
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import util.PIDMain;

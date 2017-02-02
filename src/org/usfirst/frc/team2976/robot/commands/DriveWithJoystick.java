@@ -46,9 +46,9 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putNumber("Raw strafe", Robot.drivetrain.round(strafe));
 		SmartDashboard.putNumber("Raw rotation", Robot.drivetrain.round(rotation));
 //Adjust values to the curve
-	forward = Robot.drivetrain.driveCurve(forward, false, slowMode);
-	strafe = Robot.drivetrain.driveCurve(strafe, true, slowMode);
-	rotation = Robot.drivetrain.driveCurve(rotation, false, slowMode);
+	forward = Robot.drivetrain.driveCurve(forward, slowMode);
+	strafe = Robot.drivetrain.driveCurve(strafe, slowMode);
+	rotation = Robot.drivetrain.driveCurve(rotation, slowMode);
 //if the triggers are used, then over ride the regular strafe value
 	
 		//later might want to integrate this with the ADNS 9800

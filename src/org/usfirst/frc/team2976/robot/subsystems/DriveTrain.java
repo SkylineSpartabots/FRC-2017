@@ -2,7 +2,9 @@ package org.usfirst.frc.team2976.robot.subsystems;
 
 import org.usfirst.frc.team2976.robot.RobotMap;
 import org.usfirst.frc.team2976.robot.commands.DriveWithJoystick;
-import com.ctre.*;
+//import com.ctre.*;
+
+import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -74,47 +76,23 @@ public class DriveTrain extends Subsystem {
 	}
 
 	// Returns curved values with SlowMode Button
-	public double driveCurve(double input, boolean invert, boolean slowMode) {
+	public double driveCurve(double input, boolean slowMode) {
 		double slider = 1;
 		if (slowMode) {
 			slider = 0.4;
 		}
-		return driveCurve(input, invert, slider);
+		return driveCurve(input, slider);
 	}
 
 	// Returns curved drive values with Slider (which indicates sensitivity)
-	public double driveCurve(double input, boolean invert, double slider) {
+	public double driveCurve(double input, double slider) {
 		slider = (slider + 1) / 2;
-		if (invert == false) {
-			if (input > 0) {
-				if (input < 0.1) {
-					input = 0;
-				} else {
-					input = slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
-				}
-			} else {
-				if (input > -0.1) {
-					input = 0;
-				} else {
-					input = -1 * input;
-					input = -slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
-				}
-			}
-		} else {
-			if (input > 0) {
-				if (input < 0.1) {
-					input = 0;
-				} else {
-					input = slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
-				}
-			} else {
-				if (input > -0.1) {
-					input = 0;
-				} else {
-					input = -1 * input;
-					input = -slider * ((0.09574 * Math.pow(10, input * 1.059) - 0.09574));
-				}
-			}
+		if (input > 0.1) {
+			input = slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
+		}else if(input < -0.1){
+			input = -slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
+		} else { 
+			return 0;
 		}
 		return input;
 	}
