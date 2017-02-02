@@ -23,7 +23,6 @@ public class DriveWithJoystick extends Command {
 		double rotation;
 		boolean slowMode = false; 
 		double slider;
-		
 //Sets values depending on which controller is used
 		if (Robot.drivetrain.xBox = true){
 			strafe = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
@@ -36,13 +35,13 @@ public class DriveWithJoystick extends Command {
 			forward = Robot.oi.driveStick.getRawAxis(1);
 			rotation = Robot.oi.driveStick.getRawAxis(2);
 			slider = Robot.oi.driveStick.getRawAxis(3);
+			
 			if (Robot.oi.driveStick.getRawButton(1)){
 				slowMode = false;
 			}else {
 				slowMode = true;
 			};
 		}
-		
 //Put raw values SmartDashboard
 			SmartDashboard.putNumber("Raw forward", Robot.drivetrain.round(forward));
 			SmartDashboard.putNumber("Raw strafe", Robot.drivetrain.round(strafe));
@@ -58,12 +57,19 @@ public class DriveWithJoystick extends Command {
 			SmartDashboard.putNumber("Strafe", Robot.drivetrain.round(strafe));
 			SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
 			
-			if(Math.abs(rotation)<0.1)	{
-				Robot.drivetrain.rotationLockDrive(strafe,forward);
+			if(Math.abs(rotation)<0.1)	{ //if the driver doesn't want to rotate
+				if(Robot.drivetrain.rotationLock.enable(false))	{ //enable PID, if successful run PID
+					Robot.drivetrain.rotationLockDrive(strafe,forward);  //run with locked rotation
+				}	else	{
+					Robot.drivetrain.drive(strafe, forward, 0);  
+					Robot.drivetrain.rotationLock.setSetpoint(Robot.drivetrain.rps.getAngle()); //save the current angle for seamless transfer
+				}
 			}	else	{
+				Robot.drivetrain.rotationLock.disable(300); //disable the PID for the next 300+ milli-seconds
 				Robot.drivetrain.drive(strafe, forward, rotation);
-				Robot.drivetrain.rotationLock.setSetpoint(Robot.drivetrain.rps.getAngle());
+				Robot.drivetrain.rotationLock.setSetpoint(Robot.drivetrain.rps.getAngle()); //save the current angle for seamless transfer
 			}
+		
 			/*
 			if (Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()) > 0.1) {
 				Robot.drivetrain.rotationLockDrive(Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()), 0);

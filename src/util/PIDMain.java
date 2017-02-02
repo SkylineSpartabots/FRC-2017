@@ -37,6 +37,7 @@ public class PIDMain {
 	private double integral; // I term
 	private double derivative;// D term
 	private double kp, ki, kd; // tuning parameters, the hardest part of PID
+
 	/**
 	 * @param pidsource
 	 *            Object implementing PIDSource, contains method returning input
@@ -63,8 +64,27 @@ public class PIDMain {
 																		// timer
 	}
 
-	public void isEnabled(boolean enabled) {
-		this.enabled = enabled;
+	long timeWhenDisabled;
+	int durationDisabled;
+
+	public void disable(int millis) {
+		enabled = false;
+		timeWhenDisabled = System.currentTimeMillis();
+		durationDisabled = millis;
+	}
+
+	public boolean enable(boolean hard) {
+		if (hard) {
+			enabled = true; //enable no matter what
+			return true; 
+		} else {
+			if (System.currentTimeMillis() - timeWhenDisabled > durationDisabled) { // if the duration has passed its safe to enable
+				enabled = true; //enable it
+				return true;
+			} else {
+				return false; //otherwise wait for next call
+			}
+		}
 	}
 
 	public double getOutput() {
