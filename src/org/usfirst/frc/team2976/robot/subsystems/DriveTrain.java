@@ -18,7 +18,7 @@ import util.RPS;
 public class DriveTrain extends Subsystem {
 	private SpeedController rightFrontMotor, leftFrontMotor;
 	private SpeedController rightBackMotor, leftBackMotor;
-
+	
 	private Encoder rightFrontDriveEncoder, leftFrontDriveEncoder, rightBackDriveEncoder, leftBackDriveEncoder;
 
 	public RobotDrive m_drive;
@@ -53,6 +53,8 @@ public class DriveTrain extends Subsystem {
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
 	}
+	
+	
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithJoystick());
@@ -93,10 +95,11 @@ public class DriveTrain extends Subsystem {
 
 	public void drive(double x, double y, double rotation) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotation, 0);
+		
 		SmartDashboard.putNumber("Right Front Motor", round(rightFrontMotor.get()));
 		SmartDashboard.putNumber("Left Front Motor", round(leftFrontMotor.get()));
 		SmartDashboard.putNumber("Right Back Motor", round(rightBackMotor.get()));
-		SmartDashboard.putNumber("Left Back Motor", round(leftBackMotor.get()));
+		SmartDashboard.putNumber("Left Back Motor", round(leftBackMotor.get()));		
 	}
 
 	// get number of rotations from encoder and compare it to distance

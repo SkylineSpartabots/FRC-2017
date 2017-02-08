@@ -15,13 +15,16 @@ public class DriveWithJoystick extends Command {
 	protected void initialize() {
 	
 	}
-	protected void execute() {			
+	protected void execute() {				
 	double forward;
 	double strafe;
 	double ry;
 	double rotation;
 	boolean slowMode = false; 
 	double slider;
+	
+	Robot.drivetrain.rps.adns_I2C.saveData();
+	SmartDashboard.putNumber("Value", 1828);
 //Sets values depending on which controller is used
 	if (Robot.drivetrain.xBox = true){
 		strafe = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
@@ -49,11 +52,18 @@ public class DriveWithJoystick extends Command {
 	forward = Robot.drivetrain.driveCurve(forward, false, slowMode);
 	strafe = Robot.drivetrain.driveCurve(strafe, true, slowMode);
 	rotation = Robot.drivetrain.driveCurve(rotation, false, slowMode);
-//if the triggers are used, then over ride the regular strafe value
+
+	//Used for testing
+	forward = 0;
+	//strafe = 0;
+	rotation = 0;
+	//if the triggers are used, then over ride the regular strafe value
+	
 	
 		//later might want to integrate this with the ADNS 9800
 		double RT = Robot.oi.driveStick.getRawAxis(OI.Axis.RTrigger.getAxisNumber());
 		double LT = Robot.oi.driveStick.getRawAxis(OI.Axis.LTrigger.getAxisNumber());
+		
 		if (RT > 0.1) {
 			strafe = RT;
 		}

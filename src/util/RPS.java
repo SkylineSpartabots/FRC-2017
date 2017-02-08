@@ -20,8 +20,11 @@ public class RPS {
 	public AHRS ahrs;
 	public ADNS adns;
 	
+	public ADNS_I2C adns_I2C;
+	
 	public RPS() {
 		ahrs = new AHRS(SPI.Port.kMXP);	
+		adns_I2C = new ADNS_I2C();
 		adns = new ADNS();
 	}
 	public double getXDisplacementADNS()	{

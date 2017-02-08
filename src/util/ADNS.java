@@ -117,7 +117,7 @@ public class ADNS {
 		}
 		return b;
 	}
-	
+
 	public class ADNSHandler extends InterruptHandlerFunction {
 		@Override
 		public void interruptFired(int interruptAssertedMask, Object param) {
@@ -131,6 +131,7 @@ public class ADNS {
 			theta = Math.atan(yd/xd)*180/Math.PI;
 			ncs.set(true);
 			//ADNS_Interrupt.enableInterrupts();
+
 		}
 	}
 	
