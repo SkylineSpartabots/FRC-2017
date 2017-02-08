@@ -1,7 +1,7 @@
 package util;
 /**
 *
-* @author neil
+* @author NeilHazra
 */
 public interface PIDSource {
 	public double getInput();
