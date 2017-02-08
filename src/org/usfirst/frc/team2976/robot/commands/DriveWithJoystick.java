@@ -50,7 +50,9 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putNumber("Raw rotation", Robot.drivetrain.round(rotation));
 //Adjust values to the curve
 	forward = Robot.drivetrain.driveCurve(forward, false, slowMode);
-	strafe = Robot.drivetrain.driveCurve(strafe, true, slowMode);
+	strafe = Robot.drivetrain.driveCurve(strafe
+			
+			, true, slowMode);
 	rotation = Robot.drivetrain.driveCurve(rotation, false, slowMode);
 
 	//Used for testing
