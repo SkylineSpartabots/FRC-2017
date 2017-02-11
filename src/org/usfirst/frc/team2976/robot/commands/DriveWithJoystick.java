@@ -26,12 +26,12 @@ public class DriveWithJoystick extends Command {
 		double slider;
 		
 //Sets values depending on which controller is used
-		if (Robot.drivetrain.xBox = true){
+		if (Robot.drivetrain.xBox == true){
 			strafe = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
 			forward = Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
 			ry = Robot.oi.driveStick.getRawAxis(OI.Axis.RY.getAxisNumber());
 			rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
-			slowMode = false; 
+			slowMode = true; 
 		}	else {
 			strafe = Robot.oi.driveStick.getRawAxis(0);
 			forward = Robot.oi.driveStick.getRawAxis(1);
@@ -45,22 +45,28 @@ public class DriveWithJoystick extends Command {
 		}
 		
 //Put raw values SmartDashboard
-			SmartDashboard.putNumber("Raw forward", Robot.drivetrain.round(forward));
-			SmartDashboard.putNumber("Raw strafe", Robot.drivetrain.round(strafe));
-			SmartDashboard.putNumber("Raw rotation", Robot.drivetrain.round(rotation));
+			
 		
 //Adjust values to the curve
-			forward = Robot.drivetrain.driveCurve(forward, false, slowMode);
-			strafe = Robot.drivetrain.driveCurve(strafe, true, slowMode);
-			rotation = Robot.drivetrain.driveCurve(rotation, false, slowMode);
-			
+			if (Robot.drivetrain.xBox==true){
+				forward = Robot.drivetrain.driveCurve(forward, true, Robot.drivetrain.getSlider(slowMode));
+				strafe = Robot.drivetrain.driveCurve(strafe, false, Robot.drivetrain.getSlider(slowMode));
+				rotation = Robot.drivetrain.driveCurve(rotation, false, Robot.drivetrain.getSlider(slowMode));	
+			} else {
+				forward = Robot.drivetrain.driveCurve(forward, false, Robot.drivetrain.getSlider(slowMode));
+				strafe = Robot.drivetrain.driveCurve(strafe, true, Robot.drivetrain.getSlider(slowMode));
+				rotation = Robot.drivetrain.driveCurve(rotation, false, Robot.drivetrain.getSlider(slowMode));
+				
+			}
+		
 //Put adjusted values on SmartDashboard
 			SmartDashboard.putNumber("Foward", Robot.drivetrain.round(forward));
 			SmartDashboard.putNumber("Strafe", Robot.drivetrain.round(strafe));
 			SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
+			SmartDashboard.putNumber("Right front encoder", Robot.drivetrain.getRightFrontDriveEncoderCount());
 			
-			//if(Math.abs(rotation)<0.3)	{
-				//Robot.drivetrain.rotationLockDrive(lx, ly);
+		//	if(Math.abs(rotation)<0.3)	{
+			//	Robot.drivetrain.rotationLockDrive(strafe, forward);
 			//}	else	{
 				Robot.drivetrain.drive(strafe, forward, rotation);
 			//}
