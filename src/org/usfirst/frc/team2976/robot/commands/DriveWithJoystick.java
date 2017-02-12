@@ -4,6 +4,7 @@ import org.usfirst.frc.team2976.robot.OI;
 import org.usfirst.frc.team2976.robot.OI.Axis;
 import org.usfirst.frc.team2976.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -17,7 +18,14 @@ public class DriveWithJoystick extends Command {
 	protected void initialize() {
 	}
 
-	protected void execute() {			
+	protected void execute() {
+		// SmartDashboard end
+		//NetworkTable table = NetworkTable.getTable("Hi");
+		//SmartDashboard.getNumber("Speed", 2);
+
+		// Robot end
+		//double speed = NetworkTable.getTable("SmartDashboard").getDouble("speed");
+		
 		double forward;
 		double strafe;
 		double ry;

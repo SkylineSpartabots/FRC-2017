@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.hal.HAL;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tInstances;
 import edu.wpi.first.wpilibj.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -93,37 +94,16 @@ public class DriveTrain extends Subsystem  {
     public double driveCurve(double input, boolean invert, double slider){
     	double value = 0.0;
     	slider = (slider + 1)/2;
-    	if (invert == false){
-		if (input > 0){
-			if (input < 0.1) {
+    
+		if (input < 0.1 && input > -0.1){
 			 input = 0;
-			} else {
+		} else if (input > 0.1 ){
 				input = slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
-			}
-		} else {
-			if (input > -0.1){ 
-				input = 0;
-			} else {
+		} else if (input < -0.1){
 				input = -1 *input;
-				input = -slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
-			}	
+				input = -slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);	
 		}
-    	} else {
-		if (input > 0) {
-			if (input < 0.1) {
-				input = 0;
-			} else {	
-				input = slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
-			}
-		} else {
-			if (input > -0.1){
-				input = 0;
-			} else {
-				input = -1 * input;
-				input = -slider*((0.09574*Math.pow(10, input * 1.059)-0.09574));
-			}
-		}	
-    }
+    	
     	value = input;
 		return value;
 }
@@ -139,7 +119,10 @@ public class DriveTrain extends Subsystem  {
     }
     
     public void mecanumDrive_Cartesian(double x, double y, double rotation, double gyroAngle) {
-    	double m_maxOutput = 1; 
+    	double frontMaxOutput = 1;
+    	double backMaxOutput = 0.73; //This value was decided using the practice bot. 
+    	//May need to be changed for competition bot.
+    	
         @SuppressWarnings("LocalVariableName")
         double xIn = x;
         @SuppressWarnings("LocalVariableName")
@@ -167,10 +150,10 @@ public class DriveTrain extends Subsystem  {
         wheelSpeeds[MotorType.kRearRight.value] = xIn + yIn - rotation;
         
         normalize(wheelSpeeds);
-        leftFrontMotor.set(wheelSpeeds[MotorType.kFrontLeft.value] * m_maxOutput);
-        rightFrontMotor.set(wheelSpeeds[MotorType.kFrontRight.value] * m_maxOutput);
-        leftBackMotor.set(wheelSpeeds[MotorType.kRearLeft.value] * 0.73);
-        rightBackMotor.set(wheelSpeeds[MotorType.kRearRight.value] * 0.73);
+        leftFrontMotor.set(wheelSpeeds[MotorType.kFrontLeft.value] * frontMaxOutput);
+        rightFrontMotor.set(wheelSpeeds[MotorType.kFrontRight.value] * frontMaxOutput);
+        leftBackMotor.set(wheelSpeeds[MotorType.kRearLeft.value] * backMaxOutput);
+        rightBackMotor.set(wheelSpeeds[MotorType.kRearRight.value] * backMaxOutput);
         
         SmartDashboard.putNumber("WS Front Left", wheelSpeeds[MotorType.kFrontLeft.value]);
         SmartDashboard.putNumber("WS Front Right", wheelSpeeds[MotorType.kFrontRight.value]);
@@ -180,6 +163,7 @@ public class DriveTrain extends Subsystem  {
           m_safetyHelper.feed();
         }*/
       }
+    
     protected static double[] rotateVector(double x, double y, double angle) {
         double cosA = Math.cos(angle * (3.14159 / 180.0));
         double sinA = Math.sin(angle * (3.14159 / 180.0));
@@ -188,7 +172,7 @@ public class DriveTrain extends Subsystem  {
         out[1] = x * sinA + y * cosA;
         return out;
       }
-    
+  
     protected static void normalize(double[] wheelSpeeds) {
         double maxMagnitude = Math.abs(wheelSpeeds[0]);
         for (int i = 0; i < 4; i++) {
@@ -209,4 +193,11 @@ public class DriveTrain extends Subsystem  {
 		return rightFrontDriveEncoder.get();
 	}
 
+    public static void smartDashboardStuff () {
+    	// SmartDashboard end
+    	
+
+    	// Robot end
+    //	double speed = NetworkTable.getTable("SmartDashboard").getDouble("speed");
+    }
 }
