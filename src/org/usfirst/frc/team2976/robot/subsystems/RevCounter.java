@@ -25,7 +25,7 @@ public class RevCounter extends Subsystem {
 		double right_ki = 0;
 		double right_kd = 0;
 		wheel = new CANTalon(6); 
-		revCounter = new Counter(RobotMap.wheelRevCounter);
+		//revCounter = new Counter(RobotMap.wheelRevCounter);
 		velocityTimer = new Timer();// create the timer
 		velocityTimer.scheduleAtFixedRate(new VelocityCompute(), 0, samplingTime);
 		wheelSource = new PIDSource() {

@@ -1,6 +1,4 @@
 package util;
-
-
 import org.usfirst.frc.team2976.robot.RobotMap;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
@@ -22,9 +20,7 @@ public class ADNS_I2C {
 	
 	public ADNS_I2C() {
 		i2c = new I2C(I2C.Port.kOnboard,44); 
-		
-	}
-	
+	}	
 	public void saveData()	{
 		//i2c.transaction(nullArray, 1, dataReceived, 3);
 		//i2c.read(44, count, dataRecieved);

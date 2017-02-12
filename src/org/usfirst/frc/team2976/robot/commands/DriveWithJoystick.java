@@ -2,6 +2,8 @@ package org.usfirst.frc.team2976.robot.commands;
 
 import org.usfirst.frc.team2976.robot.OI;
 import org.usfirst.frc.team2976.robot.Robot;
+
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -9,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class DriveWithJoystick extends Command {
+
 	public DriveWithJoystick() {
 		requires(Robot.drivetrain);
 	}
@@ -23,7 +26,7 @@ public class DriveWithJoystick extends Command {
 	boolean slowMode = false; 
 	double slider;
 	
-	Robot.drivetrain.rps.adns_I2C.saveData();
+	//Robot.drivetrain.rps.adns_I2C.saveData();
 	SmartDashboard.putNumber("Value", 1828);
 //Sets values depending on which controller is used
 	if (Robot.drivetrain.xBox = true){
@@ -50,19 +53,18 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putNumber("Raw rotation", Robot.drivetrain.round(rotation));
 //Adjust values to the curve
 	forward = Robot.drivetrain.driveCurve(forward, false, slowMode);
-	strafe = Robot.drivetrain.driveCurve(strafe
-			
-			, true, slowMode);
+	strafe = Robot.drivetrain.driveCurve(strafe	, true, slowMode);
 	rotation = Robot.drivetrain.driveCurve(rotation, false, slowMode);
 
 	//Used for testing
-	forward = 0;
+	//forward = 0;
 	//strafe = 0;
-	rotation = 0;
+	//rotation = 0;
 	//if the triggers are used, then over ride the regular strafe value
 	
 	
 		//later might want to integrate this with the ADNS 9800
+		
 		double RT = Robot.oi.driveStick.getRawAxis(OI.Axis.RTrigger.getAxisNumber());
 		double LT = Robot.oi.driveStick.getRawAxis(OI.Axis.LTrigger.getAxisNumber());
 		
@@ -78,19 +80,26 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putNumber("Strafe", Robot.drivetrain.round(strafe));
 		SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
 //Set these values and drive
+		//Robot.drivetrain.rotationLockDrive(strafe,forward);  //run with locked rotation
+		
+		//Robot.drivetrain.drive(strafe,forward,0);  //run with locked rotation
+		
+		
 		if(Math.abs(rotation)<0.1)	{ //if the driver doesn't want to rotate
 			if(Robot.drivetrain.rotationLock.enable(false))	{ //enable PID, if successful run PID
-				Robot.drivetrain.rotationLockDrive(strafe,forward);  //run with locked rotation
+				Robot.drivetrain.rotationLockDrive(strafe/2,forward);  //run with locked rotation
 			}	else	{ //if soft disable is set, run regularly for a bit
 				Robot.drivetrain.drive(strafe, forward, 0);  
-				Robot.drivetrain.rotationLock.setSetpoint(Robot.drivetrain.rps.getAngle()); //save the current angle for seamless transfer
-			}
+				Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle()); //save the current angle for seamless transfer
+			}			
 		}	else	{
-			Robot.drivetrain.rotationLock.disable(300); //disable the PID for the next 300+ milli-seconds
+			Robot.drivetrain.rotationLock.disable(500); //disable the PID for the next 300+ milli-seconds
 			Robot.drivetrain.drive(strafe, forward, rotation); //run regularly
-			Robot.drivetrain.rotationLock.setSetpoint(Robot.drivetrain.rps.getAngle()); //save the current angle for seamless transfer
+			Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle()); //save the current angle for seamless transfer
 		}
+		
 	}
+	
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
 		return false;
@@ -103,3 +112,4 @@ public class DriveWithJoystick extends Command {
 	protected void interrupted() {
 	}
 }
+

@@ -1,3 +1,4 @@
+
 package org.usfirst.frc.team2976.robot.commands;
 
 import org.usfirst.frc.team2976.robot.OI;
@@ -46,3 +47,4 @@ public class Shoot extends Command {
 	    protected void interrupted() {
 	    }
 }
+

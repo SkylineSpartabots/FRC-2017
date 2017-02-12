@@ -18,20 +18,22 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RPS {
 	public AHRS ahrs;
-	public ADNS adns;
+	//public ADNS adns;
 	
-	public ADNS_I2C adns_I2C;
+	//public ADNS_I2C adns_I2C;
 	
 	public RPS() {
 		ahrs = new AHRS(SPI.Port.kMXP);	
-		adns_I2C = new ADNS_I2C();
-		adns = new ADNS();
+		//adns_I2C = new ADNS_I2C();
+		//adns = new ADNS();
 	}
 	public double getXDisplacementADNS()	{
-		return adns.x_total;
+		return 0;
+		//return adns.x_total;
 	}
 	public double getYDisplacementADNS()	{
-		return adns.y_total;
+		return 0;
+		//return adns.y_total;
 	}
 	public double getXDisplacementNAVX()	{
 		return ahrs.getDisplacementX();
@@ -43,7 +45,8 @@ public class RPS {
 		return ahrs.getAngle();
 	}
 	public double getHeadingADNS()	{
-		return adns.theta; 
+		return 0;
+		//return adns.theta; 
 	}
 	public double getHeadingNAVX()	{
 		return Math.atan2(ahrs.getVelocityY(),ahrs.getVelocityY());

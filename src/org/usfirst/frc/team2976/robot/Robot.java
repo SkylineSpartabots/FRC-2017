@@ -10,7 +10,7 @@ import org.usfirst.frc.team2976.robot.subsystems.RevCounter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import util.RPS;
 import edu.wpi.first.wpilibj.Counter;
 
 /**
@@ -24,6 +24,7 @@ public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
+	public static RPS rps;
 	public static DriveTrain drivetrain;
 	public static RevCounter revCounter;
     Command autonomousCommand;
@@ -34,6 +35,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+		rps = new RPS();
     	drivetrain = new DriveTrain();
     	revCounter = new RevCounter();
 		oi = new OI();
