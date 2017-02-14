@@ -192,6 +192,15 @@ public class DriveTrain extends Subsystem  {
     	
 		return rightFrontDriveEncoder.get();
 	}
+    
+    public static boolean stopDistance (double m_distance) {
+    	double distance = SmartDashboard.getNumber("vision", 2000);
+    	boolean stop = false;
+    	if (distance < m_distance){
+    		stop = true;
+    	}
+    	return stop;
+    }
 
     public static void smartDashboardStuff () {
     	// SmartDashboard end
