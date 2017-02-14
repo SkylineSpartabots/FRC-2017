@@ -3,39 +3,39 @@ package org.usfirst.frc.team2976.robot.commands;
 import org.usfirst.frc.team2976.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
-public class AutoDrive extends Command {
-	double distance = 1;
-    public AutoDrive(double m_distance) {
-        // Use requires() here to declare subsystem dependencies
-        requires(Robot.drivetrain);
-        boolean stop = false;
-        distance = m_distance; 
+public class TimedDrive extends Command {
+	long initialTime;
+	long duration;
+	double power;
+    public TimedDrive(int time_ms, double power) {
+    	requires(Robot.drivetrain);
+    	duration = time_ms;
+    	this.power = power;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	initialTime = System.currentTimeMillis();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.drive(0, 1, 0, false);
+    	Robot.drivetrain.drive(0, -power, 0, false);
+       	//Robot.driveTrain.driveStraight(Robot.driveTrain.getGyro(), power);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.drivetrain.stopDistance(distance);
+        return System.currentTimeMillis()-initialTime > duration;
     }
-
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.drivetrain.drive(0, 0);
     }
-
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {

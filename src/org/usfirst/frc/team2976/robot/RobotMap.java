@@ -14,7 +14,8 @@ public class RobotMap {
 //rev counter for wheel
 	public static final int wheelRevCounter = 9; //TODO
 	public static final int shooterWheel = 10; //TODO
-	
+	public static final int ultrasonicPing = 7;
+	public static final int ultrasonicEcho = 8;
 	public static final int ADNSInturrupt = 4;
 	public static final int NCS = 5;
 	

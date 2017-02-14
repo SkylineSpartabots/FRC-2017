@@ -32,6 +32,9 @@ public class DriveWithJoystick extends Command {
 		double rotation;
 		boolean slowMode = false; 
 		double slider;
+		boolean backMode = false;
+		backMode = Robot.oi.driveStick.getRawButton(OI.Button.RBumper.getBtnNumber());
+		SmartDashboard.putBoolean("Backwards Mode", backMode);
 		
 //Sets values depending on which controller is used
 		if (Robot.drivetrain.xBox == true){
@@ -52,9 +55,6 @@ public class DriveWithJoystick extends Command {
 			};
 		}
 		
-//Put raw values SmartDashboard
-			
-		
 //Adjust values to the curve
 			if (Robot.drivetrain.xBox==true){
 				forward = Robot.drivetrain.driveCurve(forward, true, Robot.drivetrain.getSlider(slowMode));
@@ -73,20 +73,8 @@ public class DriveWithJoystick extends Command {
 			SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
 			SmartDashboard.putNumber("Right front encoder", Robot.drivetrain.getRightFrontDriveEncoderCount());
 			
-		//	if(Math.abs(rotation)<0.3)	{
-			//	Robot.drivetrain.rotationLockDrive(strafe, forward);
-			//}	else	{
-				Robot.drivetrain.drive(strafe, forward, rotation);
-			//}
-			/*
-			if (Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()) > 0.1) {
-				Robot.drivetrain.rotationLockDrive(Robot.oi.driveStick.getRawAxis(Axis.RTrigger.getAxisNumber()), 0);
-			} else if (Robot.oi.driveStick.getRawAxis(Axis.LTrigger.getAxisNumber()) > 0.1) {
-				Robot.drivetrain.rotationLockDrive(Robot.oi.driveStick.getRawAxis(Axis.LTrigger.getAxisNumber()), 0);
-			} else {
-				Robot.drivetrain.m_drive.tankDrive(ly, ry);
-			}
-			*/
+//Drives
+			Robot.drivetrain.drive(strafe, forward, rotation, backMode);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

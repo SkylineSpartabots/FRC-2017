@@ -9,6 +9,7 @@ import com.ctre.*;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.RobotDrive.MotorType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -31,6 +32,7 @@ public class DriveTrain extends Subsystem  {
     public PIDSource gyroSource;
 	public RPS rps;
 	public boolean xBox;
+	private Ultrasonic ultra; // creates the ultra object andassigns ultra to be an ultrasonic sensor which uses DigitalOutput 1 for 
 	
 	private Encoder rightFrontDriveEncoder, leftFrontDriveEncoder, rightBackDriveEncoder, 
    leftBackDriveEncoder;
@@ -39,6 +41,7 @@ public class DriveTrain extends Subsystem  {
 		//if using Logitech Joystick, set xBox to false
 		xBox = true;
 		rps = new RPS();
+		ultra = new Ultrasonic(RobotMap.ultrasonicPing,RobotMap.ultrasonicEcho);
 		
 		gyroSource = new PIDSource()	{
 			public double getInput() {
@@ -56,7 +59,7 @@ public class DriveTrain extends Subsystem  {
     	m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
     	m_drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
     	
-        rightFrontDriveEncoder = new Encoder(7,8);
+        //rightFrontDriveEncoder = new Encoder(7,8);
     	
     	
 	}
@@ -108,8 +111,12 @@ public class DriveTrain extends Subsystem  {
 		return value;
 }
 
-    public void drive(double x, double y, double rotation) {
-    	mecanumDrive_Cartesian(x, y, rotation, 0);
+    public void drive(double x, double y, double rotation, boolean backMode) {
+    	if (backMode == false) {
+    		mecanumDrive_Cartesian(x, y, rotation, 0);
+    	} else {
+    		mecanumDrive_Cartesian(-x, -y, rotation, 0);
+    	}
     	SmartDashboard.putNumber("Right Front Motor", round(rightFrontMotor.get()));
     	SmartDashboard.putNumber("Left Front Motor", round(leftFrontMotor.get()));
     	SmartDashboard.putNumber("Right Back Motor", round(rightBackMotor.get()));
@@ -118,9 +125,10 @@ public class DriveTrain extends Subsystem  {
     	
     }
     
+    
     public void mecanumDrive_Cartesian(double x, double y, double rotation, double gyroAngle) {
     	double frontMaxOutput = 1;
-    	double backMaxOutput = 0.73; //This value was decided using the practice bot. 
+    	double backMaxOutput = 1; //This value was decided using the practice bot. 
     	//May need to be changed for competition bot.
     	
         @SuppressWarnings("LocalVariableName")
@@ -187,6 +195,18 @@ public class DriveTrain extends Subsystem  {
           }
         }
       }
+
+	
+     // the echo pulse and DigitalInput 1 for the trigger pulse
+    public void robotInit() {
+    	ultra.setAutomaticMode(true); // turns on automatic mode
+    }
+
+    //Gets distance with ultrasonic sensor
+    public double ultrasonicSample() {
+    	double range = ultra.getRangeInches(); // reads the range on the ultrasonic sensor
+    	return range;
+    }
     
     public double getRightFrontDriveEncoderCount() {
     	
@@ -202,6 +222,16 @@ public class DriveTrain extends Subsystem  {
     	return stop;
     }
 
+    public void drive(double rightPower, double leftPower)	{
+    	//DriveStraightPID.isEnabled(false);
+    	//DriveStraightPID.resetPID();
+    	_drive(rightPower,leftPower);
+    }
+    
+    private void _drive(double right, double left)	{
+    	m_drive.tankDrive(left, right);
+    }
+    
     public static void smartDashboardStuff () {
     	// SmartDashboard end
     	
