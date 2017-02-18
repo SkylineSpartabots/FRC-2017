@@ -28,7 +28,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static RevCounter revCounter;
     Command autonomousCommand;
-    SendableChooser chooser;
+    SendableChooser<ExampleCommand> chooser;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -39,7 +39,7 @@ public class Robot extends IterativeRobot {
     	drivetrain = new DriveTrain();
     	revCounter = new RevCounter();
 		oi = new OI();
-        chooser = new SendableChooser();
+        chooser = new SendableChooser<ExampleCommand>();
         chooser.addDefault("Default Auto", new ExampleCommand());
 //      chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);

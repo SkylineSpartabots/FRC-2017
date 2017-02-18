@@ -17,6 +17,8 @@ import util.RPS;
 /**
  *
  */
+//this class works, lets not touch it
+
 public class DriveTrain extends Subsystem {
 	private SpeedController rightFrontMotor, leftFrontMotor;
 	private SpeedController rightBackMotor, leftBackMotor;
@@ -29,13 +31,17 @@ public class DriveTrain extends Subsystem {
 
 	public DriveTrain() {
 		xBox = true;
-		Timer.delay(0.5);
+		
+		Timer.delay(1); 
+		
 		gyroSource = new PIDSource() {
 			public double getInput() {
 				return getHeading();
 			}
 		};
-		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.019, -0.0006, 0);	
+		
+		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0003, 0);	
+		
 		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
 		leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
 		rightBackMotor = new CANTalon(RobotMap.RightBackDriveMotor);
@@ -64,88 +70,55 @@ public class DriveTrain extends Subsystem {
 		double roundOff = Math.round(input * 100.0) / 100.0;
 		return roundOff;
 	}
-
 	  public double driveCurve(double input, boolean invert, boolean slowMode){
-	    	double value = 0.0;
 	    	double slider = 1;	
 	    	if (slowMode){
 	    		slider = 0.4;
 	    	}
-	    	if (invert == false){
-			if (input > 0){
-				if (input < 0.1) {
-				 input = 0;
-				} else {
-					input = slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
-				}
-			} else {
-				if (input > -0.1){ 
-					input = 0;
-				} else {
-					input = -1 *input;
-					input = -slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);}		
-			}
-	    	} else {
-			if (input > 0) {
-				if (input < 0.1) {
-					input = 0;
-				} else {
-				
-					input = slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
-				}
-			} else {
-				if (input > -0.1){
-					input = 0;
-				} else {
-					input = -1 * input;
-					input = -slider*((0.09574*Math.pow(10, input * 1.059)-0.09574));
-				}
-			}	
-	    }
-	    	value = input;
-			return value;
-	}
-	    
+	    	return driveCurve(input, invert, slider);
+	}    
 	 //Returns curved drive values with Slider (which indicates sensitivity)    
-	    public double driveCurve(double input, boolean invert, double slider){
-	    	double value = 0.0;
-	    	slider = (slider + 1)/2;
-	    	if (invert == false){
-			if (input > 0){
-				if (input < 0.1) {
-				 input = 0;
-				} else {
-					input = slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
-				}
-			} else {
-				if (input > -0.1){ 
-					input = 0;
-				} else {
-					input = -1 *input;
-					input = -slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
-				}	
-			}
-	    	} else {
+	public double driveCurve(double input, boolean invert, double slider) {
+		double value = 0.0;
+		slider = (slider + 1) / 2;
+		//This code was written by Jasmine Cheng, please talk to her if you are concerned with redundancy, overcomplication, and nested if's
+		//It works tho :)
+		if (invert == false) {
 			if (input > 0) {
 				if (input < 0.1) {
 					input = 0;
-				} else {	
-					input = slider*((0.09574*Math.pow(10, input * 1.059))-0.09574);
+				} else {
+					input = slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
 				}
 			} else {
-				if (input > -0.1){
+				if (input > -0.1) {
 					input = 0;
 				} else {
 					input = -1 * input;
-					input = -slider*((0.09574*Math.pow(10, input * 1.059)-0.09574));
+					input = -slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
 				}
-			}	
-	    }
-	    	value = input;
-			return value;
+			}
+		} else {
+			if (input > 0) {
+				if (input < 0.1) {
+					input = 0;
+				} else {
+					input = slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
+				}
+			} else {
+				if (input > -0.1) {
+					input = 0;
+				} else {
+					input = -1 * input;
+					input = -slider * ((0.09574 * Math.pow(10, input * 1.059) - 0.09574));
+				}
+			}
+		}
+		value = input;
+		return value;
 	}
+	
 	public void drive(double x, double y, double rotation) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotation, 0);
 	}
-
 }
