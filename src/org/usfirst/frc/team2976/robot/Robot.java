@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2976.robot.subsystems.Climber;
 import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team2976.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team2976.robot.subsystems.RevCounter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -25,6 +27,8 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static RPS rps;
+	public static Climber climber;
+	public static IntakeRoller intakeroller;
 	public static DriveTrain drivetrain;
 	public static RevCounter revCounter;
     Command autonomousCommand;
@@ -36,7 +40,9 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		rps = new RPS();
+		climber = new Climber();
     	drivetrain = new DriveTrain();
+    	intakeroller = new IntakeRoller();
     	revCounter = new RevCounter();
 		oi = new OI();
         chooser = new SendableChooser<ExampleCommand>();

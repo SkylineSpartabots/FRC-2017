@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
+import org.usfirst.frc.team2976.robot.commands.Climb;
 import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2976.robot.commands.Shoot;
+import org.usfirst.frc.team2976.robot.commands.SpinIntake;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -42,7 +44,11 @@ public class OI {
 	
 	public OI() {
 		driveStick = new Joystick(0);  
-		new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new Shoot());
+		//new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new Shoot());
+		new JoystickButton(driveStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(1));
+		new JoystickButton(driveStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.2));
+		new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whileHeld(new Climb(1));
+		new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whileHeld(new Climb(-0.2));
 	}
 }
 

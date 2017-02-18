@@ -11,6 +11,10 @@ public class RobotMap {
 	public static final int LeftFrontDriveMotor = 2; 
 	public static final int RightBackDriveMotor = 4; 
 	public static final int LeftBackDriveMotor = 3;	
+	
+	public static final int intakeMotor = 5;
+	public static final int climberMotor = 6;
+	
 //rev counter for wheel
 	
 	public static final int wheelRevCounter = 1; //TODO
