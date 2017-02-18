@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
+ *
  * 
  */
 
 //Class works, don't touch
+
 
 public class DriveWithJoystick extends Command {
 		
@@ -23,13 +25,15 @@ public class DriveWithJoystick extends Command {
 	}
 
 	protected void execute() {				
-		
-		Robot.rps.test();
-		
 		double forward;
 		double strafe;
 		double rotation;
 		boolean slowMode = false; 
+		
+		double x_relative = Robot.rps.getXDisplacementADNS(); //Maybe we will use them sometime in the future
+		double y_relative = Robot.rps.getYDisplacementADNS();
+		double heading = Robot.rps.getHeadingADNS();
+		
 		
 		if (Robot.drivetrain.xBox = true){
 			strafe = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
@@ -47,12 +51,6 @@ public class DriveWithJoystick extends Command {
 				slowMode = true;
 			};
 		}
-		
-		/*
-		SmartDashboard.putNumber("Raw forward", Robot.drivetrain.round(forward));
-		SmartDashboard.putNumber("Raw strafe", Robot.drivetrain.round(strafe));
-		SmartDashboard.putNumber("Raw rotation", Robot.drivetrain.round(rotation));
-		*/
 		
 		forward = Robot.drivetrain.driveCurve(forward, false, slowMode);
 		strafe = Robot.drivetrain.driveCurve(strafe	, true, slowMode);
@@ -86,9 +84,7 @@ public class DriveWithJoystick extends Command {
 		}
 		
 		//put the vision test stuff on the dashboard
-		
-		SmartDashboard.putNumber("vision", (int)SmartDashboard.getNumber("test", 0));		
-	}
+		}
 	
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {

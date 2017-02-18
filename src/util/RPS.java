@@ -24,30 +24,18 @@ public class RPS {
 		ahrs = new AHRS(SPI.Port.kMXP);	
 		adns_I2C = new ADNS_I2C();
 	}	
-	public void test()	{
-		adns_I2C.saveData();
-	}
 	public double getXDisplacementADNS()	{
-		return 0;
-		//return adns.x_total;
+		return adns_I2C.getX();
 	}
 	public double getYDisplacementADNS()	{
-		return 0;
-		//return adns.y_total;
+		return adns_I2C.getY();
 	}
-	public double getXDisplacementNAVX()	{
-		return ahrs.getDisplacementX();
+	public double getHeadingADNS()	{
+		return adns_I2C.getTheta(); 
 	}
-	public double getYDisplacementNAVX()	{
-		return ahrs.getDisplacementY();
-	}
+	
 	public double getAngle()	{
 		return ahrs.getAngle();
 	}
-	public double getHeadingADNS()	{
-		return 0; 
-	}
-	public double getHeadingNAVX()	{
-		return Math.atan2(ahrs.getVelocityY(),ahrs.getVelocityY());
-	}
+	
 }
