@@ -11,6 +11,8 @@ import util.PIDMain;
 /**
  *
  */
+//We are not using a shooter
+
 public class Shoot extends Command {
 
 	 public Shoot() {
