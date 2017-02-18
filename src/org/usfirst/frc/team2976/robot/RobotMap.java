@@ -9,8 +9,11 @@ public class RobotMap {
 //4 Drive Motors
 	public static final int RightFrontDriveMotor = 1; 
 	public static final int LeftFrontDriveMotor = 2; 
-	public static final int RightBackDriveMotor = 4; 
 	public static final int LeftBackDriveMotor = 3;	
+	public static final int RightBackDriveMotor = 4; 
+	public static final int intakeMotor = 5;
+	public static final int climberMotor = 6;
+	
 //rev counter for wheel
 	public static final int wheelRevCounter = 9; //TODO
 	public static final int shooterWheel = 10; //TODO
@@ -19,5 +22,5 @@ public class RobotMap {
 	public static final int ADNSInturrupt = 4;
 	public static final int NCS = 5;
 	
-	public static final int climberMotor = 6;
+	
 }

@@ -9,11 +9,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class ClimbRope extends Command {
+public class SpinIntake extends Command {
 
-    public ClimbRope() {
+    public SpinIntake() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.climber);
+        requires(Robot.intakeroller);
     }
 
     // Called just before this Command runs the first time
@@ -22,10 +22,11 @@ public class ClimbRope extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double power = 0;
-    	power = Robot.oi.secondStick.getRawAxis(OI.Axis.LTrigger.getAxisNumber());
-    	Robot.climber.setClimber(power);
-    	SmartDashboard.putNumber("Climber", power);
+    	boolean in = false;
+    	boolean out = false;
+    	in = Robot.oi.secondStick.getRawButton(OI.Button.RBumper.getBtnNumber());
+    	out = Robot.oi.secondStick.getRawButton(OI.Button.LBumper.getBtnNumber());
+    	Robot.intakeroller.setRoller(in, out);
     }
 
     // Make this return true when this Command no longer needs to run execute()

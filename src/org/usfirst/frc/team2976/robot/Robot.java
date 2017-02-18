@@ -10,11 +10,12 @@ import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2976.robot.subsystems.Climber;
 import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team2976.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team2976.robot.subsystems.RevCounter;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Counter;
 
 /**
@@ -31,6 +32,7 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static RevCounter revCounter;
 	public static Climber climber;
+	public static IntakeRoller intakeroller;
     Command autonomousCommand;
     SendableChooser chooser;
 
@@ -42,11 +44,15 @@ public class Robot extends IterativeRobot {
     	climber = new Climber();
     	drivetrain = new DriveTrain();
     	revCounter = new RevCounter();
+    	intakeroller = new IntakeRoller();
 		oi = new OI();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", new Autonomous());
+        CameraServer.getInstance().startAutomaticCapture();
 //      chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+       // camera.setResolution(640, 480);
+        
     }
 	
 	/**

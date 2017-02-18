@@ -63,16 +63,15 @@ public class DriveWithJoystick extends Command {
 			} else {
 				forward = Robot.drivetrain.driveCurve(forward, false, Robot.drivetrain.getSlider(slowMode));
 				strafe = Robot.drivetrain.driveCurve(strafe, true, Robot.drivetrain.getSlider(slowMode));
-				rotation = Robot.drivetrain.driveCurve(rotation, false, Robot.drivetrain.getSlider(slowMode));
-				
+				rotation = Robot.drivetrain.driveCurve(rotation, false, Robot.drivetrain.getSlider(slowMode));		
 			}
 		
 //Put adjusted values on SmartDashboard
-			SmartDashboard.putNumber("Foward", Robot.drivetrain.round(forward));
+			SmartDashboard.putNumber("Forward", Robot.drivetrain.round(forward));
 			SmartDashboard.putNumber("Strafe", Robot.drivetrain.round(strafe));
 			SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
-			SmartDashboard.putNumber("Right front encoder", Robot.drivetrain.getRightFrontDriveEncoderCount());
-			
+			//gggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggSmartDashboard.putNumber("Right front encoder", Robot.drivetrain.getRightFrontDriveEncoderCount());
+			SmartDashboard.putNumber("Ultrasonic (inches)", Robot.drivetrain.ultrasonicSample());
 //Drives
 			Robot.drivetrain.drive(strafe, forward, rotation, backMode);
 	}

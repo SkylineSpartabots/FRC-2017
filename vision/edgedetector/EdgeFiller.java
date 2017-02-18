@@ -1,0 +1,404 @@
+package edgedetector;
+
+import java.awt.Point;
+import java.util.ArrayList;
+
+import code2017.Particle;
+
+public class EdgeFiller
+{
+	public static Particle fillEdge(Particle edge, boolean lineEnabled)
+	{
+		Particle particle = new Particle(edge);
+		particle.corners=edge.corners;
+		particle.setTWidth(edge.getTWidth());
+		particle.setTHeight(edge.getTHeight());
+		particle.setTarget(edge.getTarget());
+		//Initial fill
+		for(int x=0;x<particle.getWidth();x++)
+		{
+			for(int y=0;y<particle.getHeight();y++)
+			{
+				particle.setLocalValue(x, y, true);
+			}
+		}
+		//Approach from N, S, W, E directions in straight line patterns. Match the outer "mold" of the edge, but solidifiy it
+		boolean[] reachEnd=new boolean[4];
+		int count;
+		final double failPercent=0.3;
+		final double reachPercent=0.6;
+		//N
+		count=0;
+		for(int x=0;x<edge.getWidth();x++)
+		{
+			for(int y=0;y<edge.getHeight();y++)
+			{
+				if(edge.getLocalValue(x, y))
+				{
+					if(y>edge.getHeight()*reachPercent)
+					{
+						count++;
+					}
+					break;
+				}
+				else
+				{
+					particle.setLocalValue(x, y, false);
+				}
+			}
+		}
+		if(count*1.0/edge.getWidth()>failPercent)
+		{
+			reachEnd[0]=true;
+		}
+		else
+		{
+			reachEnd[0]=false;
+		}
+		//S
+		count=0;
+		for(int x=0;x<edge.getWidth();x++)
+		{
+			for(int y=edge.getHeight()-1;y>=0;y--)
+			{
+				if(edge.getLocalValue(x, y))
+				{
+					if(y<edge.getHeight()*(1.0-reachPercent))
+					{
+						count++;
+					}
+					break;
+				}
+				else
+				{
+					particle.setLocalValue(x, y, false);
+				}
+			}
+		}
+		if(count*1.0/edge.getWidth()>failPercent)
+		{
+			reachEnd[1]=true;
+		}
+		else
+		{
+			reachEnd[1]=false;
+		}
+		//W
+		count=0;
+		for(int y=0;y<edge.getHeight();y++)
+		{
+			for(int x=0;x<edge.getWidth();x++)
+			{
+				if(edge.getLocalValue(x, y))
+				{
+					if(x>edge.getWidth()*reachPercent)
+					{
+						count++;
+					}
+					break;
+				}
+				else
+				{
+					particle.setLocalValue(x, y, false);
+				}
+			}
+		}
+		if(count*1.0/edge.getHeight()>failPercent)
+		{
+			reachEnd[2]=true;
+		}
+		else
+		{
+			reachEnd[2]=false;
+		}
+		//E
+		count=0;
+		for(int y=0;y<edge.getHeight();y++)
+		{
+			for(int x=edge.getWidth()-1;x>=0;x--)
+			{
+				if(edge.getLocalValue(x, y))
+				{
+					if(x<edge.getWidth()*(1.0-reachPercent))
+					{
+						count++;
+					}
+					break;
+				}
+				else
+				{
+					particle.setLocalValue(x, y, false);
+				}
+			}
+		}
+		if(count*1.0/edge.getHeight()>failPercent)
+		{
+			reachEnd[3]=true;
+		}
+		else
+		{
+			reachEnd[3]=false;
+		}
+		if(particle.count*1.0/(edge.getTWidth()*edge.getTHeight())<0.5)
+		{
+			if(lineEnabled)
+			{
+				particle=fixParticle(particle, edge, reachEnd);
+			}
+		}
+		particle.recount();
+		return particle;
+	}
+	public static Particle fixParticle(Particle particle, Particle edge, boolean[] reachEnd)
+	{
+		int failCount=0;
+		for(int i=0;i<reachEnd.length;i++)
+		{
+			if(reachEnd[i])
+			{
+				failCount++;
+			}
+		}
+		switch(failCount)
+		{
+			case 1:
+				int side=0;
+				for(;side<reachEnd.length;side++)
+				{
+					if(reachEnd[side])
+					{
+						break;
+					}
+				}
+				Point p1=null;
+				Point p2=null;
+				switch(side)
+				{
+					case 0:
+						p1=edge.corners[0];
+						p2=edge.corners[1];
+						break;
+					case 1:
+						p1=edge.corners[2];
+						p2=edge.corners[3];
+						break;
+					case 2:
+						p1=edge.corners[0];
+						p2=edge.corners[2];
+						break;
+					case 3:
+						p1=edge.corners[1];
+						p2=edge.corners[3];
+						break;
+					default:
+						System.out.printf("Uh....\n");
+						break;
+				}
+				edge=drawLine(edge, p1, p2);
+				break;
+			case 2:
+				int corner=0;
+				if(reachEnd[1])
+				{
+					//Corner can now be 2 or 3
+					if(reachEnd[2])
+					{
+						corner=2;
+					}
+					else
+					{
+						corner=3;
+					}
+				}
+				else
+				{
+					if(reachEnd[2])
+					{
+						corner=0;//Redundant
+					}
+					else
+					{
+						corner=1;
+					}
+				}
+				Point c=null;
+				Point c1=null;
+				Point c2=null;
+				switch(corner)
+				{
+					case 0:
+						c=edge.corners[3];
+						c1=edge.corners[1];
+						c2=edge.corners[2];
+						break;
+					case 1:
+						c=edge.corners[2];
+						c1=edge.corners[0];
+						c2=edge.corners[3];
+						break;
+					case 2:
+						c=edge.corners[1];
+						c1=edge.corners[0];
+						c2=edge.corners[3];
+						break;
+					case 3:
+						c=edge.corners[0];
+						c1=edge.corners[1];
+						c2=edge.corners[2];
+						break;
+				}
+				c=findLastVertex(c, c1, c2);
+				edge.globalExpand(c.x, c.y);
+				edge=drawLine(edge, c, c1);
+				edge=drawLine(edge, c, c2);
+				edge.shorten();
+				break;
+			default:
+			case 4:
+			case 3:
+		}
+		return fillEdge(edge, false);
+	}
+	public static Point findLastVertex(Point c, Point c1, Point c2)
+	{
+		int dx=c1.x-c.x;
+		int dy=c1.y-c.y;
+		Point c3=new Point(c2.x, c2.y);
+		c3.translate(dx, dy);
+		return c3;
+	}
+	public static Point reflectPoint(Point c, Point c1, Point c2)
+	{
+		//First find the line generated by c2 and c1. (y = mx +b)
+		double m=(c2.y-c1.y)*1.0 / (c2.x-c1.x);
+		double b=(c1.y-(m*c1.x));
+		double d=((c.getX() + (c.getY() - b)*m)/(1+ (m*m)));
+		double x1=(2*d)-c.getX();
+		double y1=(2*d*m)-c.getY() + (2*b);
+		return new Point((int)(x1), (int)(y1));
+	}
+	public static Particle drawLine(Particle particle, Point p1, Point p2)
+	{
+		int dy=p2.y-p1.y;
+		int dx=p2.x-p1.x;
+		if(dx==0 && dy==0)
+		{
+			return particle;
+		}
+		if(dx==0)
+		{
+			return drawVerticalLine(particle, p1, p2);
+		}
+		if(dy==0)
+		{
+			return drawHorizontalLine(particle, p1, p2);
+		}
+		if(Math.abs((dy*1.0)/dx)>1.0)
+		{
+			return drawVerticalLine(particle, p1, p2);
+		}
+		else
+		{
+			return drawHorizontalLine(particle, p1, p2);
+		}
+	}
+	public static Particle drawHorizontalLine(Particle particle, Point p1, Point p2)
+	{
+		int x1;
+		int y1;
+		int x2;
+		int y2;
+		if(p1.x<p2.x)
+		{
+			x1=p1.x;
+			y1=p1.y;
+			x2=p2.x;
+			y2=p2.y;
+		}
+		else
+		{
+			x1=p2.x;
+			y1=p2.y;
+			x2=p1.x;
+			y2=p1.y;
+		}
+		int dx= x2-x1;
+		int dy= y2-y1;
+		for(int x=x1;x<=x2;x++)
+		{
+			int y = y1 + dy * (x - x1) / dx;
+			particle.setGlobalValue(x, y, true);
+		}
+		return particle;
+	}
+	public static Particle drawVerticalLine(Particle particle, Point p1, Point p2)
+	{
+		int y1;
+		int x1;
+		int y2;
+		int x2;
+		if(p1.y<p2.y)
+		{
+			y1=p1.y;
+			x1=p1.x;
+			y2=p2.y;
+			x2=p2.x;
+		}
+		else
+		{
+			y1=p2.y;
+			x1=p2.x;
+			y2=p1.y;
+			x2=p1.x;
+		}
+		int dy= y2-y1;
+		int dx= x2-x1;
+		for(int y=y1;y<=y2;y++)
+		{
+			int x= x1 + dx * (y - y1)/dy;
+			particle.setGlobalValue(x, y, true);
+		}
+		return particle;
+	}
+	public static Particle getParticleFromLine(Particle edge)
+	{
+		int dx = edge.x + (edge.getWidth()/2);
+		int dy = edge.y + (edge.getHeight()/2);
+		Particle particle = new Particle(edge);
+		particle.corners=edge.corners;
+		for(int x=0;x<edge.getWidth();x++)
+		{
+			for(int y=0;y<edge.getHeight();y++)
+			{
+				particle.setLocalValue(x, y, edge.getLocalValue(x, y));
+			}
+		}
+		
+		for(int x=edge.x;x<edge.x+edge.getWidth();x++)
+		{
+			for(int y=edge.y;y<edge.y+edge.getHeight();y++)
+			{
+				if(edge.getGlobalValue(x, y))
+				{
+					Point p=new Point(x, y);
+					p.translate(-dx, -dy);
+					p = new Point(-p.x, -p.y);
+					p.translate(dx, dy);
+					particle.globalExpand(p.x, p.y);
+					particle.setGlobalValue(p.x, p.y, true);
+				}
+			}
+		}
+		particle=fillEdge(particle, false);
+		return particle;
+	}
+	public static ArrayList<Particle> fillEdge(ArrayList<Particle> edge)
+	{
+		ArrayList<Particle> particles=new ArrayList<Particle>();
+		for(int i=0;i<edge.size();i++)
+		{
+			particles.add(fillEdge(edge.get(i), true));
+		}
+		return particles;
+	}
+}

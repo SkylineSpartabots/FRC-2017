@@ -13,6 +13,7 @@ import org.usfirst.frc.team2976.robot.commands.Shoot;
  */
 public class OI {
 	public Joystick driveStick;
+	public Joystick secondStick;
     
     public enum Button {
 		RBumper(6), LBumper(5), A(1), B(2), X(3), Y(4), RightJoystickBtn(10), LeftJoystickBtn(9);
@@ -42,6 +43,7 @@ public class OI {
 	
 	public OI() {
 		driveStick = new Joystick(0);  
+		secondStick = new Joystick(1);
 		new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new Shoot());
 	}
 }
