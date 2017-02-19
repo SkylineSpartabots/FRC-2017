@@ -17,4 +17,6 @@ public class RobotMap {
 	public static final int shooterWheel = 0; //TODO
 	
 //4 Encoder
+	public static final int testEncoderA = 8;
+	public static final int testEncoderB = 7;
 }

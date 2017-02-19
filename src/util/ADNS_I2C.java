@@ -7,7 +7,7 @@ public class ADNS_I2C {
 	I2C i2c;
 	
 	byte[] nullArray = new byte[1];
-	byte[]  dataReceived = new byte[3];
+	byte[]  dataReceived = new byte[1];
 	
 	public volatile int xd;
 	public volatile int yd;
@@ -33,7 +33,7 @@ public class ADNS_I2C {
 		
 		//i2c.read(44, count, dataRecieved);
 		
-		SmartDashboard.putNumber("I2C value", dataReceived[1]);
+		SmartDashboard.putNumber("I2C value", dataReceived[0]);
 
 	}	
 }

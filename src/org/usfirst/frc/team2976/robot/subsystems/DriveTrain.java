@@ -22,6 +22,7 @@ import util.RPS;
 public class DriveTrain extends Subsystem {
 	private SpeedController rightFrontMotor, leftFrontMotor;
 	private SpeedController rightBackMotor, leftBackMotor;
+	private Encoder testEncoder;
 
 	public RobotDrive m_drive;
 	public PIDMain rotationLock;
@@ -50,6 +51,8 @@ public class DriveTrain extends Subsystem {
 		m_drive = new RobotDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+		
+		testEncoder = new Encoder(RobotMap.testEncoderA, RobotMap.testEncoderB, false, Encoder.EncodingType.k1X);
 	}
 
 	public void initDefaultCommand() {
@@ -120,5 +123,8 @@ public class DriveTrain extends Subsystem {
 	
 	public void drive(double x, double y, double rotation) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotation, 0);
+	}
+	public int getTestEncoderCount() {
+		return testEncoder.getRaw();
 	}
 }

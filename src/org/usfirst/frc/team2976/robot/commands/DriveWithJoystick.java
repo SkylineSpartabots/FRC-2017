@@ -72,6 +72,9 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putNumber("Strafe", Robot.drivetrain.round(strafe));
 		SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
 		
+		SmartDashboard.putNumber("TEST ENCODER", Robot.drivetrain.getTestEncoderCount());
+		
+		
 		if(Math.abs(rotation)<0.1)	{ //if the driver doesn't want to rotate
 			if(Robot.drivetrain.rotationLock.enable(false))	{ //enable PID soft, if successful run PID
 				Robot.drivetrain.rotationLockDrive(strafe/2,forward);  //run with locked rotation
