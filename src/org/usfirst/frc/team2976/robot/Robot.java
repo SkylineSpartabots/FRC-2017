@@ -14,8 +14,9 @@ import org.usfirst.frc.team2976.robot.subsystems.RevCounter;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.RPS;
-import edu.wpi.first.wpilibj.AnalogInput;
+import util.UltrasonicDistance;
 import edu.wpi.first.wpilibj.Counter;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -35,10 +36,8 @@ public class Robot extends IterativeRobot {
 	public static RevCounter revCounter;
     Command autonomousCommand;
     SendableChooser<ExampleCommand> chooser;
-	AnalogInput sonarInput; 
-	double sonarVoltage;
-	int sampleCount;
-	double distance;
+    UltrasonicDistance ultrasonicDistance; 
+
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -54,12 +53,7 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", new ExampleCommand());
 //      chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
-        
-        // Distance measurement
-        sonarInput = new AnalogInput(0);
-		sampleCount = 0;
-		sonarVoltage = 0;
-		distance = 0;
+        ultrasonicDistance = new UltrasonicDistance();   
     }
 	
 	/**
@@ -122,24 +116,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		measureAndDisplayDistance(); 
-    }
-    
-    private void measureAndDisplayDistance() {
-    	
-    	sonarVoltage += (sonarInput.getAverageVoltage() * 512);
-		sampleCount++;
-			
-		if (sampleCount == 100)
-		{
-			distance = (sonarVoltage / 500);
-			
-			sonarVoltage = 0;
-			sampleCount = 0;
-			
-			// System.out.println(distance);
-			SmartDashboard.putNumber("distance", distance);
-		}
+		SmartDashboard.putNumber("distance", ultrasonicDistance.getDistanceInInches());
     }
     
     /**
