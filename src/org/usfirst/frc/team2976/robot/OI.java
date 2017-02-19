@@ -15,7 +15,7 @@ import org.usfirst.frc.team2976.robot.commands.SpinIntake;
  */
 public class OI {
 	public Joystick driveStick;
-    
+    public Joystick secondStick;
     public enum Button {
 		RBumper(6), LBumper(5), A(1), B(2), X(3), Y(4), RightJoystickBtn(10), LeftJoystickBtn(9);
 
@@ -43,12 +43,12 @@ public class OI {
 	}
 	
 	public OI() {
-		driveStick = new Joystick(0);  
+		driveStick = new Joystick(0);
+		secondStick = new Joystick(1);
 		//new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new Shoot());
-		new JoystickButton(driveStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(1));
-		new JoystickButton(driveStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.2));
-		new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whileHeld(new Climb(1));
-		new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whileHeld(new Climb(-0.2));
+		new JoystickButton(secondStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(0.9));
+		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.2));
+		
 	}
 }
 

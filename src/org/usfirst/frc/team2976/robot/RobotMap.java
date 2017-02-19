@@ -13,7 +13,7 @@ public class RobotMap {
 	public static final int LeftBackDriveMotor = 3;	
 	
 	public static final int intakeMotor = 5;
-	public static final int climberMotor = 6;
+	public static final int climberMotor = 8;
 	
 //rev counter for wheel
 	

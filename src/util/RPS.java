@@ -20,10 +20,14 @@ public class RPS {
 	public AHRS ahrs;
 	public ADNS_I2C adns_I2C;
 	
+	
+	
 	public RPS() {
 		ahrs = new AHRS(SPI.Port.kMXP);	
 		adns_I2C = new ADNS_I2C();
 	}	
+	
+	
 	public double getXDisplacementADNS()	{
 		return adns_I2C.getX();
 	}
@@ -33,7 +37,6 @@ public class RPS {
 	public double getHeadingADNS()	{
 		return adns_I2C.getTheta(); 
 	}
-	
 	public double getAngle()	{
 		return ahrs.getAngle();
 	}
