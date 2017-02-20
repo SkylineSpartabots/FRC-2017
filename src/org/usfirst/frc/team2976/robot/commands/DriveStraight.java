@@ -20,10 +20,10 @@ public class DriveStraight extends Command {
     	this.distance_x = Xdistance;
     	this.distance_y = Ydistance;
     }
-
+    
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+   
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -31,7 +31,6 @@ public class DriveStraight extends Command {
     	if(distance_x == 0){
     		Robot.drivetrain.drive(0, -power, 0);  	
     	 	SmartDashboard.putNumber("Distance", Robot.drivetrain.getDistanceY());
-    	    
     	}	else {
     		Robot.drivetrain.drive(-power, 0, 0);
     	}
