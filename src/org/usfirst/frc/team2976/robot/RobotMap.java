@@ -16,7 +16,10 @@ public class RobotMap {
 	public static final int wheelRevCounter = 1; //TODO
 	public static final int shooterWheel = 0; //TODO
 	
-//4 Encoder
-	public static final int testEncoderA = 8;
-	public static final int testEncoderB = 7;
+//Encoder
+	public static final int testEncoderA = 7;
+	public static final int testEncoderB = 8;
+
+//Ultrasnoic sensor
+	public static final int ANALOG_ULTRASONIC = 0; //TODO
 }

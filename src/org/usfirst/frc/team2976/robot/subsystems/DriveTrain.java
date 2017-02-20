@@ -125,6 +125,9 @@ public class DriveTrain extends Subsystem {
 		m_drive.mecanumDrive_Cartesian(x, y, rotation, 0);
 	}
 	public int getTestEncoderCount() {
-		return testEncoder.getRaw();
+		return testEncoder.get();
+	}
+	public double getDistance() {
+		return getTestEncoderCount() * 0.003858;
 	}
 }
