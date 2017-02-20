@@ -13,12 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.PIDMain;
 import util.PIDSource;
 import util.RPS;
-
 /**
  *
  */
 //this class works, lets not touch it
-
 public class DriveTrain extends Subsystem {
 	private SpeedController rightFrontMotor, leftFrontMotor;
 	private SpeedController rightBackMotor, leftBackMotor;
