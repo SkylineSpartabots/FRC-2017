@@ -3,6 +3,9 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+
+import org.usfirst.frc.team2976.robot.commands.Autonomous;
+import org.usfirst.frc.team2976.robot.commands.DriveStraight;
 import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2976.robot.subsystems.Climber;
 import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
@@ -32,21 +35,21 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static RevCounter revCounter;
     Command autonomousCommand;
-    SendableChooser<ExampleCommand> chooser;
+    SendableChooser<Autonomous> chooser;
 
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-		rps = new RPS();
+		rps = new RPS(0, 0);
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
     	revCounter = new RevCounter();
 		oi = new OI();
-        chooser = new SendableChooser<ExampleCommand>();
-        chooser.addDefault("Default Auto", new ExampleCommand());
+        chooser = new SendableChooser<Autonomous>();
+        chooser.addDefault("Default Auto", new Autonomous());
 //      chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
     }
@@ -75,7 +78,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
         autonomousCommand = (Command) chooser.getSelected();
-        
+   
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":
@@ -95,6 +98,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+    	
         Scheduler.getInstance().run();
     }
 

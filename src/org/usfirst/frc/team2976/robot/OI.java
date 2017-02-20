@@ -48,7 +48,6 @@ public class OI {
 		//new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new Shoot());
 		new JoystickButton(secondStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(0.9));
 		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.2));
-		
 	}
 }
 

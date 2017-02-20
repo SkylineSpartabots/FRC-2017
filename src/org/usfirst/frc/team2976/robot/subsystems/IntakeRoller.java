@@ -16,12 +16,8 @@ public class IntakeRoller extends Subsystem {
 		intakeMotor = new CANTalon(RobotMap.intakeMotor);
 	}
 	
-	
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
 	public void setRoller(double power){
-			intakeMotor.set(power); 
-		
+			intakeMotor.set(power); 	
 	}
     public void initDefaultCommand() {
     }

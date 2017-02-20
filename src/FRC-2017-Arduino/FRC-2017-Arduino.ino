@@ -93,7 +93,7 @@ void adns_com_begin(){
 }
 void adns_com_end(){
   digitalWrite(ncs, HIGH);
-}
+  }
 byte adns_read_reg(byte reg_addr){
   adns_com_begin();
   

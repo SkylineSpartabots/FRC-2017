@@ -27,6 +27,8 @@ public class DriveTrain extends Subsystem {
 	public PIDMain rotationLock;
 	public PIDSource gyroSource;
 	
+	public Encoder XEncoder,YEncoder;
+	
 	public boolean xBox;
 
 	public DriveTrain() {
@@ -40,7 +42,10 @@ public class DriveTrain extends Subsystem {
 			}
 		};
 		
-		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006, 0);	
+		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006	, 0);	
+		
+		XEncoder = new Encoder(5,6,false, Encoder.EncodingType.k1X);
+		YEncoder = new Encoder(7,8,false, Encoder.EncodingType.k1X);
 		
 		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
 		leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
@@ -56,6 +61,12 @@ public class DriveTrain extends Subsystem {
 		setDefaultCommand(new DriveWithJoystick());
 	}
 
+	public double getDistanceX()	{
+		return XEncoder.get()*0.003875;
+	}
+	public double getDistanceY()	{
+		return YEncoder.get()*0.003875;
+	}
 	public void rotationLockDrive(double x, double y) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotationLock.getOutput(), 0);
 	}
@@ -118,7 +129,14 @@ public class DriveTrain extends Subsystem {
 		return value;
 	}
 	
+	/**
+	 * 
+	 * @param x
+	 * @param y
+	 * @param rotation
+	 */
 	public void drive(double x, double y, double rotation) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotation, 0);
 	}
 }
+	
