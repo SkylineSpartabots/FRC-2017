@@ -4,42 +4,55 @@ import org.usfirst.frc.team2976.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import util.PIDMain;
+import util.PIDSource;
 
 /**
  *
  */
 public class StrafeStraight extends Command {
-	double power;
-	double distance_x;
-
-	public StrafeStraight(double power, double distance_x) {
+	double tolerance;
+    double distance_x;
+    PIDSource distancePIDSource;
+    PIDMain distancePID;
+    
+    /**
+     * @param Ydistance How far to go?
+     * @param tolerance How close does it have to be?
+     */
+    public StrafeStraight(double distance_x, double tolerance) {
     	requires(Robot.drivetrain);
-    	this.power = power;
+    	
+    	distancePIDSource = new PIDSource()	{
+    		public double getInput()	{
+    			return Robot.drivetrain.getDistanceX();
+    		}
+    	};
+    	distancePID = new PIDMain(distancePIDSource, 0, 100, 0.01, 0.0001, 0);
+    	this.tolerance = tolerance;
     	this.distance_x = distance_x;
-	}
-
-	// Called just before this Command runs the first time
-	protected void initialize() {
-	}
-
-	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
-		Robot.drivetrain.drive(0, -power, 0);  	
-	 	SmartDashboard.putNumber("DistanceX", Robot.drivetrain.getDistanceY());
-	}
-
-	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
-		return Math.abs(Robot.drivetrain.getDistanceY())>Math.abs(distance_x);
-		//remember it needs to be getDistanceX
-	}
-
-	// Called once after isFinished returns true
-	protected void end() {
-	}
-
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	protected void interrupted() {
-	}
+    }
+    
+    // Called just before this Command runs the first time
+    protected void initialize() {
+    	Robot.drivetrain.YLock.setSetpoint(Robot.drivetrain.YEncoder.get());
+    	Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle());
+    }
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {  	
+    		Robot.drivetrain.yLockDrive(distancePID.getOutput());
+    	 	SmartDashboard.putNumber("Distance", Robot.drivetrain.getDistanceY());
+     }
+    // Make this return true when this Command no longer needs to run execute()
+    protected boolean isFinished() {
+    		return Math.abs(distancePID.getError())<tolerance;
+    }
+    // Called once after isFinished returns true
+    protected void end() {
+    	Robot.drivetrain.drive(0, 0, 0);
+    }
+    // Called when another command which requires one or more of the same
+    // subsystems is scheduled to run
+    protected void interrupted() {
+    }
 }

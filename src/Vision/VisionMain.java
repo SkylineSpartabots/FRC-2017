@@ -25,28 +25,21 @@ import org.opencv.core.MatOfPoint;
  * processing.
  */
 public class VisionMain {
-	double x_distance;
-	double y_distance;
-
-	public double[] getResultant() {
-		double[] resultant = new double[2];
-		resultant[0] = x_distance; // put values for strafe and forward here
-		resultant[1] = y_distance;
-		return resultant;
-	}
 
 	UsbCamera camera;
 	int round;
 	Mat mat;
-	CvSource outputStream1;
+	//CvSource outputStream1;
 	CvSource outputStream2;
 	CvSink cvSink;
-
+	
+	public Result result;
+	
 	public VisionMain() {
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(320, 240);
 		cvSink = CameraServer.getInstance().getVideo();
-		outputStream1 = CameraServer.getInstance().putVideo("h1", 320, 240);
+		//outputStream1 = CameraServer.getInstance().putVideo("h1", 320, 240);
 		outputStream2 = CameraServer.getInstance().putVideo("h2", 320, 240);
 		mat = new Mat();
 		round = 0;
@@ -57,7 +50,7 @@ public class VisionMain {
 		Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2HSV);
 		SmartDashboard.putString("Is this working part 2??", "Yes! :((((");
 		Core.inRange(mat, new Scalar(40, 0, 130), new Scalar(180, 255, 255), mat);
-		outputStream1.putFrame(mat);
+		//outputStream1.putFrame(mat);
 		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 
 		Imgproc.findContours(mat, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -83,11 +76,9 @@ public class VisionMain {
 		}
 		TargetComparator comparator = new TargetComparator();
 		Collections.sort(targetList, comparator);
-		Result result = chooseTarget(targetList);
+		result = chooseTarget(targetList);
 		
 		//Publish values
-		y_distance = result.distance();
-		x_distance = result.sideDistance();
 	
 		SmartDashboard.putNumber("CenterX", result.m_centerX);
 		SmartDashboard.putNumber("CenterY", result.m_centerY);

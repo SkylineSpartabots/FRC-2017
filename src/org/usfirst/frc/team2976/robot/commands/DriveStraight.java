@@ -4,37 +4,50 @@ import org.usfirst.frc.team2976.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import util.PIDMain;
+import util.PIDSource;
 
 /**
  *
  */
 public class DriveStraight extends Command {
-    double power;
+	double tolerance;
     double distance_y;
     
-    public DriveStraight(double power, double Ydistance) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    PIDSource distancePIDSource;
+    PIDMain distancePID;
+    
+    /**
+     * @param Ydistance How far to go?
+     * @param tolerance How close does it have to be?
+     */
+    public DriveStraight(double distance_y, double tolerance) {
     	requires(Robot.drivetrain);
-    	this.power = power;
-    	this.distance_y = Ydistance;
+    	
+    	distancePIDSource = new PIDSource()	{
+    		public double getInput()	{
+    			return Robot.drivetrain.getDistanceY();
+    		}
+    	};
+    	distancePID = new PIDMain(distancePIDSource, 0, 100, 0.01, 0.0001, 0);
+    	this.tolerance = tolerance;
+    	this.distance_y = distance_y;
     }
     
     // Called just before this Command runs the first time
     protected void initialize() {
-   
+    	Robot.drivetrain.XLock.setSetpoint(Robot.drivetrain.XEncoder.get());
+    	Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle());
     }
-
     // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    		Robot.drivetrain.drive(0, -power, 0);  	
+    protected void execute() {  	
+    		Robot.drivetrain.xLockDrive(distancePID.getOutput());
     	 	SmartDashboard.putNumber("Distance", Robot.drivetrain.getDistanceY());
-    	 	//Robot.drivetrain.rotationLockDrive(0, -power);
      }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    		return Math.abs(Robot.drivetrain.getDistanceY())>Math.abs(distance_y);
+    		return Math.abs(distancePID.getError())<tolerance;
  
     }
 

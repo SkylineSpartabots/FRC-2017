@@ -11,6 +11,9 @@ import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2976.robot.subsystems.IntakeRoller;
 import org.usfirst.frc.team2976.robot.subsystems.RevCounter;
+
+import Vision.VisionMain;
+import Vision.Result;
 import org.usfirst.frc.team2976.robot.subsystems.Hopper;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -36,6 +39,8 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static RevCounter revCounter;
 	public static Hopper hopper;
+	public static VisionMain vision;
+	
     Command autonomousCommand;
     SendableChooser<Autonomous> chooser;
 	AnalogInput sonarInput; 
@@ -48,12 +53,13 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		rps = new RPS(0, 0);
+		vision = new VisionMain();
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
     	revCounter = new RevCounter();
     	hopper = new Hopper();
-		oi = new OI();
+    	oi = new OI();
         chooser = new SendableChooser<Autonomous>();
         chooser.addDefault("Default Auto", new Autonomous());
 //      chooser.addObject("My Auto", new MyAutoCommand());

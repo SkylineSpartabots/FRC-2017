@@ -24,6 +24,10 @@ public class DriveTrain extends Subsystem {
 	public RobotDrive m_drive;
 	public PIDMain rotationLock;
 	public PIDSource gyroSource;
+	public PIDMain XLock;
+	public PIDSource XEncoderSource;
+	public PIDMain YLock;
+	public PIDSource YEncoderSource;
 	
 	public Encoder XEncoder,YEncoder;
 	
@@ -31,6 +35,12 @@ public class DriveTrain extends Subsystem {
 
 	public DriveTrain() {
 		xBox = true;
+
+		XEncoder = new Encoder(5,6,false, Encoder.EncodingType.k1X);
+		YEncoder = new Encoder(7,8,false, Encoder.EncodingType.k1X);
+		
+		XEncoder.setDistancePerPulse(0.003875);
+		YEncoder.setDistancePerPulse(0.003875);
 		
 		Timer.delay(1); 
 		
@@ -39,11 +49,22 @@ public class DriveTrain extends Subsystem {
 				return getHeading();
 			}
 		};
+		XEncoderSource = new PIDSource()	{
+			public double getInput(){
+				return XEncoder.get(); //nothing fancy needed
+			}
+		};
+
+		YEncoderSource = new PIDSource()	{
+			public double getInput(){
+				return YEncoder.get(); //nothing fancy needed
+			}
+		};
 		
 		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006	, 0);	
 		
-		XEncoder = new Encoder(5,6,false, Encoder.EncodingType.k1X);
-		YEncoder = new Encoder(7,8,false, Encoder.EncodingType.k1X);
+		XLock = new PIDMain(XEncoderSource, XEncoder.get(), 100, 0.001, 0.0001	, 0);	//TODO tune PID
+		YLock = new PIDMain(YEncoderSource, YEncoder.get(), 100, 0.001, 0.0001	, 0);	//TODO tune PID
 		
 		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
 		leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
@@ -60,15 +81,23 @@ public class DriveTrain extends Subsystem {
 	}
 
 	public double getDistanceX()	{
-		return XEncoder.get()*0.003875;
+		return XEncoder.getDistance();
 	}
 	public double getDistanceY()	{
-		return YEncoder.get()*0.003875;
+		return YEncoder.getDistance();
 	}
+	
+	
 	public void rotationLockDrive(double x, double y) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotationLock.getOutput(), 0);
 	}
-
+	public void xLockDrive(double y) {
+		m_drive.mecanumDrive_Cartesian(XLock.getOutput(), y, rotationLock.getOutput(), 0);
+	}
+	public void yLockDrive(double x) {
+		m_drive.mecanumDrive_Cartesian(x, YLock.getOutput(), rotationLock.getOutput(), 0);
+	}
+	
 	public double getHeading() {
 		return Robot.rps.getAngle();
 	}
