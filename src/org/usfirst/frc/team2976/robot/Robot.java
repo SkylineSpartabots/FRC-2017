@@ -1,5 +1,6 @@
 package org.usfirst.frc.team2976.robot;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -16,6 +17,7 @@ import org.usfirst.frc.team2976.robot.subsystems.RevCounter;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.RPS;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Counter;
 
 /**
@@ -36,8 +38,11 @@ public class Robot extends IterativeRobot {
 	public static RevCounter revCounter;
     Command autonomousCommand;
     SendableChooser<Autonomous> chooser;
-
-    /**
+	AnalogInput sonarInput; 
+	double sonarVoltage;
+	int sampleCount;
+	double distance;
+  /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
@@ -52,6 +57,12 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", new Autonomous());
 //      chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        
+        // Distance measurement
+        sonarInput = new AnalogInput(0);
+		sampleCount = 0;
+		sonarVoltage = 0;
+		distance = 0;
     }
 	
 	/**
@@ -114,7 +125,25 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	 Scheduler.getInstance().run();
+		Scheduler.getInstance().run();
+		measureAndDisplayDistance(); 
+    }
+    
+    private void measureAndDisplayDistance() {
+    	
+    	sonarVoltage += (sonarInput.getAverageVoltage() * 512);
+		sampleCount++;
+			
+		if (sampleCount == 100)
+		{
+			distance = (sonarVoltage / 500);
+			
+			sonarVoltage = 0;
+			sampleCount = 0;
+			
+			// System.out.println(distance);
+			SmartDashboard.putNumber("distance", distance);
+		}
     }
     
     /**
@@ -122,5 +151,6 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
-    }
+    } 
 }
+
