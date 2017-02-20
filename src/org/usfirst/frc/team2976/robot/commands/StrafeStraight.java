@@ -1,3 +1,4 @@
+/*
 package org.usfirst.frc.team2976.robot.commands;
 
 import org.usfirst.frc.team2976.robot.Robot;
@@ -7,19 +8,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.PIDMain;
 import util.PIDSource;
 
-/**
- *
- */
 public class StrafeStraight extends Command {
 	double tolerance;
     double distance_x;
     PIDSource distancePIDSource;
     PIDMain distancePID;
     
-    /**
-     * @param Ydistance How far to go?
-     * @param tolerance How close does it have to be?
-     */
     public StrafeStraight(double distance_x, double tolerance) {
     	requires(Robot.drivetrain);
     	
@@ -56,3 +50,4 @@ public class StrafeStraight extends Command {
     protected void interrupted() {
     }
 }
+*/

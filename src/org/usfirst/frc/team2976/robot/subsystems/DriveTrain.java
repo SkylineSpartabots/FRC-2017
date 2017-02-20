@@ -24,23 +24,23 @@ public class DriveTrain extends Subsystem {
 	public RobotDrive m_drive;
 	public PIDMain rotationLock;
 	public PIDSource gyroSource;
-	public PIDMain XLock;
-	public PIDSource XEncoderSource;
-	public PIDMain YLock;
-	public PIDSource YEncoderSource;
+	//public PIDMain XLock;
+	//public PIDSource XEncoderSource;
+	//public PIDMain YLock;
+	//public PIDSource YEncoderSource;
 	
-	public Encoder XEncoder,YEncoder;
+	//public Encoder XEncoder,YEncoder;
 	
 	public boolean xBox;
 
 	public DriveTrain() {
 		xBox = true;
 
-		XEncoder = new Encoder(5,6,false, Encoder.EncodingType.k1X);
-		YEncoder = new Encoder(7,8,false, Encoder.EncodingType.k1X);
+		//YEncoder = new Encoder(5,6,false, Encoder.EncodingType.k1X);
+		//XEncoder = new Encoder(7,8,false, Encoder.EncodingType.k1X);
 		
-		XEncoder.setDistancePerPulse(0.003875);
-		YEncoder.setDistancePerPulse(0.003875);
+		//XEncoder.setDistancePerPulse(0.003875);
+		//YEncoder.setDistancePerPulse(0.003875);
 		
 		Timer.delay(1); 
 		
@@ -49,22 +49,24 @@ public class DriveTrain extends Subsystem {
 				return getHeading();
 			}
 		};
-		XEncoderSource = new PIDSource()	{
+	/*	XEncoderSource = new PIDSource()	{
 			public double getInput(){
 				return XEncoder.get(); //nothing fancy needed
 			}
 		};
-
+	 */
+	/*
 		YEncoderSource = new PIDSource()	{
 			public double getInput(){
 				return YEncoder.get(); //nothing fancy needed
 			}
 		};
-		
+	*/
 		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006	, 0);	
+		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0014	, 0);	
 		
-		XLock = new PIDMain(XEncoderSource, XEncoder.get(), 100, 0.001, 0.0001	, 0);	//TODO tune PID
-		YLock = new PIDMain(YEncoderSource, YEncoder.get(), 100, 0.001, 0.0001	, 0);	//TODO tune PID
+		//XLock = new PIDMain(XEncoderSource, XEncoder.get(), 100, 0.001, 0.0001	, 0);	//TODO tune PID
+		//YLock = new PIDMain(YEncoderSource, YEncoder.get(), 100, 0.001, 0.0001	, 0);	//TODO tune PID
 		
 		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
 		leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
@@ -79,23 +81,23 @@ public class DriveTrain extends Subsystem {
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithJoystick());
 	}
-
+/*
 	public double getDistanceX()	{
 		return XEncoder.getDistance();
 	}
 	public double getDistanceY()	{
 		return YEncoder.getDistance();
 	}
-	
+*/
 	
 	public void rotationLockDrive(double x, double y) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotationLock.getOutput(), 0);
 	}
 	public void xLockDrive(double y) {
-		m_drive.mecanumDrive_Cartesian(XLock.getOutput(), y, rotationLock.getOutput(), 0);
+	//	m_drive.mecanumDrive_Cartesian(XLock.getOutput(), y, rotationLock.getOutput(), 0);
 	}
 	public void yLockDrive(double x) {
-		m_drive.mecanumDrive_Cartesian(x, YLock.getOutput(), rotationLock.getOutput(), 0);
+	//	m_drive.mecanumDrive_Cartesian(x, YLock.getOutput(), rotationLock.getOutput(), 0);
 	}
 	
 	public double getHeading() {

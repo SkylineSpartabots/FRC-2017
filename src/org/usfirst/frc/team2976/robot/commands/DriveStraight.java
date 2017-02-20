@@ -1,3 +1,4 @@
+/*
 package org.usfirst.frc.team2976.robot.commands;
 
 import org.usfirst.frc.team2976.robot.Robot;
@@ -7,9 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.PIDMain;
 import util.PIDSource;
 
-/**
- *
- */
 public class DriveStraight extends Command {
 	double tolerance;
     double distance_y;
@@ -17,10 +15,7 @@ public class DriveStraight extends Command {
     PIDSource distancePIDSource;
     PIDMain distancePID;
     
-    /**
-     * @param Ydistance How far to go?
-     * @param tolerance How close does it have to be?
-     */
+    
     public DriveStraight(double distance_y, double tolerance) {
     	requires(Robot.drivetrain);
     	
@@ -62,3 +57,4 @@ public class DriveStraight extends Command {
  
     }
 }
+*/

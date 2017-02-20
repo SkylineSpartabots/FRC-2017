@@ -14,9 +14,8 @@ public class RobotMap {
 	//Other motors
 	public static final int intakeMotor = 5;
 	public static final int climberMotor = 8;
-	public static final int hopperMotor = 6; //TODO
+	public static final int hopperMotor = 7; //TODO
 	public static final int shooterWheel = 0; //TODO, Not being used
-	
 	//rev counter for wheel
 	public static final int wheelRevCounter = 1; //TODO, Not being used
 	public static final int limitSwitchHopper = 0; // Digitall Input, Hopper limit switch

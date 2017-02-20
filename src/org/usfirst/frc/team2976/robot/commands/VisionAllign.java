@@ -10,7 +10,6 @@ import util.PIDSource;
  *
  */
 public class VisionAllign extends Command {
-	
 	PIDMain visionPID;
 	PIDSource pidSource;
 	double tolerance;
@@ -26,7 +25,7 @@ public class VisionAllign extends Command {
 			}	
     	};
     	
-    	visionPID = new PIDMain(pidSource, 0, 100, 0.001, 0.001, 0);
+    	visionPID = new PIDMain(pidSource, 0, 100, 0.01, 0.000, 0);
     }
 
     // Called just before this Command runs the first time
