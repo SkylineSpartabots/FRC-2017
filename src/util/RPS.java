@@ -103,10 +103,8 @@ public class RPS {
 	{
 		@Override
 		public void run() {
-			
 			double distanceInInches = ultrasonicInput.getAverageVoltage() * ULTRASONIC_VOLTS_TO_INCHES;
-			setUltrasonicDistanceInInches(ultrasonicKalman.getPredictedValue(distanceInInches));
-			
+			setUltrasonicDistanceInInches(ultrasonicKalman.getPredictedValue(distanceInInches));			
 		}
 	}
 }

@@ -49,11 +49,11 @@ public class OI {
 	public OI() {
 		driveStick = new Joystick(0);
 		secondStick = new Joystick(1);
-		// OI.Button.A.getBtnNumber()).whenPressed(new Shoot());
+		
 		new JoystickButton(secondStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(0.9));
 		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.2));
 		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whenPressed(new EmptyHopper());
 		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new LowerHopper());
-		//
+		
 	}
 }

@@ -24,8 +24,7 @@ public class TimedDrive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.drivetrain.drive(0, -power, 0);
-       	//Robot.driveTrain.driveStraight(Robot.driveTrain.getGyro(), power);
+    	Robot.drivetrain.rotationLockDrive(0, -power);
     }
 
     // Make this return true when this Command no longer needs to run execute()

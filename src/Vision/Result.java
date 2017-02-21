@@ -1,5 +1,7 @@
 package Vision;
 
+import org.usfirst.frc.team2976.robot.Robot;
+
 public class Result {
 	Target m_targetLeft=null;
 	Target m_targetRight=null;
@@ -9,9 +11,8 @@ public class Result {
 	
 	int m_pixelsToCenter = 0;
 	
+	long start;
 	
-	public static final int resolutionX = 320;
-	public static final int resolutionY = 240;
 	public static final int targetHeight = 5;
 	public static final int targetWidth = 2;
 	
@@ -22,7 +23,13 @@ public class Result {
 		if (hasBothTarget()){
 			center();
 		}
+		start = System.currentTimeMillis();
 	}
+	
+	public long age(){
+		return System.currentTimeMillis()-start;
+	}
+	
 	
 	public void center() {
 		m_centerX = (m_targetLeft.m_rect.x+m_targetRight.m_rect.x+m_targetRight.m_width)/2;
@@ -33,7 +40,7 @@ public class Result {
 		//distance = targetHeight * resY / (pixelHeight * tan(viewAngleY))
 		if (hasBothTarget()){
 		//return (targetHeight * resolutionY) / (((m_targetLeft.m_height+m_targetRight.m_height)/2)*Math.tan(34.3));
-			return (targetHeight * resolutionY) / (((m_targetLeft.m_height+m_targetRight.m_height)/2)*0.68215375);
+			return (targetHeight * Robot.vision.resolutionY) / (((m_targetLeft.m_height+m_targetRight.m_height)/2)*0.68215375);
 		} else {
 			return 0;
 		}
@@ -41,7 +48,7 @@ public class Result {
 	
 	public int pixelsToCenter(){
 		if (hasBothTarget()){
-			m_pixelsToCenter = 160 - m_centerX;
+			m_pixelsToCenter = Robot.vision.resolutionX/2 - m_centerX;
 			return m_pixelsToCenter;
 		} else {
 			return 0;

@@ -23,24 +23,36 @@ public class Target {
 	double m_area;
 	double m_contourArea;
 	
-	public Target(Rect rect, MatOfPoint contour){
-		m_rect = rect;
+	public Target(MatOfPoint contour){
+		m_rect = Imgproc.boundingRect(contour);
 		m_contour = contour;
-		m_width = rect.width;
-		m_height = rect.height;
-		m_area = rect.area();
+		m_width = m_rect.width;
+		m_height = m_rect.height;
+		m_area = m_rect.area();
 		m_contourArea = Imgproc.contourArea(m_contour);
 	}
 	
+	public double fillRatio (){
+		if (m_area<0.01){
+			return 100;
+		} 
+		
+		return m_contourArea/m_area;
+		
+	}
 	
 	public double ratio(){
+		if (m_width<0.01){
+		return 1000;
+		}
 		return((double)m_height)/m_width;
 	}
 	
 	
 	
 	public double ratioScore(){
-		return Math.abs(2.5 - ratio());
+		return Math.abs(2.50 - ratio());
 	}
 	
 }
+
