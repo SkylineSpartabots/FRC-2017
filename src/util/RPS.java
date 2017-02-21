@@ -30,12 +30,10 @@ public class RPS {
 	double targetX;
 	double targetY;
 			
-	//private static final double ULTRASONIC_VOLTS_TO_INCHES = 41.06; //Black Ultrasonic Sensor
-	private static final double ULTRASONIC_VOLTS_TO_INCHES = 108.356; //Green Ultrasonic Sensor
-	private final Timer ultrasonicTimer;
-	private final AnalogInput ultrasonicInput;
-	private final Kalman ultrasonicKalman;
-	private double ultrasonicDistanceInInches;
+	private static final double BLACK_ULTRASONIC_VOLTS_TO_INCHES = 41.06; //Black Ultrasonic Sensor
+	private static final double GREEN_ULTRASONIC_VOLTS_TO_INCHES = 108.356; //Green Ultrasonic Sensor
+	private final UltrasonicSensor greenUltrasonicSensor;
+	private final UltrasonicSensor blackUltrasonicSensor;
 	
 	
 	public RPS(double targetX, double targetY) {
@@ -49,22 +47,14 @@ public class RPS {
 		this.targetX = targetX;
 		this.targetY = targetY;
 		
-		this.ultrasonicInput = new AnalogInput(RobotMap.ultrasonicSensor);
+		this.greenUltrasonicSensor = new UltrasonicSensor(RobotMap.greenUltrasonicSensor, 20, GREEN_ULTRASONIC_VOLTS_TO_INCHES);
+		this.blackUltrasonicSensor = new UltrasonicSensor(RobotMap.blackUltrasonicSensor, 20, BLACK_ULTRASONIC_VOLTS_TO_INCHES);
 		
-		double initialDistanceInInches = this.ultrasonicInput.getAverageVoltage() * ULTRASONIC_VOLTS_TO_INCHES;
-		this.ultrasonicKalman = new Kalman(initialDistanceInInches); 
-		this.setUltrasonicDistanceInInches(initialDistanceInInches);
-		
-		this.ultrasonicTimer = new Timer("UltrasonicDistanceTimer - " + RobotMap.ultrasonicSensor);
-		this.ultrasonicTimer.schedule(new UltrasonicMeasurementTask(), 0, ultrasonicMeasurementFrequencyInMillis);
 	}
 	
-	private synchronized void setUltrasonicDistanceInInches(double distanceInInches) {
-		this.ultrasonicDistanceInInches = distanceInInches;
-	}
 	
-	public synchronized double getUltrasonicDistanceInInches() {
-		return this.ultrasonicDistanceInInches;
+	public double getUltrasonicDistanceInInches() {
+		return (this.greenUltrasonicSensor.getUltrasonicDistanceInInches() + this.blackUltrasonicSensor.getUltrasonicDistanceInInches())/2;
 	}
 	
 	public void reset()	{
@@ -99,12 +89,4 @@ public class RPS {
 		return ahrs.getAngle();
 	}
 	
-	private class UltrasonicMeasurementTask extends TimerTask
-	{
-		@Override
-		public void run() {
-			double distanceInInches = ultrasonicInput.getAverageVoltage() * ULTRASONIC_VOLTS_TO_INCHES;
-			setUltrasonicDistanceInInches(ultrasonicKalman.getPredictedValue(distanceInInches));			
-		}
-	}
 }
