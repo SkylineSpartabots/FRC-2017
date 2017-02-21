@@ -60,7 +60,7 @@ public class RevCounter extends Subsystem {
 			deltaPos = (getCount()-prevValue)*10000/samplingTime; 
 			// divide by 6 and multiply by 60 and by then by 1000/samplingtime
 			
-			if (getCount()>10000)	{
+			if(getCount() > 10000)	{
 				revCounter.reset();
 			}
 			prevValue = getCount();
