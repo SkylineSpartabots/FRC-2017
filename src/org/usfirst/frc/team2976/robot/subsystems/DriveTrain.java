@@ -90,6 +90,10 @@ public class DriveTrain extends Subsystem {
 	}
 */
 	
+	/**
+	 * @param x sideways power relative to robot. Positive x means go right
+	 * @param y forwards power relative to robot. Positive y means go forward
+	 */
 	public void rotationLockDrive(double x, double y) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotationLock.getOutput(), 0);
 	}

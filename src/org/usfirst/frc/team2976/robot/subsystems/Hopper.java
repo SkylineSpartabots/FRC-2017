@@ -13,12 +13,14 @@ import com.ctre.CANTalon;
 public class Hopper extends Subsystem {
 	private CANTalon hopperMotor;
 	private DigitalInput beamBreak;
-	private Servo hopperServo;
+	private Servo hopperServoRight;
+	private Servo hopperServoLeft;
     
 	public Hopper()	{
     	hopperMotor = new CANTalon(RobotMap.hopperMotor);
     	beamBreak = new DigitalInput(RobotMap.limitSwitchHopper);
-    	hopperServo = new Servo(RobotMap.hopperServo);
+    	hopperServoRight = new Servo(RobotMap.hopperServoRight);
+    	hopperServoLeft = new Servo(RobotMap.hopperServoLeft);
 	}
     
     public void raiseHopper(double power)	{
@@ -32,12 +34,15 @@ public class Hopper extends Subsystem {
     /**
      * @param scaledPosition is from 0 to 1
      */
-    public void setHopperServo(double scaledPosition) {
-    	hopperServo.set(scaledPosition);
+    public void setHopperServos(double scaledPosition) {
+    	hopperServoRight.set(scaledPosition);
+        hopperServoLeft.set(1.0-scaledPosition);	
+    	
     }
     
-    public boolean isRaised()	{
-    	return beamBreak.get(); //might need to negate this value depending on wiring of sensor
+    public boolean isRaised() {
+    	// return beamBreak.get(); //might need to negate this value depending on wiring of sensor
+    	return false;
     }
     
     public void initDefaultCommand() {

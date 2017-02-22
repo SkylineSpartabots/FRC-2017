@@ -1,6 +1,7 @@
 package org.usfirst.frc.team2976.robot.commands;
 import org.usfirst.frc.team2976.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *@author NeilHazra
@@ -11,16 +12,15 @@ public class EmptyHopper extends Command {
     }
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.hopper.raiseHopper(0.2);
-    	Robot.hopper.setHopperServo(0.5);
+    	Robot.hopper.raiseHopper(0.9);
+    	Robot.hopper.setHopperServos(0);
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return Robot.hopper.isRaised();
+        return false;
     }
     // Called once after isFinished returns true
     protected void end() {

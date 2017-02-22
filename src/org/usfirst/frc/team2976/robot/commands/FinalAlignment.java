@@ -10,14 +10,14 @@ import util.PIDSource;
 /**
  *
  */
-public class FinalAllignment extends Command {
+public class FinalAlignment extends Command {
 	PIDMain visionPID;
 	PIDSource pidSource;
 	double inchesToTarget;
 	double tolerance;
 	
 	
-    public FinalAllignment(double tolerance) {
+    public FinalAlignment(double tolerance) {
     	requires(Robot.drivetrain);
     	this.tolerance = tolerance;
     			
