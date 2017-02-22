@@ -59,6 +59,7 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Default Auto", new Autonomous());
 //      chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        
     }
 	
 	/**
@@ -67,10 +68,11 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-
+    	rps.ahrs.reset();
     }
 	
 	public void disabledPeriodic() {
+		rps.ahrs.reset();
 		Scheduler.getInstance().run();
 	}
 

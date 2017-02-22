@@ -35,13 +35,12 @@ public class DriveTrain extends Subsystem {
 
 	public DriveTrain() {
 		xBox = true;
-
 		//YEncoder = new Encoder(5,6,false, Encoder.EncodingType.k1X);
 		//XEncoder = new Encoder(7,8,false, Encoder.EncodingType.k1X);
 		
 		//XEncoder.setDistancePerPulse(0.003875);
 		//YEncoder.setDistancePerPulse(0.003875);
-		
+		Robot.rps.reset();
 		Timer.delay(1); 
 		
 		gyroSource = new PIDSource() {
@@ -62,7 +61,9 @@ public class DriveTrain extends Subsystem {
 			}
 		};
 	*/
-		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006	, 0);	
+		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, 0, 0, 0);	
+		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.014, -0.0003	, 0);	
+		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006	, 0);	
 		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0014	, 0);	
 		
 		//XLock = new PIDMain(XEncoderSource, XEncoder.get(), 100, 0.001, 0.0001	, 0);	//TODO tune PID
@@ -97,7 +98,7 @@ public class DriveTrain extends Subsystem {
 	//	m_drive.mecanumDrive_Cartesian(XLock.getOutput(), y, rotationLock.getOutput(), 0);
 	}
 	public void yLockDrive(double x) {
-	//	m_drive.mecanumDrive_Cartesian(x, YLock.getOutput(), rotationLock.getOutput(), 0);
+	//	m_drive.mecanumDrive_Cartesian(x, YLock.getOutputb(), rotationLock.getOutput(), 0);
 	}
 	
 	public double getHeading() {

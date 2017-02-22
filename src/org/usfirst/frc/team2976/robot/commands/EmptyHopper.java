@@ -15,7 +15,7 @@ public class EmptyHopper extends Command {
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.hopper.raiseHopper(0.2);
+    	Robot.hopper.raiseHopper(0.75);
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

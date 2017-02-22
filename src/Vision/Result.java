@@ -1,7 +1,5 @@
 package Vision;
 
-import org.usfirst.frc.team2976.robot.Robot;
-
 public class Result {
 	Target m_targetLeft=null;
 	Target m_targetRight=null;
@@ -22,10 +20,24 @@ public class Result {
 		m_targetRight = targetRight;
 		if (hasBothTarget()){
 			center();
+		} else if (m_targetLeft!=null){
+			centerLeft();
+		} else if (m_targetRight!=null){
+			centerRight();
 		}
+		
 		start = System.currentTimeMillis();
 	}
 	
+	boolean hasLeftTarget()
+	{
+		return m_targetLeft!=null;
+	}
+	
+	boolean hasRightTarget()
+	{
+		return m_targetRight!=null;
+	}
 	public long age(){
 		return System.currentTimeMillis()-start;
 	}
@@ -36,32 +48,36 @@ public class Result {
 		m_centerY = (m_targetLeft.m_rect.y+m_targetRight.m_rect.y+m_targetRight.m_height)/2;
 	}
 	
-	public double distance(){
-		//distance = targetHeight * resY / (pixelHeight * tan(viewAngleY))
-		if (hasBothTarget()){
-		//return (targetHeight * resolutionY) / (((m_targetLeft.m_height+m_targetRight.m_height)/2)*Math.tan(34.3));
-			return (targetHeight * Robot.vision.resolutionY) / (((m_targetLeft.m_height+m_targetRight.m_height)/2)*0.68215375);
-		} else {
-			return 0;
-		}
+	public void centerLeft() {
+		m_centerX = (int)(m_targetLeft.m_rect.x+(m_targetLeft.m_width*5.0)/2);
+		m_centerY = (int)(m_targetLeft.m_rect.y+m_targetLeft.m_height/2);
 	}
 	
-	public int pixelsToCenter(){
+	public void centerRight() {
+		m_centerX = (int)(m_targetRight.m_rect.x-(m_targetRight.m_width*3.0)/2);
+		m_centerY = (int)(m_targetRight.m_rect.y+m_targetRight.m_height/2);
+	}
+	
+	public double distance(){
+		//distance = targetHeight * resY / (pixelHeight * tan(viewAngleY))
+		double tanViewAngleY=0.68215375;
 		if (hasBothTarget()){
-			m_pixelsToCenter = Robot.vision.resolutionX/2 - m_centerX;
-			return m_pixelsToCenter;
-		} else {
-			return 0;
+			return (targetHeight * VisionMain.resolutionY) / (((m_targetLeft.m_height+m_targetRight.m_height)/2)*tanViewAngleY);
+		} else if (hasLeftTarget()){
+			return (targetHeight * VisionMain.resolutionY) / (m_targetLeft.m_height*tanViewAngleY);
+		} else if (hasRightTarget()){
+			return (targetHeight * VisionMain.resolutionY) / (m_targetRight.m_height*tanViewAngleY);
 		}
+		return 0;
 	}
 	
 	public double sideDistance (){
-		if (hasBothTarget()){
-		
-			return ((targetWidth * (160.00-m_centerX))/m_targetLeft.m_rect.width);
-		} else {
-			return 10;
+		if (hasBothTarget() && hasLeftTarget()){
+			return ((1.0*targetWidth * (VisionMain.resolutionX/2-m_centerX))/m_targetLeft.m_rect.width);
+		} else if (hasRightTarget()){
+			return ((1.0*targetWidth * (VisionMain.resolutionX/2-m_centerX))/m_targetRight.m_rect.width);
 		}
+		return -10000;
 	}
 	
 	public boolean hasBothTarget(){
@@ -87,36 +103,6 @@ public class Result {
 			return -1;
 		}
 	}
-	
-	public int targetLeftX() {
-		if (hasBothTarget()){
-			return m_targetLeft.m_rect.x;
-		} else {
-			return 0;
-		}
-	}
-	
-	public int targetLeftHeight(){
-		if (hasBothTarget()){
-			return m_targetLeft.m_rect.height;
-		} else {
-			return 0;
-		}
-	}
-	
-	public int targetRightHeight(){
-		if (hasBothTarget()){
-			return m_targetRight.m_rect.height;
-		} else {
-			return 0;
-		}
-	}
-	
-	public double slope(){
-		if (hasBothTarget()){
-			return (m_targetRight.m_rect.y-m_targetLeft.m_rect.y)/(m_targetRight.m_rect.x-m_targetLeft.m_rect.x);
-		} else {
-			return 0;
-		}
-	}
 }
+
+

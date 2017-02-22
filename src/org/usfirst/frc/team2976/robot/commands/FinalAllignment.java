@@ -15,47 +15,62 @@ public class FinalAllignment extends Command {
 	PIDSource pidSource;
 	double inchesToTarget;
 	double tolerance;
+	double prevSideDistance;
 	
-	
-    public FinalAllignment(double tolerance) {
-    	requires(Robot.drivetrain);
-    	this.tolerance = tolerance;
-    			
-    	pidSource = new PIDSource()	{
+	public FinalAllignment(double tolerance) {
+		requires(Robot.drivetrain);
+		this.tolerance = tolerance;
+
+		pidSource = new PIDSource() {
 			public double getInput() {
 				Robot.vision.compute();
 				double x = Robot.vision.result.sideDistance();
+				
+				if(x==-10000){
+					x=0;
+					//x= prevSideDistance;
+				}	else{
+				//	prevSideDistance = x;
+				}
+				
 				SmartDashboard.putNumber("Side Distance", x);
-				assert x!=10; //this will break the code
-				return x;
-			}	
-    	};
-    	visionPID = new PIDMain(pidSource, 0, 100, 0.1, 0.000, 0);
-    }
+				SmartDashboard.putNumber("outputVision", visionPID.getOutput());
+				return x;	
+			}
+		};
+		visionPID = new PIDMain(pidSource, 0, 100, 0.22, 0.0, 0);
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	
-    }
+		//visionPID.setOutputLimits(0.1, 0.7);
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.drivetrain.rotationLockDrive(visionPID.getOutput(), 0);
-		SmartDashboard.putNumber("Forward Distance", Robot.vision.result.distance());
-    	SmartDashboard.putNumber("outputVision", visionPID.getOutput());
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-        return (pidSource.getInput()<tolerance);
-    }
+	}
 
-    // Called once after isFinished returns true
-    protected void end() {
-    }
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		// Robot.drivetrain.rotationLockDrive(0.4, 0);
+		Robot.drivetrain.rotationLockDrive(visionPID.getOutput(), 0); // go
+																		// forward
+												
+		System.out.println(visionPID.getInput() + " " + visionPID.getOutput());
+		// slowly
+		// SmartDashboard.putNumber("Forward Distance",
+		// Robot.vision.result.distance());
+	}
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    }
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return false;//Math.abs(pidSource.getInput())<1;
+	}
+	// Called once after isFinished returns true
+	protected void end() {
+		SmartDashboard.putBoolean("Terminated", true);
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+	}
 }

@@ -1,4 +1,5 @@
 package Vision;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,10 +27,18 @@ public class VisionMain {
 	public Result result;
 	static final int resolutionX= 640;
 	static final int resolutionY = 480;
+	static final int hue1 = 50;
+	static final int hue2 = 180;
+	static final int saturation1 = 102;
+	static final int saturation2 = 255;
+	static final int value1 = 25;
+	static final int value2 = 255;
 	
 	public VisionMain(){
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(resolutionX, resolutionY);
+		camera.setBrightness(10);
+		camera.setExposureManual(10);
 		cvSink = CameraServer.getInstance().getVideo();
 		outputStream1 = CameraServer.getInstance().putVideo("h1", resolutionX, resolutionY);
 		outputStream2 = CameraServer.getInstance().putVideo("h2", resolutionX, resolutionY);
@@ -46,7 +55,7 @@ public class VisionMain {
 			return;
 		}
 		Imgproc.cvtColor(mat, mat, Imgproc.COLOR_BGR2HSV);
-		Core.inRange(mat, new Scalar(60, 120, 150), new Scalar(180, 255, 255), mat);
+		Core.inRange(mat, new Scalar(hue1, saturation1, value1), new Scalar(hue2, saturation2, value2), mat);
 		outputStream1.putFrame(mat);
 		
 		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
@@ -56,16 +65,38 @@ public class VisionMain {
 		//Sort by Ratio Score (absolute value of 2.5 - height/width)
 		TargetComparator comparator = new TargetComparator();
 		Collections.sort(targetList, comparator);
-		result = chooseTarget(targetList);
-		
+		result = chooseTwoTarget(targetList);
+		if (result.hasBothTarget()){
 		publishValues(result);
+		}
+		
+		//SmartDashboard.putBoolean("Result??", tempResult.hasBothTarget());
+		/*if (tempResult.hasBothTarget())
+		{	
+			publishValues(tempResult);
+		} 
+		//SmartDashboard.putBoolean("Result????", result.hasBothTarget());*/
+		//publishValues(result);
+		//else 
+		//{
+		//	tempResult = chooseOneTarget(targetList);
+		//	if (tempResult.hasOneTarget()){
+		//		result= tempResult;
+		//	}
+		//}
+		
+		///if (result!=null){
+		//	if (!result.hasNoTarget()){
+		//		publishValues(result);
+		//	}
+		//}*/
 	}
 	
 	public void publishValues (Result result){
 		SmartDashboard.putNumber("CenterX", result.m_centerX);
 		SmartDashboard.putNumber("CenterY", result.m_centerY);
 		SmartDashboard.putNumber("Distance", result.distance());
-		SmartDashboard.putNumber("Distance To Center", result.sideDistance());
+		SmartDashboard.putNumber("Distance To Center!!", result.sideDistance());
 		SmartDashboard.putNumber("Number of Targets", result.targetNumber());
 		if (result.m_targetLeft != null) {
 			Imgproc.rectangle(mat, new Point(result.m_targetLeft.m_rect.x, result.m_targetLeft.m_rect.y),
@@ -92,7 +123,6 @@ public class VisionMain {
 		outputStream2.putFrame(mat);
 	}
 	
-
 	public ArrayList<Target> selectLargeContours(List<MatOfPoint> contours, int desiredContours){
 		ArrayList<Target> targetList = new ArrayList<Target>();
 		int loop = desiredContours;
@@ -115,16 +145,16 @@ public class VisionMain {
 			MatOfPoint contour = contours.get(largestContourIndex);
 			Target target = new Target(contour);
 			
-			SmartDashboard.putString("Target candidate" + i, 
-					"RatioScore:"+target.ratioScore()+",FillRatio:"+target.fillRatio()+",area="+contour.width()*Imgproc.contourArea(contour));
-			if(target.ratioScore()<1  && target.fillRatio()>0.65){
+			//SmartDashboard.putString("Target candidate" + i, 
+				//	"RatioScore:"+target.ratioScore()+",FillRatio:"+target.fillRatio()+",area="+contour.width()*Imgproc.contourArea(contour));
+			if(target.ratioScore()<.5  && target.fillRatio()>0.7){
 				targetList.add(target);
-				SmartDashboard.putString("Target candidate" + i+ "select", 
-						"Yes");
+				//SmartDashboard.putString("Target candidate" + i+ "select", 
+				//		"Yes");
 			}else
 			{
-				SmartDashboard.putString("Target candidate" + i+ "select", 
-						"No");
+				//SmartDashboard.putString("Target candidate" + i+ "select", 
+				//		"No");
 			}
 			contours.remove(largestContourIndex);
 		}
@@ -137,7 +167,7 @@ public class VisionMain {
 		return targetList;
 	}
 	
-	public Result chooseTarget(ArrayList<Target> targetList) {
+	public Result chooseTwoTarget(ArrayList<Target> targetList) {
 		Target targetLeft = null;
 		Target targetRight = null;
 		for (int i = 0; i < targetList.size(); i++) {
@@ -163,6 +193,23 @@ public class VisionMain {
 		return new Result(targetLeft, targetRight);
 	}
 
+	public Result chooseOneTarget(ArrayList<Target> targetList) {
+		Target targetLeft = null;
+		Target targetRight = null;
+			
+		if (targetList.size()>0){
+			Target target = targetList.get(0);
+			if (target.m_rect.x > resolutionX*3/4){
+				targetRight = target;
+			}
+			else if (target.m_rect.x < resolutionX/4)
+			{
+				targetLeft = target;
+			}		
+		}
+		return new Result(targetLeft, targetRight);
+	}
+	
 	public boolean checkTarget(Target target1, Target target2) {
 		double areaCompare = target1.m_area / target2.m_area;
 		if (areaCompare < 1) {
@@ -174,5 +221,6 @@ public class VisionMain {
 		return areaCheck && widthCheck;
 	}
 }
+
 
 

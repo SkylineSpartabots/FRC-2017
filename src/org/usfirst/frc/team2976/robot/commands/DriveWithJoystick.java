@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
- * 
+ * Add PID drive with rotation lock
+ * @author NeilHazra
  */
 
 // Class works, don't touch
@@ -93,7 +93,7 @@ public class DriveWithJoystick extends Command {
 				Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle());
 			}
 		} else {
-			Robot.drivetrain.rotationLock.disable(500);
+			Robot.drivetrain.rotationLock.disable(500); 
 			Robot.drivetrain.drive(strafe, forward, rotation); // run regularly
 			Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle());
 		}

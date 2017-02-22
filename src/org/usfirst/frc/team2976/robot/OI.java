@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team2976.robot.commands.Climb;
 import org.usfirst.frc.team2976.robot.commands.EmptyHopper;
 import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
-import org.usfirst.frc.team2976.robot.commands.LowerHopper;
+import org.usfirst.frc.team2976.robot.commands.StopHopper;
 import org.usfirst.frc.team2976.robot.commands.Shoot;
 import org.usfirst.frc.team2976.robot.commands.SpinIntake;
 
@@ -51,9 +51,9 @@ public class OI {
 		secondStick = new Joystick(1);
 		
 		new JoystickButton(secondStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(0.9));
-		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.2));
+		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.5));
 		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whenPressed(new EmptyHopper());
-		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new LowerHopper());
+		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new StopHopper());
 		
 	}
 }

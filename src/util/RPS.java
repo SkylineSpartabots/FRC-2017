@@ -70,6 +70,7 @@ public class RPS {
 	public void reset()	{
 		startingX = getXDisplacementADNS();
 		startingY = getYDisplacementADNS();
+		ahrs.reset();
 	}
 	
 	public double[] getVector()	{
