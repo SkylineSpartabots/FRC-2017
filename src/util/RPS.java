@@ -25,8 +25,7 @@ public class RPS {
 	public ADNS_I2C adns_I2C;
 	
 	double startingX;
-	double startingY;
-	
+	double startingY;	
 	double targetX;
 	double targetY;
 			
@@ -34,7 +33,6 @@ public class RPS {
 	private static final double GREEN_ULTRASONIC_VOLTS_TO_INCHES = 108.356; //Green Ultrasonic Sensor
 	private final UltrasonicSensor greenUltrasonicSensor;
 	private final UltrasonicSensor blackUltrasonicSensor;
-	
 	
 	public RPS(double targetX, double targetY) {
 		this(targetX, targetY, 20);
@@ -49,7 +47,6 @@ public class RPS {
 		
 		this.greenUltrasonicSensor = new UltrasonicSensor(RobotMap.greenUltrasonicSensor, 20, GREEN_ULTRASONIC_VOLTS_TO_INCHES);
 		this.blackUltrasonicSensor = new UltrasonicSensor(RobotMap.blackUltrasonicSensor, 20, BLACK_ULTRASONIC_VOLTS_TO_INCHES);
-		
 	}
 	
 	

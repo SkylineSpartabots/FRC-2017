@@ -25,7 +25,10 @@ public class DriveWithJoystick extends Command {
 
 	protected void initialize() {
 		prevTime = System.currentTimeMillis();
+		Robot.drivetrain.rotationLock.resetPID();
+		Robot.rps.ahrs.reset();
 		Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle());
+		Timer.delay(1);
 	}
 
 	protected void execute() {

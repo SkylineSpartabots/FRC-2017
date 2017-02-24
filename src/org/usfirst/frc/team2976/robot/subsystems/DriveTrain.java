@@ -61,8 +61,8 @@ public class DriveTrain extends Subsystem {
 			}
 		};
 	*/
-		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, 0, 0, 0);	
-		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.014, -0.0003	, 0);	
+		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, 0, 0, 0);	
+		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.014, -0.0003	, 0);	
 		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006	, 0);	
 		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0014	, 0);	
 		
