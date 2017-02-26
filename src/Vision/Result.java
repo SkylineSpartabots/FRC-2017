@@ -72,7 +72,7 @@ public class Result {
 	}
 	
 	public double sideDistance (){
-		if (hasBothTarget() && hasLeftTarget()){
+		if (hasBothTarget() || hasLeftTarget()){
 			return ((1.0*targetWidth * (VisionMain.resolutionX/2-m_centerX))/m_targetLeft.m_rect.width);
 		} else if (hasRightTarget()){
 			return ((1.0*targetWidth * (VisionMain.resolutionX/2-m_centerX))/m_targetRight.m_rect.width);
@@ -104,5 +104,3 @@ public class Result {
 		}
 	}
 }
-
-

@@ -24,21 +24,19 @@ public class VisionMain {
 	CvSource outputStream1;
 	CvSource outputStream2;
 	CvSink cvSink;
-	public Result result;
+	public Result result = null;
 	static final int resolutionX= 640;
 	static final int resolutionY = 480;
-	static final int hue1 = 50;
+	static final int hue1 = 60;
 	static final int hue2 = 180;
-	static final int saturation1 = 102;
+	static final int saturation1 = 70;
 	static final int saturation2 = 255;
-	static final int value1 = 25;
+	static final int value1 = 130;
 	static final int value2 = 255;
 	
 	public VisionMain(){
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(resolutionX, resolutionY);
-		camera.setBrightness(10);
-		camera.setExposureManual(10);
 		cvSink = CameraServer.getInstance().getVideo();
 		outputStream1 = CameraServer.getInstance().putVideo("h1", resolutionX, resolutionY);
 		outputStream2 = CameraServer.getInstance().putVideo("h2", resolutionX, resolutionY);
@@ -65,25 +63,24 @@ public class VisionMain {
 		//Sort by Ratio Score (absolute value of 2.5 - height/width)
 		TargetComparator comparator = new TargetComparator();
 		Collections.sort(targetList, comparator);
-		result = chooseTwoTarget(targetList);
-		if (result.hasBothTarget()){
+		Result tempResult = chooseTwoTarget(targetList);
+		SmartDashboard.putBoolean("Result????", tempResult.hasBothTarget());
+		if (tempResult.hasBothTarget()){
+			result = tempResult;
+		} else {
+			SmartDashboard.putString("Not two targets", "NOPE");
+			tempResult = chooseOneTarget(targetList);
+			SmartDashboard.putBoolean("Has one target:", tempResult.hasOneTarget());
+			SmartDashboard.putBoolean("Right target", tempResult.hasRightTarget());
+			SmartDashboard.putBoolean("Left Target", tempResult.hasLeftTarget());
+			if (tempResult.hasOneTarget()) {
+				result = tempResult;	
+			}
+		}
+		if (result != null){
 		publishValues(result);
 		}
 		
-		//SmartDashboard.putBoolean("Result??", tempResult.hasBothTarget());
-		/*if (tempResult.hasBothTarget())
-		{	
-			publishValues(tempResult);
-		} 
-		//SmartDashboard.putBoolean("Result????", result.hasBothTarget());*/
-		//publishValues(result);
-		//else 
-		//{
-		//	tempResult = chooseOneTarget(targetList);
-		//	if (tempResult.hasOneTarget()){
-		//		result= tempResult;
-		//	}
-		//}
 		
 		///if (result!=null){
 		//	if (!result.hasNoTarget()){
@@ -145,16 +142,16 @@ public class VisionMain {
 			MatOfPoint contour = contours.get(largestContourIndex);
 			Target target = new Target(contour);
 			
-			//SmartDashboard.putString("Target candidate" + i, 
-				//	"RatioScore:"+target.ratioScore()+",FillRatio:"+target.fillRatio()+",area="+contour.width()*Imgproc.contourArea(contour));
+			SmartDashboard.putString("Target candidate" + i, 
+					"RatioScore:"+target.ratioScore()+",FillRatio:"+target.fillRatio()+",area="+contour.width()*Imgproc.contourArea(contour));
 			if(target.ratioScore()<.5  && target.fillRatio()>0.7){
 				targetList.add(target);
-				//SmartDashboard.putString("Target candidate" + i+ "select", 
-				//		"Yes");
+				SmartDashboard.putString("Target candidate" + i+ "select", 
+						"Yes");
 			}else
 			{
-				//SmartDashboard.putString("Target candidate" + i+ "select", 
-				//		"No");
+				SmartDashboard.putString("Target candidate" + i+ "select", 
+						"No");
 			}
 			contours.remove(largestContourIndex);
 		}
@@ -199,10 +196,10 @@ public class VisionMain {
 			
 		if (targetList.size()>0){
 			Target target = targetList.get(0);
-			if (target.m_rect.x > resolutionX*3/4){
+			if (target.m_rect.x < resolutionX/2){
 				targetRight = target;
 			}
-			else if (target.m_rect.x < resolutionX/4)
+			else
 			{
 				targetLeft = target;
 			}		
@@ -221,6 +218,5 @@ public class VisionMain {
 		return areaCheck && widthCheck;
 	}
 }
-
 
 

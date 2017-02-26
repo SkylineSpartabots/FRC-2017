@@ -15,9 +15,7 @@ public class Climb extends Command {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.climber);
     }
-
     
-
 	// Called just before this Command runs the first time
     protected void initialize() {
     }

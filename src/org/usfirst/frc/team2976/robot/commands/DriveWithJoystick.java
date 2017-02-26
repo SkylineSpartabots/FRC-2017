@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Class works, don't touch
 
 public class DriveWithJoystick extends Command {
-
 	double prevTime;
 	boolean isReversed = false;
 
@@ -25,9 +24,8 @@ public class DriveWithJoystick extends Command {
 
 	protected void initialize() {
 		prevTime = System.currentTimeMillis();
-		Robot.drivetrain.rotationLock.resetPID();
 		Robot.rps.ahrs.reset();
-		Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle());
+		Robot.drivetrain.rotationLock.resetPID();
 		Timer.delay(1);
 	}
 
@@ -87,20 +85,19 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putNumber("Foward", Robot.drivetrain.round(forward));
 		SmartDashboard.putNumber("Strafe", Robot.drivetrain.round(strafe));
 		SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
-
-		if (Math.abs(rotation) < 0.1) { // if the driver doesn't want to rotate
-			if (Robot.drivetrain.rotationLock.enable(false)) {
+		
+		if (Math.abs(rotation) < 0.1) { 
+			if (Robot.drivetrain.rotationLock.enable(false)) { 
 				Robot.drivetrain.rotationLockDrive(strafe, forward);
-			} else { // if soft disable is set, run regularly for a bit
-				Robot.drivetrain.drive(strafe, forward, 0);
+			} else { 
+				Robot.drivetrain.openLoopCartesianDrive(strafe, forward, 0);
 				Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle());
 			}
 		} else {
 			Robot.drivetrain.rotationLock.disable(500); 
-			Robot.drivetrain.drive(strafe, forward, rotation); // run regularly
+			Robot.drivetrain.openLoopCartesianDrive(strafe, forward, rotation); 
 			Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle());
 		}
-		// put the vision test stuff on the dashboard
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

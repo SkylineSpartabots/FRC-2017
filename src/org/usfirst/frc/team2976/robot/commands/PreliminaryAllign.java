@@ -30,6 +30,7 @@ public class PreliminaryAllign extends Command {
 				return x;
 			}
 		};
+		SmartDashboard.putBoolean("is running", true);
 		visionPID = new PIDMain(pidSource, 0, 150, 0.22, 0.0, 0);
 		visionPID.setOutputLimits(-0.7, 0.7);
 	}

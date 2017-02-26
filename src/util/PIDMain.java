@@ -50,7 +50,7 @@ public class PIDMain {
 	 * @param kd
 	 *            derivative gain
 	 */
-	public PIDMain(Object pidsource, int setpoint, int sampleTime, double kp, double ki, double kd) {
+	public PIDMain(Object pidsource, double setpoint, int sampleTime, double kp, double ki, double kd) {
 		this.pidsource = (PIDSource) pidsource;
 		this.setSampleTime(sampleTime);
 		this.setpoint = setpoint;

@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Autonomous extends CommandGroup {
     public Autonomous() {
-    	addSequential(new PreliminaryAllign()); //stops at two feet
+    	//addSequential(new PreliminaryAllign()); //stops at two feet
     	addSequential(new FinalAllign()); //alligns
-    	addSequential(new TimedDrive(300,0.5)); //drives straight
+    	
+    	//addSequential(new FinalAllign()); //alligns
+    	//addSequential(new TimedDrive(1500,0.5)); //drives straight
     }
 }

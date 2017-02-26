@@ -11,12 +11,14 @@ public class TargetComparator implements Comparator<Target> {
 		if (value1 < value2){
 			return -1;
 		} 
+		
 		if (value1 == value2) {
 			return 0;
-		}	 
+		}
+		 
 		return 1;
 	}
+	
+	
+
 }
-
-
-
