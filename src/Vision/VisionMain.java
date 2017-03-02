@@ -24,26 +24,48 @@ public class VisionMain {
 	CvSource outputStream1;
 	CvSource outputStream2;
 	CvSink cvSink;
+	Thread visionThread = null;
 	public Result result = null;
 	static final int resolutionX= 640;
 	static final int resolutionY = 480;
-	static final int hue1 = 60;
+	static final int hue1 = 40;
 	static final int hue2 = 180;
-	static final int saturation1 = 70;
+	static final int saturation1 = 90;
 	static final int saturation2 = 255;
-	static final int value1 = 130;
+	static final int value1 = 50;
 	static final int value2 = 255;
 	
 	public VisionMain(){
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(resolutionX, resolutionY);
+		//camera.setBrightness(10);
+		//camera.setExposureManual(10);
 		cvSink = CameraServer.getInstance().getVideo();
 		outputStream1 = CameraServer.getInstance().putVideo("h1", resolutionX, resolutionY);
 		outputStream2 = CameraServer.getInstance().putVideo("h2", resolutionX, resolutionY);
 		mat = new Mat();
 		round = 0;
 	}
+	public void start(){
+		if (null == visionThread){
+			visionThread = new Thread(() -> {
+				while (!Thread.interrupted()) {
+					long begin = System.currentTimeMillis();
+					compute();
+					SmartDashboard.putNumber("Delay", System.currentTimeMillis()-begin);
+					if (result != null){
+						SmartDashboard.putNumber("Age", result.age());
+					}
+				}
+			});
+			visionThread.setDaemon(true);
+		}
+		visionThread.start();
+	}
 	
+	public void stop(){
+		visionThread.interrupt();
+	}
 	public void compute() {
 		round++;
 		if (cvSink.grabFrame(mat) == 0) {
@@ -95,6 +117,8 @@ public class VisionMain {
 		SmartDashboard.putNumber("Distance", result.distance());
 		SmartDashboard.putNumber("Distance To Center!!", result.sideDistance());
 		SmartDashboard.putNumber("Number of Targets", result.targetNumber());
+		SmartDashboard.putNumber("Rotate Distance", result.rotateDistance());
+		
 		if (result.m_targetLeft != null) {
 			Imgproc.rectangle(mat, new Point(result.m_targetLeft.m_rect.x, result.m_targetLeft.m_rect.y),
 					new Point(result.m_targetLeft.m_rect.x + result.m_targetLeft.m_rect.width,
@@ -142,21 +166,19 @@ public class VisionMain {
 			MatOfPoint contour = contours.get(largestContourIndex);
 			Target target = new Target(contour);
 			
-			SmartDashboard.putString("Target candidate" + i, 
-					"RatioScore:"+target.ratioScore()+",FillRatio:"+target.fillRatio()+",area="+contour.width()*Imgproc.contourArea(contour));
+			//SmartDashboard.putString("Target candidate" + i, 
+			//		"RatioScore:"+target.ratioScore()+",FillRatio:"+target.fillRatio()+",area="+contour.width()*Imgproc.contourArea(contour));
 			if(target.ratioScore()<.5  && target.fillRatio()>0.7){
 				targetList.add(target);
-				SmartDashboard.putString("Target candidate" + i+ "select", 
-						"Yes");
+			//	SmartDashboard.putString("Target candidate" + i+ "select", 
+			//			"Yes");
 			}else
 			{
-				SmartDashboard.putString("Target candidate" + i+ "select", 
-						"No");
+			//	SmartDashboard.putString("Target candidate" + i+ "select", 
+			//			"No");
 			}
 			contours.remove(largestContourIndex);
 		}
-		
-		SmartDashboard.putNumber("Target list size jflka", targetList.size());
 		
 		for (int j=0; j<targetList.size(); j++){
 			SmartDashboard.putNumber("Target" + j, targetList.get(j).ratioScore());

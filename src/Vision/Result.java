@@ -80,6 +80,16 @@ public class Result {
 		return -10000;
 	}
 	
+	public double rotateDistance (){
+		double tanViewAngleY=0.68215375;
+		//negative: rotate left, positive: rotate right
+		if (hasBothTarget()){
+			return (targetHeight * VisionMain.resolutionY) / (m_targetLeft.m_height*tanViewAngleY) -
+					(targetHeight * VisionMain.resolutionY) / (m_targetRight.m_height*tanViewAngleY);
+		}
+		return 1000;
+	}
+	
 	public boolean hasBothTarget(){
 		return m_targetLeft!=null && m_targetRight!=null;
 	}

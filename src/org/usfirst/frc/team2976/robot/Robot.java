@@ -49,6 +49,8 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		rps = new RPS(0, 0);
 		vision = new VisionMain();
+		vision.start();
+    	
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
@@ -86,7 +88,7 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        autonomousCommand = (Command) chooser.getSelected();
+    	autonomousCommand = (Command) chooser.getSelected();
    
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
@@ -117,6 +119,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+       // vision.stop();
     }
 
     /**
