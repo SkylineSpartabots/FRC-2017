@@ -28,18 +28,18 @@ public class VisionMain {
 	public Result result = null;
 	static final int resolutionX= 640;
 	static final int resolutionY = 480;
-	static final int hue1 = 40;
-	static final int hue2 = 180;
-	static final int saturation1 = 90;
+	static final int hue1 = 60;
+	static final int hue2 = 160;
+	static final int saturation1 = 170;
 	static final int saturation2 = 255;
-	static final int value1 = 50;
+	static final int value1 = 20;
 	static final int value2 = 255;
 	
 	public VisionMain(){
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(resolutionX, resolutionY);
-		//camera.setBrightness(10);
-		//camera.setExposureManual(10);
+		camera.setBrightness(10);
+		camera.setExposureManual(10);
 		cvSink = CameraServer.getInstance().getVideo();
 		outputStream1 = CameraServer.getInstance().putVideo("h1", resolutionX, resolutionY);
 		outputStream2 = CameraServer.getInstance().putVideo("h2", resolutionX, resolutionY);
@@ -88,8 +88,8 @@ public class VisionMain {
 		Result tempResult = chooseTwoTarget(targetList);
 		SmartDashboard.putBoolean("Result????", tempResult.hasBothTarget());
 		if (tempResult.hasBothTarget()){
-			result = tempResult;
-		} else {
+			result = tempResult;}
+		/*else {
 			SmartDashboard.putString("Not two targets", "NOPE");
 			tempResult = chooseOneTarget(targetList);
 			SmartDashboard.putBoolean("Has one target:", tempResult.hasOneTarget());
@@ -98,7 +98,7 @@ public class VisionMain {
 			if (tempResult.hasOneTarget()) {
 				result = tempResult;	
 			}
-		}
+		}*/
 		if (result != null){
 		publishValues(result);
 		}

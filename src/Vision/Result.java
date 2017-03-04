@@ -87,7 +87,7 @@ public class Result {
 			return (targetHeight * VisionMain.resolutionY) / (m_targetLeft.m_height*tanViewAngleY) -
 					(targetHeight * VisionMain.resolutionY) / (m_targetRight.m_height*tanViewAngleY);
 		}
-		return 1000;
+		return 0;
 	}
 	
 	public boolean hasBothTarget(){
