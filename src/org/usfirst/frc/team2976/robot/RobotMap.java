@@ -18,7 +18,8 @@ public class RobotMap {
 	public static final int shooterWheel = 0; //TODO, Not being used
 	//rev counter for wheel
 	public static final int wheelRevCounter = 1; //TODO, Not being used
-
+	public static final int hopperServoRight = 1;
+	public static final int hopperServoLeft = 0;
 	public static final int limitSwitchHopper = 0; // Digitall Input, Hopper limit switch TODO not being used
 	public static final int ultrasonicSensor = 0; //Analog Input
 	

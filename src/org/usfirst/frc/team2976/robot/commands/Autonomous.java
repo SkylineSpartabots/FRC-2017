@@ -13,8 +13,8 @@ public class Autonomous extends CommandGroup {
     public Autonomous() {
     	//addSequential(new PreliminaryAllign()); //stops at two feet
     	addSequential(new FinalAllign()); //alligns
-    	
     	//addSequential(new FinalAllign()); //alligns
-    	//addSequential(new TimedDrive(1500,0.5)); //drives straight
+
+    	//addSequential(new TimedDrive(3000,0.75)); //drives straight
     }
 }

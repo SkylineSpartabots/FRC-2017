@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import org.usfirst.frc.team2976.robot.RobotMap;
 
 import com.ctre.CANTalon;
+import edu.wpi.first.wpilibj.Servo;
 /**
  *@author NeilHazra
  */
@@ -13,9 +14,15 @@ public class Hopper extends Subsystem {
 	private CANTalon hopperMotor;
 	private DigitalInput beamBreak;
     
+	private Servo hopperServoRight;
+	private Servo hopperServoLeft;
+	 
 	public Hopper()	{
     	hopperMotor = new CANTalon(RobotMap.hopperMotor);
     	beamBreak = new DigitalInput(RobotMap.limitSwitchHopper);
+    	
+       	hopperServoRight = new Servo(RobotMap.hopperServoRight);
+    	hopperServoLeft = new Servo(RobotMap.hopperServoLeft);
 	}
     
     public void raiseHopper(double power)	{
@@ -25,9 +32,13 @@ public class Hopper extends Subsystem {
     public void lowerHopper(double power)	{
     	hopperMotor.set(power);
     }
-    
+    public void setHopperServos(double scaledPosition) {
+    	hopperServoRight.set(scaledPosition);
+        hopperServoLeft.set(1.0-scaledPosition);	
+    	
+    }
     public boolean isRaised()	{
-    	return beamBreak.get(); //might need to negate this value depending on wiring of sensor
+    	return false;//beamBreak.get(); //might need to negate this value depending on wiring of sensor
     }
     
     public void initDefaultCommand() {

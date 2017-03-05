@@ -1,4 +1,5 @@
 package org.usfirst.frc.team2976.robot;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -38,7 +39,7 @@ public class Robot extends IterativeRobot {
 	public static RevCounter revCounter;
 	public static Hopper hopper;
 	public static VisionMain vision;
-	
+	public static UsbCamera Camera2;
     Command autonomousCommand;
     SendableChooser<Autonomous> chooser;
 
@@ -49,8 +50,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		rps = new RPS(0, 0);
 		vision = new VisionMain();
-		vision.start();
-    	
+		vision.start();    	
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
@@ -119,7 +119,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-       // vision.stop();
+        vision.stop();
     }
 
     /**

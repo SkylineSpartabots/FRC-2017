@@ -68,17 +68,17 @@ public class DriveWithJoystick extends Command {
 		
 		if (isReversed) {
 			if (RT > 0.1) {
-				strafe = -0.5 * RT;
+				strafe = - RT;
 			}
 			if (LT > 0.1) {
-				strafe = 0.5 * LT;
+				strafe =  LT;
 			}
 		} else {
 			if (RT > 0.1) {
-				strafe = 0.5 * RT;
+				strafe =  RT;
 			}
 			if (LT > 0.1) {
-				strafe = -0.5 * LT;
+				strafe =  LT;
 			}
 		}
 		// Put adjusted values on SmartDashboard
