@@ -71,7 +71,7 @@ public class FinalAllign extends Command {
 	protected boolean isFinished() {
 		Result x = Robot.vision.result;
 		if (x != null) {
-			if (x.distance() < 25 && twentyInchReached != true) {
+			if (x.distance() < 40 && twentyInchReached != true) {
 				twentyInchReached = true;
 				System.out.println("Reached 25 Inches");
 				prevTime = System.currentTimeMillis();

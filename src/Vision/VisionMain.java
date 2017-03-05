@@ -39,8 +39,8 @@ public class VisionMain {
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(resolutionX, resolutionY);
 		
-		camera.setBrightness(10);
-		camera.setExposureManual(10);
+		//camera.setBrightness(10);
+		//camera.setExposureManual(10);
 		
 		cvSink = CameraServer.getInstance().getVideo();
 		outputStream1 = CameraServer.getInstance().putVideo("h1", resolutionX, resolutionY);
@@ -170,7 +170,7 @@ public class VisionMain {
 			
 			//SmartDashboard.putString("Target candidate" + i, 
 			//		"RatioScore:"+target.ratioScore()+",FillRatio:"+target.fillRatio()+",area="+contour.width()*Imgproc.contourArea(contour));
-			if(target.ratioScore()<.5  && target.fillRatio()>0.7){
+			if(target.ratioScore()<.6  && target.fillRatio()>0.65){
 				targetList.add(target);
 			//	SmartDashboard.putString("Target candidate" + i+ "select", 
 			//			"Yes");

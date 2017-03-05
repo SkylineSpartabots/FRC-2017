@@ -78,7 +78,7 @@ public class DriveWithJoystick extends Command {
 				strafe =  RT;
 			}
 			if (LT > 0.1) {
-				strafe =  LT;
+				strafe =  -LT;
 			}
 		}
 		// Put adjusted values on SmartDashboard
