@@ -1,7 +1,10 @@
 package Vision;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.opencv.core.Core;
@@ -10,6 +13,7 @@ import org.opencv.core.MatOfPoint;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
@@ -68,6 +72,24 @@ public class VisionMain {
 	public void stop(){
 		visionThread.interrupt();
 	}
+	
+	public Mat TakePicture()
+	{
+		if (cvSink.grabFrame(mat) == 0) {
+			return null;
+		}
+		return mat;
+	}
+	
+	public boolean SavePicture(String folder, String name, Mat mat)
+	{
+		SimpleDateFormat ft = new SimpleDateFormat ("yyyyMMdd.hhmmss.SSS");
+		String fileName = folder+File.separator+ft.format(new Date())+".jpg";
+		Imgcodecs.imwrite(fileName, mat);
+		return true;
+	}
+
+	
 	public void compute() {
 		round++;
 		if (cvSink.grabFrame(mat) == 0) {
@@ -80,8 +102,8 @@ public class VisionMain {
 		Core.inRange(mat, new Scalar(hue1, saturation1, value1), new Scalar(hue2, saturation2, value2), mat);
 		outputStream1.putFrame(mat);
 		
-		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
-		Imgproc.findContours(mat, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
+		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();Imgproc
+		.findContours(mat, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 
 		ArrayList<Target> targetList = selectLargeContours(contours, 10);
 		//Sort by Ratio Score (absolute value of 2.5 - height/width)

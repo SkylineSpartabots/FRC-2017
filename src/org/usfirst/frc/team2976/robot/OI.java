@@ -8,6 +8,7 @@ import org.usfirst.frc.team2976.robot.commands.Climb;
 import org.usfirst.frc.team2976.robot.commands.EmptyHopper;
 import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2976.robot.commands.StopHopper;
+import org.usfirst.frc.team2976.robot.commands.TakePicture;
 import org.usfirst.frc.team2976.robot.commands.TimedDrive;
 import org.usfirst.frc.team2976.robot.commands.Shoot;
 import org.usfirst.frc.team2976.robot.commands.SpinIntake;
@@ -54,7 +55,7 @@ public class OI {
 		
 		new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new TimedDrive(50,0.5));
 		new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whenPressed(new TimedDrive(50,-0.5));
-		
+		new JoystickButton(driveStick, OI.Button.X.getBtnNumber()).whenPressed(new TakePicture());
 		new JoystickButton(secondStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(0.9));
 		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.5));
 		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whenPressed(new EmptyHopper());

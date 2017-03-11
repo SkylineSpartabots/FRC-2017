@@ -20,6 +20,7 @@ import org.usfirst.frc.team2976.robot.subsystems.Hopper;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.RPS;
+import util.TraceLog;
 
 
 /**
@@ -41,6 +42,8 @@ public class Robot extends IterativeRobot {
 	public static Hopper hopper;
 	public static VisionMain vision;
 	public static UsbCamera Camera2;
+	public static TraceLog traceLog;
+	public static String traceFolder;
     Command autonomousCommand;
     SendableChooser<Autonomous> chooser;
 
@@ -52,6 +55,8 @@ public class Robot extends IterativeRobot {
 		rps = new RPS(0, 0);
 		vision = new VisionMain();
 		vision.start();    	
+		traceFolder = "U:/Logs";
+		traceLog = new TraceLog(traceFolder);
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
