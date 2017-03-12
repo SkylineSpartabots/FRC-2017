@@ -7,12 +7,13 @@ import java.text.*;
 
 public class TraceLog {
 	FileWriter fileWriter;
-	SimpleDateFormat timeDateFormater = new SimpleDateFormat ("yyyyMMdd.hhmmss:SSS");
+	File file;
+	SimpleDateFormat timeDateFormater = new SimpleDateFormat ("yyMMdd HHmmss:SSS");
 	
 	public TraceLog (String folder){
-		
-		SimpleDateFormat ft = new SimpleDateFormat ("yyyyMMdd.hhmmss");
-		String fileName = "Trace_"+ft.format(new Date())+".log";
+		SimpleDateFormat ft = new SimpleDateFormat ("HHmmss_MMdd");
+		String fileName = "T"+ft.format(new Date())+".log";
+		file = new File(folder, fileName);
 		try {
 			fileWriter = new FileWriter(new File(folder, fileName));
 		} catch (IOException e) {
@@ -24,20 +25,21 @@ public class TraceLog {
 	public void Log(String source, String content){
 		String timeStamp = timeDateFormater.format(new Date());
 		String line = timeStamp+"\t"+source+"\t"+content+"\n";
-		if (null == fileWriter)
-		{
-			System.out.print(line);
-		}
-		else 
-		{
-			try {
-				fileWriter.write(line);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+		try {
+			if (null == fileWriter)
+			{
+				fileWriter = new FileWriter(file);
 			}
+			if (null == fileWriter)
+			{
+				System.out.print(line);
+				return;
+			}
+			fileWriter.write(line);
+			fileWriter.flush();
+		} catch (IOException e) {
+			System.out.println("ex====="+e.getMessage());
 		}
-		
 	}
 	
 }
