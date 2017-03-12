@@ -17,8 +17,7 @@ public class TraceLog {
 		try {
 			fileWriter = new FileWriter(new File(folder, fileName));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("ex="+e.getMessage());
 		}
 	}
 	
@@ -30,15 +29,11 @@ public class TraceLog {
 			{
 				fileWriter = new FileWriter(file);
 			}
-			if (null == fileWriter)
-			{
-				System.out.print(line);
-				return;
-			}
 			fileWriter.write(line);
 			fileWriter.flush();
 		} catch (IOException e) {
-			System.out.println("ex====="+e.getMessage());
+			System.out.println("ex="+e.getMessage());
+			System.out.print(line);
 		}
 	}
 	

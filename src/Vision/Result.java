@@ -77,7 +77,7 @@ public class Result {
 		} else if (hasRightTarget()){
 			return ((1.0*targetWidth * (VisionMain.resolutionX/2-m_centerX))/m_targetRight.m_rect.width);
 		}
-		return -10000;
+		return 0;
 	}
 	
 	public double rotateDistance (){

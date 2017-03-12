@@ -23,31 +23,49 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 	
 public class VisionMain {
-	UsbCamera camera;
+	static final int resolutionX= 640;
+	static final int resolutionY = 480;
+	static final int hue1 = 40;
+	static final int hue2 = 100;
+	static final int saturation1 = 0;
+	static final int saturation2 = 255;
+	static final int value1 = 120;
+	static final int value2 = 255;
+	
 	int round = 0;
 	int goodResult = 0;
-	Mat rawImage;
-	Mat filteredImage;
+	long timeBegin = 0;
+	long timeTakePicture = 0;
+	long timeFilter = 0;
+	long timeDisplayFilteredImage = 0;
+	long timeFindContours = 0;
+	long timeSelectLargeContours = 0;
+	long timeBeforeSavePictures = 0;
+	long timeAfterSavePictures = 0;
+	long timeBeforeChooseTwoTargets = 0;
+	long timeChooseTwoTargets = 0;
+	long timeBeforePublishValues = 0;
+	long timeAfterPublishValues = 0;
+	long timeFinish = 0;
+	
+	UsbCamera camera;
 	CvSource outputStream1;
 	CvSource outputStream2;
 	CvSink cvSink;
 	Thread visionThread = null;
-	public Result result = null;
-	static final int resolutionX= 640;
-	static final int resolutionY = 480;
-	static final int hue1 = 40;
-	static final int hue2 = 180;
-	static final int saturation1 = 20;
-	static final int saturation2 = 255;
-	static final int value1 = 20;
-	static final int value2 = 255;
+	
+	Mat rawImage;
+	Mat filteredImage;
+	
+	public Result LastGoodResult = null;
+	public Result CurrentResult = null;
 	
 	public VisionMain(){
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(resolutionX, resolutionY);
 		
-		//camera.setBrightness(10);
-		//camera.setExposureManual(10);
+		camera.setBrightness(30);
+		camera.setExposureManual(30);
 		
 		cvSink = CameraServer.getInstance().getVideo();
 		outputStream1 = CameraServer.getInstance().putVideo("h1", resolutionX, resolutionY);
@@ -60,19 +78,34 @@ public class VisionMain {
 		if (null == visionThread){
 			visionThread = new Thread(() -> {
 				while (!Thread.interrupted()) {
-					long begin = System.currentTimeMillis();
 					processImage();
-					SmartDashboard.putNumber("Delay", System.currentTimeMillis()-begin);
-					if (result != null){
-						SmartDashboard.putNumber("Age", result.age());
+					
+					String trace = "Round:"+round+", good:"+goodResult;
+					trace += ", delay:"+(timeFinish-timeBegin);
+					
+					if ((LastGoodResult != CurrentResult) || (CurrentResult==null))
+					{
+						trace += ",bad";
+					}else
+					{
+						trace += ",good";
 					}
-					round++;
-					long delay = System.currentTimeMillis()-begin;
 					long age = 0;
-					if (result != null){
-						age = result.age();
+					if (LastGoodResult != null)
+					{
+						age = LastGoodResult.age();
 					}
-					Robot.traceLog.Log("VisionMain", "Loop:"+round+", goodResult="+goodResult+", delay="+delay+", age="+age);
+					trace += ", age:"+age;
+					trace += ", takePicture:"+(timeTakePicture-timeBegin);
+					trace += ", filter:"+(timeFilter-timeTakePicture);
+					trace += ", displayFiltered:"+(timeDisplayFilteredImage-timeFilter);
+					trace += ", findContours:"+(timeFindContours-timeDisplayFilteredImage);
+					trace += ", selectLargeContours:"+(timeSelectLargeContours-timeFindContours);
+					trace += ", SavePicture:"+(timeAfterSavePictures-timeBeforeSavePictures);
+					trace += ", ChooseTwoTargets:"+(timeChooseTwoTargets-timeBeforeChooseTwoTargets);
+					trace += ", Publish:"+(timeAfterPublishValues-timeBeforePublishValues);
+					
+					Robot.traceLog.Log("VisionMain", trace);
 				}
 			});
 			visionThread.setDaemon(true);
@@ -94,67 +127,81 @@ public class VisionMain {
 	
 	public boolean SavePicture(String folder, String name, Mat mat)
 	{
-		SimpleDateFormat ft = new SimpleDateFormat ("yyyyMMdd.hhmmss.SSS");
-		String fileName = folder+File.separator+ft.format(new Date())+".jpg";
+		SimpleDateFormat ft = new SimpleDateFormat ("MMdd.HHmmss.SSS");
+		String fileName = folder+File.separator+name+ft.format(new Date())+".jpg";
 		Imgcodecs.imwrite(fileName, mat);
 		return true;
-	}
+	};
 
 	
-	public void processImage() {	
+	public void processImage() {
+		round++;
+		CurrentResult = null;
+		timeBegin = System.currentTimeMillis();
 		if (cvSink.grabFrame(rawImage) == 0) {
-			Robot.traceLog.Log("grabFrame failed",cvSink.getError());
+			Robot.traceLog.Log("grabFrame failed", cvSink.getError());
 			return;
 		}
+		timeTakePicture = System.currentTimeMillis();
 		
 		Imgproc.cvtColor(rawImage, filteredImage, Imgproc.COLOR_BGR2HSV);
 		Core.inRange(filteredImage, new Scalar(hue1, saturation1, value1), new Scalar(hue2, saturation2, value2), filteredImage);
+		timeFilter = System.currentTimeMillis();
 		outputStream1.putFrame(filteredImage);
-
+		timeDisplayFilteredImage = System.currentTimeMillis();
+		
 		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 		Imgproc.findContours(filteredImage, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
-		Robot.traceLog.Log("processImage", "findContours:"+contours.size());
+		timeFindContours = System.currentTimeMillis();
 		
+		timeSelectLargeContours = System.currentTimeMillis();
 		ArrayList<Target> targetList = selectLargeContours(contours, 10);
-		Robot.traceLog.Log("processImage", "Find targets:"+targetList.size());
+		timeBeforeSavePictures = System.currentTimeMillis();
 		if (targetList.size()<2)
 		{
-			SavePicture(Robot.traceFolder, "Image_" + round +"_raw", rawImage);
-			SavePicture(Robot.traceFolder, "Image_" + round +"_Filtered", filteredImage);
+			SavePicture(Robot.traceFolder, "Image_" + round +"_Raw", rawImage);
+			SavePicture(Robot.traceFolder, "Image_" + round +"_Filtered", filteredImage);	
 		}
+		timeAfterSavePictures = System.currentTimeMillis();
 		
+		timeBeforeChooseTwoTargets = System.currentTimeMillis();
 		//Sort by Ratio Score (absolute value of 2.5 - height/width)
 		TargetComparator comparator = new TargetComparator();
 		Collections.sort(targetList, comparator);
-		Result tempResult = chooseTwoTarget(targetList);
-		SmartDashboard.putBoolean("Result????", tempResult.hasBothTarget());
-		if (tempResult.hasBothTarget()){
+		CurrentResult = chooseTwoTarget(targetList);
+		timeChooseTwoTargets = System.currentTimeMillis();
+		if (CurrentResult.hasBothTarget()){
 			goodResult++;
-			result = tempResult;
+			LastGoodResult = CurrentResult;
 		}
-		/*else {
-			SmartDashboard.putString("Not two targets", "NOPE");
-			tempResult = chooseOneTarget(targetList);
-			SmartDashboard.putBoolean("Has one target:", tempResult.hasOneTarget());
-			SmartDashboard.putBoolean("Right target", tempResult.hasRightTarget());
-			SmartDashboard.putBoolean("Left Target", tempResult.hasLeftTarget());
-			if (tempResult.hasOneTarget()) {
-				result = tempResult;	
-			}
-		}*/
-		if (result != null){
-			publishValues(result);
+		else {
+			CurrentResult = chooseOneTarget(targetList);
 		}
+		if (!CurrentResult.hasNoTarget()){
+			timeBeforePublishValues = System.currentTimeMillis();
+			publishValues(CurrentResult);
+			SmartDashboard.putString("current", getTrace(CurrentResult));
+			timeAfterPublishValues = System.currentTimeMillis();
+		}
+		if (LastGoodResult != null)
+		{
+			SmartDashboard.putString("LastGood", getTrace(LastGoodResult));
+		}
+		timeFinish = System.currentTimeMillis();
 	}
 	
+	String getTrace(Result result)
+	{
+		String trace = "Targets:"+ result.targetNumber();
+		trace += ", distance:"+ result.distance();
+		trace += ", side:"+ result.sideDistance();
+		trace += ", Rotate:"+ result.rotateDistance();
+		trace += ", X:"+ result.m_centerX;
+		trace += ", Y:"+ result.m_centerY;
+		return trace;
+	}
 	public void publishValues (Result result){
-		SmartDashboard.putNumber("CenterX", result.m_centerX);
-		SmartDashboard.putNumber("CenterY", result.m_centerY);
-		SmartDashboard.putNumber("Distance", result.distance());
-		SmartDashboard.putNumber("Distance To Center!!", result.sideDistance());
-		SmartDashboard.putNumber("Number of Targets", result.targetNumber());
-		SmartDashboard.putNumber("Rotate Distance", result.rotateDistance());
-		
+		Robot.traceLog.Log("Vision", getTrace(result));
 		if (result.m_targetLeft != null) {
 			Imgproc.rectangle(filteredImage, new Point(result.m_targetLeft.m_rect.x, result.m_targetLeft.m_rect.y),
 					new Point(result.m_targetLeft.m_rect.x + result.m_targetLeft.m_rect.width,
@@ -171,12 +218,7 @@ public class VisionMain {
 
 		Imgproc.line(filteredImage, new Point(resolutionX/2-5, resolutionY/2), new Point(resolutionX/2+5, resolutionY/2), new Scalar(255, 255, 255), 2);
 		Imgproc.line(filteredImage, new Point(resolutionX/2, resolutionY/2-5), new Point(resolutionX/2, resolutionY/2+5), new Scalar(255, 255, 255), 2);
-
-		if (result.hasBothTarget()) {
-			Imgproc.circle(filteredImage, new Point(result.m_centerX, result.m_centerY), 5, new Scalar(255, 255, 255), 2);
-		}
-
-		SmartDashboard.putNumber("Round", round);
+		Imgproc.circle(filteredImage, new Point(result.m_centerX, result.m_centerY), 5, new Scalar(255, 255, 255), 2);
 		outputStream2.putFrame(filteredImage);
 	}
 	
@@ -202,22 +244,19 @@ public class VisionMain {
 			MatOfPoint contour = contours.get(largestContourIndex);
 			Target target = new Target(contour);
 			
-			//SmartDashboard.putString("Target candidate" + i, 
-			//		"RatioScore:"+target.ratioScore()+",FillRatio:"+target.fillRatio()+",area="+contour.width()*Imgproc.contourArea(contour));
+			boolean selected = false;
 			if(target.ratioScore()<.6  && target.fillRatio()>0.65){
 				targetList.add(target);
-			//	SmartDashboard.putString("Target candidate" + i+ "select", 
-			//			"Yes");
-			}else
-			{
-			//	SmartDashboard.putString("Target candidate" + i+ "select", 
-			//			"No");
+				selected = true;
 			}
 			contours.remove(largestContourIndex);
-		}
-		
-		for (int j=0; j<targetList.size(); j++){
-			SmartDashboard.putNumber("Target" + j, targetList.get(j).ratioScore());
+			
+			String trace = "Candidate:" + i;
+			trace += ", ratioScore=" + target.ratioScore();
+			trace += ", fillRatio=" + target.fillRatio();
+			trace += ", selected=" + selected;
+			trace += ", area=" + maxArea;
+			Robot.traceLog.Log("LargeContour", trace);
 		}
 		return targetList;
 	}

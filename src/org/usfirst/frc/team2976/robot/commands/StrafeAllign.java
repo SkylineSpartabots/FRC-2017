@@ -26,7 +26,7 @@ public class StrafeAllign extends Command {
 		Robot.drivetrain.rotationLock.setSetpoint(Robot.drivetrain.getHeading());
 		pidSource = new PIDSource() {
 			public double getInput() {
-				Result x = Robot.vision.result;
+				Result x = Robot.vision.LastGoodResult;
 				if (x == null) {
 					return 0;
 				}  
@@ -50,9 +50,9 @@ public class StrafeAllign extends Command {
 		double distance = 0;
 		double sideDistance = 0;
 		Robot.drivetrain.rotationLockDrive(visionPID.getOutput(), 0);
-		if (Robot.vision.result != null) {
-			distance = Robot.vision.result.distance();
-			sideDistance = Robot.vision.result.sideDistance();
+		if (Robot.vision.LastGoodResult != null) {
+			distance = Robot.vision.LastGoodResult.distance();
+			sideDistance = Robot.vision.LastGoodResult.sideDistance();
 		}
 		System.out.println("Strafe Allign: Time:" + System.currentTimeMillis() + "\tDiff:" + visionPID.getOutput() + "\tDistance:" + distance
 				+ "\tSideDistance:" + sideDistance);

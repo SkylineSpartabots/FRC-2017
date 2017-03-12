@@ -123,7 +123,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        vision.stop();
+        // vision.stop();
     }
 
     /**
@@ -131,7 +131,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("Distance In Inches", rps.getUltrasonicDistanceInInches());
+		Robot.traceLog.Log("TeleopPeriodic", "hi");	
     }
     
     /**

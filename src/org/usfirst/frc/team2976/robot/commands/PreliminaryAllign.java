@@ -18,7 +18,7 @@ public class PreliminaryAllign extends Command {
 		pidSource = new PIDSource() {
 			public double getInput() {
 				Robot.vision.processImage();
-				double x = Robot.vision.result.sideDistance();
+				double x = Robot.vision.LastGoodResult.sideDistance();
 				
 				if (x == -10000) {
 					x = 0;

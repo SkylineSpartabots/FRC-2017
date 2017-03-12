@@ -28,7 +28,7 @@ public class VisionForward extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	Result x = Robot.vision.result; 
+    	Result x = Robot.vision.LastGoodResult; 
     	if(x==null) return false;
     	System.out.println("Distance to Target" + x.distance());
     	if(x.age()>1500 || x.distance()<30) return true;
