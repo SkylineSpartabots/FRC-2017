@@ -73,6 +73,9 @@ public class VisionMain {
 		rawImage = new Mat();
 		filteredImage = new Mat();
 		round = 0;
+
+		String filter = "H:"+hue1+"--"+hue2 + ", S:"+saturation1+"--"+saturation2+", V:"+value1+"--"+value2;
+		Robot.traceLog.Log("Filter", filter);
 	}
 	public void start(){
 		if (null == visionThread){
@@ -193,9 +196,9 @@ public class VisionMain {
 	String getTrace(Result result)
 	{
 		String trace = "Targets:"+ result.targetNumber();
-		trace += ", distance:"+ result.distance();
-		trace += ", side:"+ result.sideDistance();
-		trace += ", Rotate:"+ result.rotateDistance();
+		trace += ", distance:"+ (int)(result.distance()*100)/100.0;
+		trace += ", side:"+ (int)(result.sideDistance()*100)/100.0;
+		trace += ", Rotate:"+ (int)(result.rotateDistance()*100)/100.0;
 		trace += ", X:"+ result.m_centerX;
 		trace += ", Y:"+ result.m_centerY;
 		return trace;
@@ -240,20 +243,20 @@ public class VisionMain {
 					largestContourIndex = j;
 				}
 			}
-			
+
 			MatOfPoint contour = contours.get(largestContourIndex);
 			Target target = new Target(contour);
 			
 			boolean selected = false;
-			if(target.ratioScore()<.6  && target.fillRatio()>0.65){
+			if(target.ratioScore()<.5  && target.fillRatio()>0.7){
 				targetList.add(target);
 				selected = true;
 			}
 			contours.remove(largestContourIndex);
 			
 			String trace = "Candidate:" + i;
-			trace += ", ratioScore=" + target.ratioScore();
-			trace += ", fillRatio=" + target.fillRatio();
+			trace += ", ratioScore=" + (int)(target.ratioScore()*100)/100.0;
+			trace += ", fillRatio=" + (int)(target.fillRatio()*100)/100.0;
 			trace += ", selected=" + selected;
 			trace += ", area=" + maxArea;
 			Robot.traceLog.Log("LargeContour", trace);

@@ -22,8 +22,7 @@ public class TraceLog {
 	}
 	
 	public void Log(String source, String content){
-		String timeStamp = timeDateFormater.format(new Date());
-		String line = timeStamp+"\t"+source+"\t"+content+"\n";
+		String line = timeDateFormater.format(new Date())+"\t"+source+"\t"+content+"\n";
 		try {
 			if (null == fileWriter)
 			{
@@ -32,8 +31,7 @@ public class TraceLog {
 			fileWriter.write(line);
 			fileWriter.flush();
 		} catch (IOException e) {
-			System.out.println("ex="+e.getMessage());
-			System.out.print(line);
+			System.out.println(line + "ex="+e.getMessage());
 		}
 	}
 	

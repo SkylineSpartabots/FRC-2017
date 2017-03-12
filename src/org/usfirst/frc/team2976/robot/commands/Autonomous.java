@@ -15,7 +15,9 @@ public class Autonomous extends CommandGroup {
     	//addSequential(new FinalAllign()); //alligns
     	//addSequential(new FinalAllign()); //alligns
     	//addSequential(new TimedDrive(3000,-0.75)); //drives straight
-    	addSequential(new TimedDrive(1000,-0.40)); //drives straight   	
-    	addSequential(new TimedDrive(800,-0.30)); //drives straight   	
+    	//addSequential(new TimedDrive(1000,-0.40)); //drives straight   	
+    	// addSequential(new TimedDrive(800,-0.30)); //drives straight
+    	
+    	addSequential(new CenterForward(36));
     }
 }
