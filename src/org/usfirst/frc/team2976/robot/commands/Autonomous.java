@@ -11,17 +11,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * The main autonomous command to pickup and deliver the soda to the box.
  */
 public class Autonomous extends CommandGroup {
-	public Autonomous() {
-		
-		
-		
-		addSequential(new TimedDrive(550, -0.40, true)); //2 foot
-		addSequential(new TimedDrive(300, -0.40, true)); //1 foot
-		addSequential(new TimedDrive(300, -0.30, true)); //1/2 foot
-		
+	public Autonomous() {	
+		//addSequential(new TimedDrive(550, -0.40, true)); //2 foot
+		//addSequential(new TimedDrive(300, -0.40, true)); //1 foot
+		//addSequential(new TimedDrive(300, -0.30, true)); //1/2 foot
+		addSequential(new RotateToAnge(90));
 		//addSequential(new TimedDrive(350, -0.50, false)); //right
 		//addSequential(new TimedDrive(550, -0.50, false)); //right
-		
 		//addSequential(new TimedDrive(350, 0.50, false)); //left
 		//addSequential(new TimedDrive(550, 0.50, false)); //left
 		

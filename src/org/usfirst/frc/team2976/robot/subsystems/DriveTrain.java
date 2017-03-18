@@ -25,6 +25,7 @@ public class DriveTrain extends Subsystem {
 	public Ultrasonic ultrasonic;
 	public RobotDrive m_drive;
 	public PIDMain rotationLock;
+	public PIDMain aggressiveRotationLock;
 	public PIDSource gyroSource;
 	public boolean xBox;
 
@@ -42,7 +43,8 @@ public class DriveTrain extends Subsystem {
 		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, 0, 0, 0);	
 		//rotationLock = new PIDMain(gyroSource, 0, 100, -0.016, -0.0003	, 0);	
 		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.02, -0.0006	, 0);	
-		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0014	, 0);	
+		aggressiveRotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.01, -0.00, 0.0);	
+		//aggressiveRotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.02, -0.0006, 0.0);	
 		
 		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
 		leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
@@ -67,8 +69,10 @@ public class DriveTrain extends Subsystem {
 		setDefaultCommand(new DriveWithJoystick());
 	}
 	public void rotationLockDrive(double x, double y) {
-		System.out.println("RotationLock Error " + rotationLock.getInput());
 		m_drive.mecanumDrive_Cartesian(x, y, rotationLock.getOutput(), 0);
+	}
+	public void aggressiveRotationLockDrive(double x, double y) {
+		m_drive.mecanumDrive_Cartesian(x, y, aggressiveRotationLock.getOutput(), 0);
 	}
 	public void rotationLockFieldCentricDrive(double x, double y){
 		m_drive.mecanumDrive_Cartesian(x, y, rotationLock.getOutput(), getHeading());
