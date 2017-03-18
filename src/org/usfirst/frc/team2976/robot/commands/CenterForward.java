@@ -3,34 +3,24 @@ package org.usfirst.frc.team2976.robot.commands;
 import org.usfirst.frc.team2976.robot.Robot;
 import Vision.Result;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import util.PIDMain;
-import util.PIDSource;
 import util.TraceLog;
 
-/**
- * @author NeilHazra
- */
 public class CenterForward extends Command {
-
 	double tolerance;
 	double baseSpeed = 0.5;
 	boolean isClose = false;
 	long prevTime = 0;
 	double kp = 0.01;
-	
 	long targetDistance = 36;
 	
 	public CenterForward(long targetDistanceToStop) {
 		requires(Robot.drivetrain);
-		targetDistance = targetDistanceToStop;
-		
+		targetDistance = targetDistanceToStop;		
 		Robot.traceLog.Log("CenterForward", "Created");
 	}
 
 	protected void initialize() {
 		baseSpeed = 0.5;
-		
 		Robot.traceLog.Log("CenterForward", "Initialized");
 		Robot.vision.saveAllPicture=true;
 	}
@@ -39,14 +29,15 @@ public class CenterForward extends Command {
 		if (isClose) {
 			baseSpeed = 0.4;
 		}
-
 		double distance = 0;
 		double sideDistance = 0;
+		
 		if (Robot.vision.LastGoodResult != null)
 		{
 			sideDistance = Robot.vision.LastGoodResult.sideDistance();
 			distance = Robot.vision.LastGoodResult.distance();
 		}
+		
 		double differential = -1 * kp * sideDistance;
 		double left = baseSpeed + differential;
 		double right = baseSpeed - differential;

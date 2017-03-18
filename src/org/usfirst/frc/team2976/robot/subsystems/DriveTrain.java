@@ -20,8 +20,8 @@ import util.RPS;
 
 //this class works, lets not touch it
 public class DriveTrain extends Subsystem {
-	private SpeedController rightFrontMotor, leftFrontMotor;
-	private SpeedController rightBackMotor, leftBackMotor;
+	public CANTalon rightFrontMotor, leftFrontMotor;
+	public CANTalon rightBackMotor, leftBackMotor;
 	public Ultrasonic ultrasonic;
 	public RobotDrive m_drive;
 	public PIDMain rotationLock;
@@ -41,14 +41,19 @@ public class DriveTrain extends Subsystem {
 		
 		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, 0, 0, 0);	
 		//rotationLock = new PIDMain(gyroSource, 0, 100, -0.016, -0.0003	, 0);	
-		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006	, 0);	
+		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.02, -0.0006	, 0);	
 		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0014	, 0);	
 		
 		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
 		leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
 		rightBackMotor = new CANTalon(RobotMap.RightBackDriveMotor);
 		leftBackMotor = new CANTalon(RobotMap.LeftBackDriveMotor);
-
+		
+		rightBackMotor.enableBrakeMode(true);
+		leftBackMotor.enableBrakeMode(true);
+		rightFrontMotor.enableBrakeMode(true);
+		leftFrontMotor.enableBrakeMode(true);
+		
 		m_drive = new RobotDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
 		
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
@@ -62,6 +67,7 @@ public class DriveTrain extends Subsystem {
 		setDefaultCommand(new DriveWithJoystick());
 	}
 	public void rotationLockDrive(double x, double y) {
+		System.out.println("RotationLock Error " + rotationLock.getInput());
 		m_drive.mecanumDrive_Cartesian(x, y, rotationLock.getOutput(), 0);
 	}
 	public void rotationLockFieldCentricDrive(double x, double y){

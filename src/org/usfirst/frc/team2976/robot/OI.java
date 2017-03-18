@@ -16,6 +16,7 @@ import org.usfirst.frc.team2976.robot.commands.SpinIntake;
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
+
 public class OI {
 	public Joystick driveStick;
 	public Joystick secondStick;
@@ -52,8 +53,8 @@ public class OI {
 		secondStick = new Joystick(1);
 		
 		
-		new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new TimedDrive(50,0.5));
-		new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whenPressed(new TimedDrive(50,-0.5));
+		new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new TimedDrive(50,0.5,true));
+		new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whenPressed(new TimedDrive(50,-0.5,true));
 		new JoystickButton(driveStick, OI.Button.X.getBtnNumber()).whenPressed(new TakePicture());
 		new JoystickButton(secondStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(0.9));
 		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.5));
