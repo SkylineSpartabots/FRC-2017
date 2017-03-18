@@ -35,4 +35,8 @@ public class TraceLog {
 		}
 	}
 	
+	public static double Round(double input, double scale)
+	{	
+		return Math.round(input*scale)/scale;
+	}
 }

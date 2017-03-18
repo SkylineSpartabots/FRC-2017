@@ -25,12 +25,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class VisionMain {
 	static final int resolutionX= 640;
 	static final int resolutionY = 480;
-	static final int hue1 = 40;
-	static final int hue2 = 100;
-	static final int saturation1 = 0;
+	static final int hue1 = 50;
+	static final int hue2 = 120;
+	static final int saturation1 = 100;
 	static final int saturation2 = 255;
-	static final int value1 = 120;
+	static final int value1 = 100;
 	static final int value2 = 255;
+	static final int luminance1 = 60;
+	static final int luminance2 = 200;
 	
 	int round = 0;
 	int goodResult = 0;
@@ -57,6 +59,7 @@ public class VisionMain {
 	Mat rawImage;
 	Mat filteredImage;
 	
+	public boolean saveAllPicture = false;
 	public Result LastGoodResult = null;
 	public Result CurrentResult = null;
 	
@@ -64,8 +67,8 @@ public class VisionMain {
 		camera = CameraServer.getInstance().startAutomaticCapture();
 		camera.setResolution(resolutionX, resolutionY);
 		
-		camera.setBrightness(30);
-		camera.setExposureManual(30);
+		camera.setBrightness(15);
+		camera.setExposureManual(15);
 		
 		cvSink = CameraServer.getInstance().getVideo();
 		outputStream1 = CameraServer.getInstance().putVideo("h1", resolutionX, resolutionY);
@@ -83,9 +86,7 @@ public class VisionMain {
 				while (!Thread.interrupted()) {
 					processImage();
 					
-					String trace = "Round:"+round+", good:"+goodResult;
-					trace += ", delay:"+(timeFinish-timeBegin);
-					
+					String trace = "Round:"+round;
 					if ((LastGoodResult != CurrentResult) || (CurrentResult==null))
 					{
 						trace += ",bad";
@@ -93,6 +94,11 @@ public class VisionMain {
 					{
 						trace += ",good";
 					}
+					
+					trace += ", good:"+goodResult;
+					trace += ", delay:"+(timeFinish-timeBegin);
+					
+
 					long age = 0;
 					if (LastGoodResult != null)
 					{
@@ -130,8 +136,8 @@ public class VisionMain {
 	
 	public boolean SavePicture(String folder, String name, Mat mat)
 	{
-		SimpleDateFormat ft = new SimpleDateFormat ("MMdd.HHmmss.SSS");
-		String fileName = folder+File.separator+name+ft.format(new Date())+".jpg";
+		//SimpleDateFormat ft = new SimpleDateFormat ("MMdd.HHmmss.SSS");
+		String fileName = folder+File.separator+name+".jpg";
 		Imgcodecs.imwrite(fileName, mat);
 		return true;
 	};
@@ -147,8 +153,9 @@ public class VisionMain {
 		}
 		timeTakePicture = System.currentTimeMillis();
 		
-		Imgproc.cvtColor(rawImage, filteredImage, Imgproc.COLOR_BGR2HSV);
-		Core.inRange(filteredImage, new Scalar(hue1, saturation1, value1), new Scalar(hue2, saturation2, value2), filteredImage);
+		Imgproc.cvtColor(rawImage, filteredImage, Imgproc.COLOR_BGR2HLS);
+		//Core.inRange(filteredImage, new Scalar(hue1, saturation1, value1), new Scalar(hue2, saturation2, value2), filteredImage);
+		Core.inRange(filteredImage, new Scalar(hue1, luminance1, saturation1), new Scalar(hue2, luminance2, saturation2), filteredImage);
 		timeFilter = System.currentTimeMillis();
 		outputStream1.putFrame(filteredImage);
 		timeDisplayFilteredImage = System.currentTimeMillis();
@@ -156,14 +163,19 @@ public class VisionMain {
 		List<MatOfPoint> contours = new ArrayList<MatOfPoint>();
 		Imgproc.findContours(filteredImage, contours, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
 		timeFindContours = System.currentTimeMillis();
-		
+	
 		timeSelectLargeContours = System.currentTimeMillis();
 		ArrayList<Target> targetList = selectLargeContours(contours, 10);
 		timeBeforeSavePictures = System.currentTimeMillis();
 		if (targetList.size()<2)
 		{
-			SavePicture(Robot.traceFolder, "Image_" + round +"_Raw", rawImage);
-			SavePicture(Robot.traceFolder, "Image_" + round +"_Filtered", filteredImage);	
+			SavePicture(Robot.traceFolder, "Raw_Bad_" + round, rawImage);
+			SavePicture(Robot.traceFolder, "Filtered_Bad_" + round, filteredImage);	
+		}
+		else if (saveAllPicture)
+		{
+			SavePicture(Robot.traceFolder, "Raw_Good_" + round +"_", rawImage);
+			SavePicture(Robot.traceFolder, "Filtered_Good_" + round +"_", filteredImage);				
 		}
 		timeAfterSavePictures = System.currentTimeMillis();
 		
@@ -178,7 +190,7 @@ public class VisionMain {
 			LastGoodResult = CurrentResult;
 		}
 		else {
-			CurrentResult = chooseOneTarget(targetList);
+			//CurrentResult = chooseOneTarget(targetList);
 		}
 		if (!CurrentResult.hasNoTarget()){
 			timeBeforePublishValues = System.currentTimeMillis();
@@ -202,6 +214,7 @@ public class VisionMain {
 		trace += ", X:"+ result.m_centerX;
 		trace += ", Y:"+ result.m_centerY;
 		return trace;
+		
 	}
 	public void publishValues (Result result){
 		Robot.traceLog.Log("Vision", getTrace(result));
@@ -258,7 +271,7 @@ public class VisionMain {
 			trace += ", ratioScore=" + (int)(target.ratioScore()*100)/100.0;
 			trace += ", fillRatio=" + (int)(target.fillRatio()*100)/100.0;
 			trace += ", selected=" + selected;
-			trace += ", area=" + maxArea;
+			trace += target.getRect();
 			Robot.traceLog.Log("LargeContour", trace);
 		}
 		return targetList;
