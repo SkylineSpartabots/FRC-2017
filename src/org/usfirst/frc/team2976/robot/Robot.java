@@ -11,7 +11,6 @@ import org.usfirst.frc.team2976.robot.subsystems.Climber;
 import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2976.robot.subsystems.IntakeRoller;
-import org.usfirst.frc.team2976.robot.subsystems.RevCounter;
 
 import Vision.VisionMain;
 
@@ -38,7 +37,6 @@ public class Robot extends IterativeRobot {
 	public static Climber climber;
 	public static IntakeRoller intakeroller;
 	public static DriveTrain drivetrain;
-	public static RevCounter revCounter;
 	public static Hopper hopper;
 	public static VisionMain vision;
 	public static UsbCamera Camera2;
@@ -53,21 +51,21 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		rps = new RPS(0, 0);
-		vision = new VisionMain();
-		vision.start();    	
-		traceFolder = "U:/Logs";
+	
+		traceFolder = "/media/usb/botlogs";
 		traceLog = new TraceLog(traceFolder);
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
-    	revCounter = new RevCounter();
     	hopper = new Hopper();
     	oi = new OI();
         chooser = new SendableChooser<Autonomous>();
         chooser.addDefault("Default Auto", new Autonomous());
 //      chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
-        
+		
+        vision = new VisionMain();
+		vision.start(); 
     }
 	
 	/**
@@ -125,7 +123,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        vision.stop();
+        // vision.stop();
     }
 
     /**
@@ -133,7 +131,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("Distance In Inches", rps.getUltrasonicDistanceInInches());
+		Robot.traceLog.Log("TeleopPeriodic", "hi");	
     }
     
     /**

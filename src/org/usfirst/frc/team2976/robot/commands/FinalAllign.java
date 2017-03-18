@@ -26,7 +26,7 @@ public class FinalAllign extends Command {
 	protected void initialize() {
 		pidSource = new PIDSource() {
 			public double getInput() {
-				Result x = Robot.vision.result;
+				Result x = Robot.vision.LastGoodResult;
 
 				if (x == null) {
 					return 0;
@@ -59,9 +59,9 @@ public class FinalAllign extends Command {
 		Robot.drivetrain.m_drive.tankDrive(-left, right);
 		double distance = 0;
 		double sideDistance = 0;
-		if (Robot.vision.result != null) {
-			distance = Robot.vision.result.distance();
-			sideDistance = Robot.vision.result.sideDistance();
+		if (Robot.vision.LastGoodResult != null) {
+			distance = Robot.vision.LastGoodResult.distance();
+			sideDistance = Robot.vision.LastGoodResult.sideDistance();
 		}
 		System.out.println("Time:" + System.currentTimeMillis() + "\tDiff:" + differential + "\tDistance:" + distance
 				+ "\tSideDistance:" + sideDistance);
@@ -69,7 +69,7 @@ public class FinalAllign extends Command {
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
-		Result x = Robot.vision.result;
+		Result x = Robot.vision.LastGoodResult;
 		if (x != null) {
 			if (x.distance() < 40 && twentyInchReached != true) {
 				twentyInchReached = true;

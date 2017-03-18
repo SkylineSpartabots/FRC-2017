@@ -10,7 +10,6 @@ import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
 import org.usfirst.frc.team2976.robot.commands.StopHopper;
 import org.usfirst.frc.team2976.robot.commands.TakePicture;
 import org.usfirst.frc.team2976.robot.commands.TimedDrive;
-import org.usfirst.frc.team2976.robot.commands.Shoot;
 import org.usfirst.frc.team2976.robot.commands.SpinIntake;
 
 /**

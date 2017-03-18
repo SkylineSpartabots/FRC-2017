@@ -34,8 +34,7 @@ public class Hopper extends Subsystem {
     }
     public void setHopperServos(double scaledPosition) {
     	hopperServoRight.set(scaledPosition);
-        hopperServoLeft.set(1.0-scaledPosition);	
-    	
+        hopperServoLeft.set(1.0-scaledPosition);
     }
     public boolean isRaised()	{
     	return false;//beamBreak.get(); //might need to negate this value depending on wiring of sensor

@@ -53,5 +53,14 @@ public class Target {
 	public double ratioScore(){
 		return Math.abs(2.50 - ratio());
 	}
+	public String getRect()
+	{
+		String rect = "x=" + m_rect.x + ",y=" + m_rect.y;
+		rect += ", width=" + m_width;
+		rect += ", height=" + m_height;
+		rect += ", contourArea=" + m_contourArea;
+		rect += ", area=" + m_area;
+		return rect;
+	}
 	
 }
