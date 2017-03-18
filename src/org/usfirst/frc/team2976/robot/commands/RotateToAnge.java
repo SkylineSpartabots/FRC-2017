@@ -19,7 +19,7 @@ public class RotateToAnge extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.rps.ahrs.reset();
-    	Robot.drivetrain.aggressiveRotationLock.setSetpoint(90);
+    	Robot.drivetrain.aggressiveRotationLock.setSetpoint(degree);
     }
 
     // Called repeatedly when this Command is scheduled to run
