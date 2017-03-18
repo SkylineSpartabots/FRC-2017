@@ -9,10 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TakePicture extends Command {
 
-    public TakePicture() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	//requires(Robot.drivetrain);
+    public TakePicture() {;
     }
 
     // Called just before this Command runs the first time

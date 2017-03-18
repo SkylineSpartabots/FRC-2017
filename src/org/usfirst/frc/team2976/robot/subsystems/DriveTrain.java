@@ -1,4 +1,5 @@
 package org.usfirst.frc.team2976.robot.subsystems;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import org.usfirst.frc.team2976.robot.Robot;
 import org.usfirst.frc.team2976.robot.RobotMap;
@@ -14,17 +15,17 @@ import util.PIDMain;
 import util.PIDSource;
 import util.RPS;
 /**
- *
+ *@author NeilHazra
  */
+
 //this class works, lets not touch it
 public class DriveTrain extends Subsystem {
 	private SpeedController rightFrontMotor, leftFrontMotor;
 	private SpeedController rightBackMotor, leftBackMotor;
-
+	public Ultrasonic ultrasonic;
 	public RobotDrive m_drive;
 	public PIDMain rotationLock;
 	public PIDSource gyroSource;
-	
 	public boolean xBox;
 
 	public DriveTrain() {
@@ -37,10 +38,10 @@ public class DriveTrain extends Subsystem {
 				return getHeading();
 			}
 		};
-
-		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, 0, 0, 0);	
+		
+		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, 0, 0, 0);	
 		//rotationLock = new PIDMain(gyroSource, 0, 100, -0.016, -0.0003	, 0);	
-		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006	, 0);	
+		rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0006	, 0);	
 		//rotationLock = new PIDMain(gyroSource, (int) getHeading(), 100, -0.017, -0.0014	, 0);	
 		
 		rightFrontMotor = new CANTalon(RobotMap.RightFrontDriveMotor);
@@ -52,13 +53,14 @@ public class DriveTrain extends Subsystem {
 		
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+		
+		ultrasonic = new Ultrasonic(RobotMap.ultrasonicSensorA,RobotMap.ultrasonicSensorB);
+		ultrasonic.setEnabled(true);
 	}
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new DriveWithJoystick());
 	}
-
-	
 	public void rotationLockDrive(double x, double y) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotationLock.getOutput(), 0);
 	}
@@ -68,7 +70,9 @@ public class DriveTrain extends Subsystem {
 	public double getHeading() {
 		return Robot.rps.getAngle();
 	}
-
+	public double getDistanceInches()	{
+		return ultrasonic.getRangeInches();
+	}
 	// Rounds numbers to 2 decimal places to make SmartDashboard nicer. Could
 	// also be used to prevents OPs things
 	public double round(double input) {
@@ -122,9 +126,8 @@ public class DriveTrain extends Subsystem {
 		value = input;
 		return value;
 	}
-	
 	/**
-	 * 
+	 * This is the basic, feedback less drive system
 	 * @param x
 	 * @param y
 	 * @param rotation
@@ -135,5 +138,6 @@ public class DriveTrain extends Subsystem {
 	public void openLoopFieldCentricDrive(double x, double y, double rotation) {
 		m_drive.mecanumDrive_Cartesian(x, y, rotation, getHeading());
 	}
+	
 }
 	

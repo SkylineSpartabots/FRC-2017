@@ -51,21 +51,20 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
 		rps = new RPS(0, 0);
-	
-		traceFolder = "/media/usb/botlogs";
+   	
+		traceFolder = "/media/usb/botlog";
 		traceLog = new TraceLog(traceFolder);
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
     	hopper = new Hopper();
     	oi = new OI();
+		vision = new VisionMain();
+		vision.start(); 
         chooser = new SendableChooser<Autonomous>();
         chooser.addDefault("Default Auto", new Autonomous());
-//      chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
-		
-        vision = new VisionMain();
-		vision.start(); 
+        
     }
 	
 	/**
@@ -123,7 +122,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        // vision.stop();
+        //vision.stop();
     }
 
     /**
@@ -131,8 +130,7 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		Robot.traceLog.Log("TeleopPeriodic", "hi");	
-    }
+	}
     
     /**
      * This function is called periodically during test mode

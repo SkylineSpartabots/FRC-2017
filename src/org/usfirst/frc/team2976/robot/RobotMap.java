@@ -15,16 +15,10 @@ public class RobotMap {
 	public static final int intakeMotor = 5;
 	public static final int climberMotor = 6;
 	public static final int hopperMotor = 7; //TODO
-	public static final int shooterWheel = 0; //TODO, Not being used
-	//rev counter for wheel
-	public static final int wheelRevCounter = 1; //TODO, Not being used
+	//servos for hopper
 	public static final int hopperServoRight = 1;
 	public static final int hopperServoLeft = 0;
-	public static final int limitSwitchHopper = 0; // Digitall Input, Hopper limit switch TODO not being used
-	public static final int ultrasonicSensor = 0; //Analog Input
-	
-	//2 ultrasonic sensors
-	public static final int greenUltrasonicSensor = 0; //LEFT ultrasonic sensor
-	public static final int blackUltrasonicSensor = 1; //RIGHT ultrasonic sensor
-//4 Encoder
+	//ultrasonic sensors-- two ports
+	public static final int ultrasonicSensorA = 1; 
+	public static final int ultrasonicSensorB = 2; 
 }

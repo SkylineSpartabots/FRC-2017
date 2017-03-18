@@ -45,7 +45,7 @@ public class DriveWithJoystick extends Command {
 			prevTime = System.currentTimeMillis();
 		}
 		SmartDashboard.putBoolean("isReversed", isReversed);
-
+		SmartDashboard.putNumber("Ultra", Robot.drivetrain.getDistanceInches());
 		SmartDashboard.putBoolean("isPressed", Robot.oi.driveStick.getRawButton(OI.Button.RBumper.getBtnNumber()));
 		if (isReversed) {
 			strafe = -Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());

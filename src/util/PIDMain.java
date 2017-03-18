@@ -155,21 +155,16 @@ public class PIDMain {
 		derivative = 0;
 	}
 
-	int i = 0;
 
 	private class PIDCompute extends TimerTask {
 		public void run() {
 			if (!enabled) {
 				output = 0;
-				SmartDashboard.putNumber("@PIDCOMPUTE EnabledCheck", (int) i);
-				i++;
 				return;
 			}
-
 			input = pidsource.getInput();
 			error = input - setpoint;
 			proportional = kp * error;
-
 			integral += ki * error;
 			// constrains integral in between outputMin and outputMax
 			if (integral > outputMax) {
@@ -190,7 +185,7 @@ public class PIDMain {
 				output = outputMin;
 			}
 			prevInput = input;
-
 		}
 	}
+	
 }

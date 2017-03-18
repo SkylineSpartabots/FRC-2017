@@ -29,10 +29,10 @@ public class RPS {
 	double targetX;
 	double targetY;
 			
-	private static final double BLACK_ULTRASONIC_VOLTS_TO_INCHES = 41.06; //Black Ultrasonic Sensor
-	private static final double GREEN_ULTRASONIC_VOLTS_TO_INCHES = 108.356; //Green Ultrasonic Sensor
-	private final UltrasonicSensor greenUltrasonicSensor;
-	private final UltrasonicSensor blackUltrasonicSensor;
+	//private static final double BLACK_ULTRASONIC_VOLTS_TO_INCHES = 41.06; //Black Ultrasonic Sensor
+	//private static final double GREEN_ULTRASONIC_VOLTS_TO_INCHES = 108.356; //Green Ultrasonic Sensor
+	//private final UltrasonicSensor greenUltrasonicSensor;
+	//private final UltrasonicSensor blackUltrasonicSensor;
 	
 	public RPS(double targetX, double targetY) {
 		this(targetX, targetY, 20);
@@ -45,15 +45,15 @@ public class RPS {
 		this.targetX = targetX;
 		this.targetY = targetY;
 		
-		this.greenUltrasonicSensor = new UltrasonicSensor(RobotMap.greenUltrasonicSensor, 20, GREEN_ULTRASONIC_VOLTS_TO_INCHES);
-		this.blackUltrasonicSensor = new UltrasonicSensor(RobotMap.blackUltrasonicSensor, 20, BLACK_ULTRASONIC_VOLTS_TO_INCHES);
+		//this.greenUltrasonicSensor = new UltrasonicSensor(RobotMap.greenUltrasonicSensor, 20, GREEN_ULTRASONIC_VOLTS_TO_INCHES);
+		//this.blackUltrasonicSensor = new UltrasonicSensor(RobotMap.blackUltrasonicSensor, 20, BLACK_ULTRASONIC_VOLTS_TO_INCHES);
 	}
 	
-	
+	/*
 	public double getUltrasonicDistanceInInches() {
 		return (this.greenUltrasonicSensor.getUltrasonicDistanceInInches() + this.blackUltrasonicSensor.getUltrasonicDistanceInInches())/2;
 	}
-	
+	*/
 	public void reset()	{
 		startingX = getXDisplacementADNS();
 		startingY = getYDisplacementADNS();
