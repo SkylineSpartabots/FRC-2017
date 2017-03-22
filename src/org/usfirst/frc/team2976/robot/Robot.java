@@ -1,5 +1,4 @@
 package org.usfirst.frc.team2976.robot;
-import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -12,14 +11,14 @@ import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2976.robot.subsystems.IntakeRoller;
 
-import Vision.VisionMain;
+import Vision.*;
 
 import org.usfirst.frc.team2976.robot.subsystems.Hopper;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.RPS;
-import util.TraceLog;
+
 
 
 /**
@@ -39,9 +38,6 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static Hopper hopper;
 	public static VisionMain vision;
-	public static UsbCamera Camera2;
-	public static TraceLog traceLog;
-	public static String traceFolder;
     Command autonomousCommand;
     SendableChooser<Autonomous> chooser;
 
@@ -52,8 +48,9 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		rps = new RPS(0, 0);
    	
-		traceFolder = "/media/usb/botlog";
-		traceLog = new TraceLog(traceFolder);
+		TraceLog.StartLog("/media/usb/botlog", "Run");
+		
+
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();

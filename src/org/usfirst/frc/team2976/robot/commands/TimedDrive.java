@@ -2,6 +2,7 @@ package org.usfirst.frc.team2976.robot.commands;
 
 import org.usfirst.frc.team2976.robot.Robot;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 
@@ -50,6 +51,7 @@ public class TimedDrive extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drivetrain.openLoopCartesianDrive(0, 0, 0);
+		Timer.delay(0.5);
 	}
 
 	// Called when another command which requires one or more of the same
