@@ -6,9 +6,12 @@ import java.text.*;
 
 public class TraceLog {
 
-	public static void StartLog(String root, String folder)
+	synchronized public static void StartLog(String root, String folder)
 	{
-		Instance = new TraceLog(root);
+		if (null == Instance){
+			Instance = new TraceLog(root);
+		}
+		
 		Instance.SetFolder(folder);
 	}
 	
@@ -24,13 +27,14 @@ public class TraceLog {
 	}
 	
 
-	public void SetFolder(String folder)
+	synchronized public void SetFolder(String folder)
 	{
 		SimpleDateFormat ft = new SimpleDateFormat ("_HHmmss_MMdd");
 		m_folder = folder+ft.format(new Date());
 		File dir = new File(m_root, m_folder);
 		dir.mkdirs();
 		SetFile("Trace_");
+		System.out.println("TraceLog.SetFolder(), created folder:" + dir.getAbsolutePath());
 	}
 	
 	

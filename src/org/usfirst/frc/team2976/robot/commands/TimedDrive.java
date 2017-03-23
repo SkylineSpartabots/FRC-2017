@@ -51,7 +51,6 @@ public class TimedDrive extends Command {
 	// Called once after isFinished returns true
 	protected void end() {
 		Robot.drivetrain.openLoopCartesianDrive(0, 0, 0);
-		Timer.delay(0.5);
 	}
 
 	// Called when another command which requires one or more of the same

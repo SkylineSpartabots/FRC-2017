@@ -24,8 +24,8 @@ public class VisionMain {
 	public ProcessResult CurrentResult = null;
 	
 	public VisionMain(){
-		config.logTopTarget = true;
-		config.logMatchTarget = true;	
+		config.logTopTarget = false;
+		config.logMatchTarget = false;	
 		config.saveBitmap = true;	
 		processor.SetConfig(config);
 		
@@ -69,27 +69,29 @@ public class VisionMain {
 		round++;
 		CurrentResult = null;
 		
+		long beforeTakePicture = System.currentTimeMillis();
 		if (cvSink.grabFrame(rawImage) == 0) {
 			TraceLog.Log("grabFrame", "Failed "+ cvSink.getError());
 			return;
 		}
-		long timeTakePicture = System.currentTimeMillis();
-		TraceLog.Log("grabFrame", "Success");
-		String fullImageName = TraceLog.Instance.GetLogFolder()+File.separator+ "Raw_" + round+".jpg";
+		long afterTakePicture = System.currentTimeMillis();
+		TraceLog.Log("grabFrame", "Success, period="+(afterTakePicture-beforeTakePicture));
+		String imageName = "Raw_" + round+".jpg";
 		if (saveAllPicture)
 		{
-			ImageProcessor.SavePicture(TraceLog.Instance.GetLogFolder(), "Raw_Good_" + round+".jpg", rawImage);
+			ImageProcessor.SavePicture(TraceLog.Instance.GetLogFolder(), imageName, rawImage);
 		}
 		
-		CurrentResult = processor.ProcessImage(rawImage, fullImageName);
-		CurrentResult.m_pictureTimestamp = timeTakePicture;
-		
+		CurrentResult = processor.ProcessImage(rawImage, imageName);
+		CurrentResult.m_pictureTimestamp = afterTakePicture;
+
+		long finishProcessTime = System.currentTimeMillis();
+		TraceLog.Log("VisionMain", "CurrentResult="+CurrentResult.toString()+ ",processTime="+(finishProcessTime-afterTakePicture));
 		if (CurrentResult.m_targetCount<2 && !saveAllPicture)
 		{
-			ImageProcessor.SavePicture(TraceLog.Instance.GetLogFolder(), "Raw_bad_" + round+".jpg", rawImage);
+			ImageProcessor.SavePicture(TraceLog.Instance.GetLogFolder(), "Raw_Bad_" + round+".jpg", rawImage);
 		}
 		
-			
 		if (2 == CurrentResult.m_targetCount){
 			goodResult++;
 			LastGoodResult = CurrentResult;

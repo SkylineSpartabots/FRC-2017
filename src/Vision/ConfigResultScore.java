@@ -87,10 +87,10 @@ public class ConfigResultScore {
 			m_targetIndexError = target.m_index * TargetIndex_Weight * 2;
 			m_score += m_targetIndexError;
 			
-			m_fillFactorError = target.m_fillFactorScore * TargetFillFactor_Weight * 2;
+			m_fillFactorError = Math.abs(target.m_fillFactorScore) * TargetFillFactor_Weight * 2;
 			m_score += m_fillFactorError;
 			
-			m_hwRatioError = target.m_hwRatioScore * TargetHwRation_Weight * 2;
+			m_hwRatioError = Math.abs(target.m_hwRatioScore) * TargetHwRation_Weight * 2;
 			m_score += m_hwRatioError;
 		}
 

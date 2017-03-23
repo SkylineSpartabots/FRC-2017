@@ -7,19 +7,22 @@ public class VisionConfig {
 	
 	
 	public int hueLowerBound = 40;
-	public int hueUpperBound = 120;
+	//public int hueUpperBound = 120;
+	public int hueUpperBound = 90;
 	
-	public int saturationLowerBound = 50;
+	//public int saturationLowerBound = 50;
+	public int saturationLowerBound = 20;
 	public int saturationUpperBound = 255;
 	
-	public int valueLowerBound = 100;
+	//public int valueLowerBound = 50;
+	public int valueLowerBound = 90;
 	public int valueUpperBound = 255;
 	
 	public double targetScoreUpperBound = 1;
 	
 	public boolean logTopTarget = true;
 	public boolean logMatchTarget = true;
-	public boolean saveBitmap = true;
+	public boolean saveBitmap = false;
 	
 	String m_string = "";
 	String m_shortString = "";

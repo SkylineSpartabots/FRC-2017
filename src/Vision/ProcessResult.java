@@ -10,6 +10,7 @@ public class ProcessResult {
 
 	public double m_distance = 0;
 	public double m_sideDistance = 0;
+	public double m_angle = 0;
 	public int m_targetCount = 0;
 	
 	public long m_createTimestamp = 0;
@@ -71,6 +72,11 @@ public class ProcessResult {
 					Target.TargetWidth);
 		}
 		
+		if (m_distance>0)
+		{
+			m_angle = Math.atan(m_sideDistance/m_distance)*180/Math.PI;
+		}
+		
 		if (m_targetLeft != null){
 			m_targetCount++;
 		} 
@@ -83,6 +89,7 @@ public class ProcessResult {
 		builder.append("TargetCount="+m_targetCount);
 		builder.append(", distance="+TraceLog.Round2(m_distance));
 		builder.append(", side="+TraceLog.Round2(m_sideDistance));
+		builder.append(", angle="+TraceLog.Round2(m_angle));
 		builder.append(", centerX="+m_centerX);
 		builder.append(", centerY="+m_centerY);	
 		if (m_targetLeft != null){

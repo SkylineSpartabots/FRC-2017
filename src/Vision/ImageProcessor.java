@@ -24,19 +24,21 @@ public class ImageProcessor {
 		return m_config;
 	}
 	
+	
 	public static void SavePicture(String folder, String name, Mat mat)
 	{
 		String fileName = folder+File.separator+name;
+		TraceLog.Log("SavePicture", "Write into folder=" + fileName);
 		Imgcodecs.imwrite(fileName, mat);
 	}
 	
 
 	public ProcessResult ProcessImage(Mat image, String rawFileName)
 	{
-		TraceLog.Log("ProcessImage", "Config"+m_config.toString());
-		TraceLog.Log("ProcessImage", "Image="+rawFileName);
+		TraceLog.Log("ProcessImage", "Image="+rawFileName+"m_config.saveBitmap="+m_config.saveBitmap);
 		FilterBitmap(image);
 		if (m_config.saveBitmap) {
+			System.out.println("Save Bitmap");
 			SavePicture(TraceLog.Instance.GetLogFolder(), "Bit_"+rawFileName, m_bitmap);			
 		}
 		
@@ -179,8 +181,11 @@ public class ImageProcessor {
 		}
 		
 		ProcessResult result = new ProcessResult(leftTarget, rightTarget);
-		TraceLog.Log("ChooseTwoTarget-Match", matchResult.toString());
-		TraceLog.Log("ChooseTwoTarget-Result",result.m_string);
+		if (m_config.logMatchTarget)
+		{
+			TraceLog.Log("ChooseTwoTarget-Match", matchResult.toString());
+			TraceLog.Log("ChooseTwoTarget-Result",result.m_string);
+		}
 		return result;
 	}
 }

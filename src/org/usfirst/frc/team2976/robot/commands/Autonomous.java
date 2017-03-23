@@ -3,6 +3,7 @@ package org.usfirst.frc.team2976.robot.commands;
 
 import org.usfirst.frc.team2976.robot.Robot;
 
+import AutoDriver.AutoMainDrive;
 import Vision.TraceLog;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -16,21 +17,9 @@ public class Autonomous extends CommandGroup {
 		
 	   	Robot.vision.saveAllPicture = true;
 	   	TraceLog.Instance.SetFolder("AutoTurn");
-	   	
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new AutoTurn(1000));
-	addSequential(new TimedDrive(300, -0.40, true)); //2 foot
+	   	addSequential(new AutoMainDrive());
 	
+	   	
 		/*
 		addSequential(new TimedDrive(300, -0.40, true)); //2 foot
 		addSequential(new AutoTurn(1000));
@@ -55,10 +44,10 @@ public class Autonomous extends CommandGroup {
 		//addSequential(new TimedDrive(350, 0.50, false)); //left
 		//addSequential(new TimedDrive(550, 0.50, false)); //left
 		
-		/*
-		allign();
-		addSequential(new TimedDrive(800,-0.50,true)); //drives straight
-		*/
+	
+		//allign();
+		//addSequential(new TimedDrive(800,-0.50,true)); //drives straight
+		
 	}
 	
 }
