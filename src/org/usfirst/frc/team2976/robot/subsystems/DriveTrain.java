@@ -1,5 +1,5 @@
 package org.usfirst.frc.team2976.robot.subsystems;
-import edu.wpi.first.wpilibj.Ultrasonic;
+
 
 import org.usfirst.frc.team2976.robot.Robot;
 import org.usfirst.frc.team2976.robot.RobotMap;
@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.PIDMain;
@@ -27,11 +28,13 @@ public class DriveTrain extends Subsystem {
 	public PIDMain rotationLock;
 	public PIDSource gyroSource;
 	public boolean xBox;
+	public Ultrasonic ultra;
 
 	public DriveTrain() {
 		xBox = true;
 		Robot.rps.reset();
 		Timer.delay(1); 
+		ultra = new Ultrasonic(2 /*output*/,1 /*input*/);
 		
 		gyroSource = new PIDSource() {
 			public double getInput() {
@@ -58,10 +61,6 @@ public class DriveTrain extends Subsystem {
 		
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
-		
-		ultrasonic = new Ultrasonic(RobotMap.ultrasonicSensorA,RobotMap.ultrasonicSensorB);
-		ultrasonic.setEnabled(true);
-		ultrasonic.setAutomaticMode(true);
 	}
 
 	public void initDefaultCommand() {
@@ -98,7 +97,7 @@ public class DriveTrain extends Subsystem {
 		slider = (slider + 1) / 2;
 		//This code was written by Jasmine Cheng, please talk to her if you are concerned with redundancy, overcomplication, and nested if's
 		//It works tho :)
-		if (invert == false) {
+		if(!invert) {
 			if (input > 0) {
 				if (input < 0.1) {
 					input = 0;
@@ -109,7 +108,7 @@ public class DriveTrain extends Subsystem {
 				if (input > -0.1) {
 					input = 0;
 				} else {
-					input = -1 * input;
+					input *= -1;
 					input = -slider * ((0.09574 * Math.pow(10, input * 1.059)) - 0.09574);
 				}
 			}
@@ -124,7 +123,7 @@ public class DriveTrain extends Subsystem {
 				if (input > -0.1) {
 					input = 0;
 				} else {
-					input = -1 * input;
+					input *= -1;
 					input = -slider * ((0.09574 * Math.pow(10, input * 1.059) - 0.09574));
 				}
 			}
@@ -148,5 +147,8 @@ public class DriveTrain extends Subsystem {
 		m_drive.tankDrive(-l, r);//left motor reversed
 	}
 	
+	public double getUltrasonicDistance() {
+		return ultra.getRangeInches();
+	}
 }
 	
