@@ -40,13 +40,19 @@ public class BaseAction {
 		return ActionType.TakePicture;
 	}
 	
-	protected String GetLogString()
+	public String GetStartLog()
 	{
 		StringBuilder builder = new StringBuilder();
 		builder.append("ActionType="+m_actionType);
-		builder.append(", m_actionStartTime="+m_actionStartTime);
-		builder.append(", m_actionRunPeriod="+m_actionRunPeriod);
-		builder.append(", m_finished="+m_finished);
+		return builder.toString();
+	}
+	
+	public String GetWaitLog()
+	{
+		StringBuilder builder = new StringBuilder();
+		builder.append("ActionType="+m_actionType);
+		builder.append(", RunPeriod="+m_actionRunPeriod);
+		builder.append(", Finished="+m_finished);
 		return builder.toString();
 	}
 }

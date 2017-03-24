@@ -7,8 +7,10 @@ import org.opencv.imgcodecs.Imgcodecs;
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.CameraServer;
-	
+
+
 public class VisionMain {
+	
 	VisionConfig config = new VisionConfig();
 	ImageProcessor processor = new ImageProcessor();
 	
@@ -26,7 +28,7 @@ public class VisionMain {
 	public VisionMain(){
 		config.logTopTarget = false;
 		config.logMatchTarget = false;	
-		config.saveBitmap = true;	
+		config.saveBitmap = false;	
 		processor.SetConfig(config);
 		
 		UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
@@ -75,7 +77,7 @@ public class VisionMain {
 			return;
 		}
 		long afterTakePicture = System.currentTimeMillis();
-		TraceLog.Log("grabFrame", "Success, period="+(afterTakePicture-beforeTakePicture));
+		TraceLog.Log("grabFrame", "Success, picturetakingTime="+(afterTakePicture-beforeTakePicture));
 		String imageName = "Raw_" + round+".jpg";
 		if (saveAllPicture)
 		{
@@ -87,10 +89,7 @@ public class VisionMain {
 
 		long finishProcessTime = System.currentTimeMillis();
 		TraceLog.Log("VisionMain", "CurrentResult="+CurrentResult.toString()+ ",processTime="+(finishProcessTime-afterTakePicture));
-		if (CurrentResult.m_targetCount<2 && !saveAllPicture)
-		{
-			ImageProcessor.SavePicture(TraceLog.Instance.GetLogFolder(), "Raw_Bad_" + round+".jpg", rawImage);
-		}
+
 		
 		if (2 == CurrentResult.m_targetCount){
 			goodResult++;

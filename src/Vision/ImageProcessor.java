@@ -35,10 +35,9 @@ public class ImageProcessor {
 
 	public ProcessResult ProcessImage(Mat image, String rawFileName)
 	{
-		TraceLog.Log("ProcessImage", "Image="+rawFileName+"m_config.saveBitmap="+m_config.saveBitmap);
+		TraceLog.Log("ProcessImage", "Image="+rawFileName);
 		FilterBitmap(image);
 		if (m_config.saveBitmap) {
-			System.out.println("Save Bitmap");
 			SavePicture(TraceLog.Instance.GetLogFolder(), "Bit_"+rawFileName, m_bitmap);			
 		}
 		

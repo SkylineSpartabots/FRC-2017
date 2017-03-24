@@ -19,6 +19,6 @@ public class RobotMap {
 	public static final int hopperServoRight = 1;
 	public static final int hopperServoLeft = 0;
 	//ultrasonic sensors-- two ports
-	public static final int ultrasonicSensorA = 1; 
-	public static final int ultrasonicSensorB = 2; 
+	public static final int ultrasonicSensorA = 2; 
+	public static final int ultrasonicSensorB = 1; 
 }

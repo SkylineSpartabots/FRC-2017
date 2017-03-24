@@ -17,7 +17,7 @@ public class Autonomous extends CommandGroup {
 		
 	   	Robot.vision.saveAllPicture = true;
 	   	TraceLog.Instance.SetFolder("AutoTurn");
-	   	addSequential(new AutoMainDrive());
+	   	addSequential(new AutoMainDrive(AutoDriver.StartPosition.Center));
 	
 	   	
 		/*

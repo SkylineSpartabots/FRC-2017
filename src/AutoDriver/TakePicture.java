@@ -8,7 +8,8 @@ import Vision.TraceLog;
 
 public class TakePicture extends BaseAction{
 	
-	String m_string = "";
+	long m_lastGoodPictureTimestamp = 0;
+	ActionType m_nextAction = ActionType.MoveForward;
 	public TakePicture()
 	{
 		m_actionType = ActionType.TakePicture;
@@ -17,29 +18,52 @@ public class TakePicture extends BaseAction{
 	@Override
 	public void Execute() 
 	{
-		ProcessResult lastGoodResult = Robot.vision.LastGoodResult;
+		super.Execute();
 		
-		if (lastGoodResult.m_pictureTimestamp>m_actionStartTime)
+		ProcessResult lastGoodResult = Robot.vision.LastGoodResult;
+		if (null == lastGoodResult)
+		{
+			return;
+		}
+		
+		m_lastGoodPictureTimestamp = lastGoodResult.m_pictureTimestamp;
+		if (m_lastGoodPictureTimestamp > m_actionStartTime)
 		{
 			m_data.m_lastGoodResult = lastGoodResult;	
 			m_finished = true;
-		}
 
-		m_string = super.GetLogString() 
-				+ ", lastGoodResult.m_pictureTimestamp="
-				+ lastGoodResult.m_pictureTimestamp;
+			if (!m_data.m_finalTimeoutReached){
+				double angle = m_data.m_lastGoodResult.m_angle;
+				double distance = m_data.m_lastGoodResult.m_distance;
+				
+				if (distance < AutoData.FinalStartDistanceInches && angle<AutoData.FinalStartAngleDegree) {
+					TraceLog.Log("TakePicture", 
+							"Start FinalMoveForward by target. distance=" + TraceLog.Round2(distance) 
+							+ ", angle="+ TraceLog.Round2(angle)); 
+					m_data.m_finalTimeoutReached = true;
+					m_nextAction = ActionType.FinalMoveForward;
+				}
+			}
+		}
 	}
 	
 	
 	@Override
 	public ActionType GetNextActionType()
 	{
-		return ActionType.MoveForward;
+		return m_nextAction;
 	}
 	
-	@Override
-	protected String GetLogString()
+	public String GetStartLog()
 	{
-		return m_string;
+		StringBuilder builder = new StringBuilder();
+		builder.append("ActionType="+m_actionType);
+		builder.append(", StartTime="+m_actionStartTime);
+		return builder.toString();
+	}
+	
+	public String GetWaitLog()
+	{
+		return super.GetWaitLog()+", lastGoodPictureTime="+m_lastGoodPictureTimestamp;
 	}
 }

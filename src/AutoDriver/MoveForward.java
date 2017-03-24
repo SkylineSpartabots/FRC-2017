@@ -4,12 +4,20 @@ import org.usfirst.frc.team2976.robot.Robot;
 
 import Vision.TraceLog;
 
+enum MoveForwardDirection {
+	Left,
+    Center,
+    Right
+}
+
 public class MoveForward extends BaseAction {
 	
+	MoveForwardDirection m_direction = MoveForwardDirection.Center;
+	double m_angle = 0;
+	double m_distance = 50;
 	double m_leftMotorPower = 0;
 	double m_rightMotorPower = 0;
 	double m_toMoveTimeInMsec = 0;
-	String m_string = "";
 	
 	public MoveForward()
 	{
@@ -27,37 +35,16 @@ public class MoveForward extends BaseAction {
 			m_finished = true;
 			return;
 		}
-
-		if (Math.abs(m_data.m_lastGoodResult.m_angle)>AutoData.MinimumAngleToTurnDegree)
-		{
-			m_toMoveTimeInMsec = AutoData.MoveBaseTime + AutoData.proportionalTime*Math.abs(m_data.m_lastGoodResult.m_angle);
-			if (m_data.m_lastGoodResult.m_angle>0)
-			{
-				m_leftMotorPower = AutoData.TurnRightPowerLeft;
-				m_rightMotorPower = AutoData.TurnRightPowerRight;
-			}
-			else
-			{
-				m_leftMotorPower = AutoData.TurnLeftPowerLeft;
-				m_rightMotorPower = AutoData.TurnLeftPowerRight;
-			}
-		}
-		else 
-		{	
-			m_toMoveTimeInMsec = AutoData.MoveBaseTime * 1.5;
-			m_leftMotorPower = AutoData.MoveStraightPowerLeft;
-			m_rightMotorPower = AutoData.MoveStraightPowerRight;
-		}
+		
+		m_angle = m_data.m_lastGoodResult.m_angle;
+		m_distance = m_data.m_lastGoodResult.m_distance;
+		
+		m_toMoveTimeInMsec = AutoData.MoveBaseTime;
+		
+		m_leftMotorPower = AutoData.LeftPowerBase - m_angle* AutoData.Kp;//.5
+		m_rightMotorPower = AutoData.RightPowerBase + m_angle* AutoData.Kp;
 		
 		Robot.drivetrain.tankDrive(m_leftMotorPower, m_rightMotorPower);
-		
-		StringBuilder builder = new StringBuilder();
-		
-		builder.append("MoveForward, angle="+m_data.m_lastGoodResult.m_angle);
-		builder.append(", m_leftMotorPower="+m_leftMotorPower);
-		builder.append(", m_rightMotorPower="+m_rightMotorPower);
-		builder.append(", m_toMoveTimeInMsec="+m_toMoveTimeInMsec);
-		m_string = super.GetLogString() + builder.toString();
 	}
 	
 	@Override
@@ -67,6 +54,9 @@ public class MoveForward extends BaseAction {
 		if (m_actionRunPeriod > m_toMoveTimeInMsec){
 			m_finished = true;
 		}
+		
+		  //Robot.drivetrain.rotationLockDrive(0.3*m_data.m_lastGoodResult.m_sideDistance,0.5);
+		 
 	}
 
 	@Override
@@ -81,10 +71,16 @@ public class MoveForward extends BaseAction {
 		return ActionType.TakePicture;
 	}
 	
-	@Override
-	protected String GetLogString()
+	public String GetStartLog()
 	{
-		return m_string;
+		StringBuilder builder = new StringBuilder();
+		builder.append("ActionType="+m_actionType);
+		builder.append(", direction=" + m_direction);
+		builder.append(", angle="+TraceLog.Round2(m_angle));
+		builder.append(", distance="+TraceLog.Round2(m_distance));
+		builder.append(", leftMotorPower="+m_leftMotorPower);
+		builder.append(", rightMotorPower="+m_rightMotorPower);
+		builder.append(", toMoveTimeInMsec="+m_toMoveTimeInMsec);
+		return builder.toString();
 	}
-	
 }

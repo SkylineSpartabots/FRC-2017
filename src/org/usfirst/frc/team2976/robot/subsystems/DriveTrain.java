@@ -61,6 +61,7 @@ public class DriveTrain extends Subsystem {
 		
 		ultrasonic = new Ultrasonic(RobotMap.ultrasonicSensorA,RobotMap.ultrasonicSensorB);
 		ultrasonic.setEnabled(true);
+		ultrasonic.setAutomaticMode(true);
 	}
 
 	public void initDefaultCommand() {
