@@ -86,6 +86,13 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putNumber("Strafe", Robot.drivetrain.round(strafe));
 		SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
 		
+		if(Robot.oi.driveStick.getRawButton(OI.Button.Y.getBtnNumber()))	{
+			Robot.drivetrain.rotationLock.disable(0);
+		}	
+		if(Robot.oi.driveStick.getRawButton(OI.Button.X.getBtnNumber())){
+			Robot.drivetrain.rotationLock.enable(true);
+		}
+		
 		if (Math.abs(rotation) < 0.1) { 
 			if (Robot.drivetrain.rotationLock.enable(false)) { 
 				Robot.drivetrain.rotationLockDrive(strafe, forward);
@@ -98,6 +105,7 @@ public class DriveWithJoystick extends Command {
 			Robot.drivetrain.openLoopCartesianDrive(strafe, forward, rotation); 
 			Robot.drivetrain.rotationLock.setSetpoint(Robot.rps.getAngle());
 		}
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

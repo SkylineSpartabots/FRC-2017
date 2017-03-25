@@ -48,7 +48,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		rps = new RPS(0, 0);
    	
-		TraceLog.StartLog("/media/usb/botlog", "Run");
+		TraceLog.StartLog("/media/usblocal", "Run");
 		
 
 		climber = new Climber();

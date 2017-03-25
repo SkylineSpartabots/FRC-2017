@@ -10,7 +10,6 @@ public class FinalMoveForward extends BaseAction {
 	
 	double m_leftMotorPower = 0;
 	double m_rightMotorPower = 0;
-	double m_toMoveTimeInMsec = 0;
 	
 	public FinalMoveForward()
 	{
@@ -25,12 +24,8 @@ public class FinalMoveForward extends BaseAction {
 		m_angle = m_data.m_lastGoodResult.m_angle;
 		m_distance = m_data.m_lastGoodResult.m_distance;
 		
-		m_leftMotorPower = AutoData.LeftPowerBase;
-		m_rightMotorPower = AutoData.RightPowerBase;
-		
-		
-			m_toMoveTimeInMsec = 3000;
-		
+		m_leftMotorPower = AutoData.MovePowerBase;
+		m_rightMotorPower = AutoData.MovePowerBase;
 		
 		Robot.drivetrain.tankDrive(m_leftMotorPower, m_rightMotorPower);
 	}
@@ -39,10 +34,11 @@ public class FinalMoveForward extends BaseAction {
 	public void Execute()
 	{
 		super.Execute();
-		TraceLog.Log("FinalMoveForward", "Execute,actionRunPeriod= "+m_actionRunPeriod+"toMoveTimeInMsec="+m_toMoveTimeInMsec);
-		if (m_actionRunPeriod > m_toMoveTimeInMsec){
+		double distance = Robot.drivetrain.getDistanceInches();
+		
+		if (distance <4 ){
 			m_finished = true;
-			TraceLog.Log("FinalMoveForward", "finished!!!");
+			TraceLog.Log("FinalMoveForward", "finished by distance");
 		}
 	}
 		
@@ -51,7 +47,7 @@ public class FinalMoveForward extends BaseAction {
 	{
 		Robot.drivetrain.tankDrive(0, 0);
 		m_data.m_finalFinished = true;
-		TraceLog.Log("FinalMoveForward", "Stop");
+		TraceLog.Log("FinalMoveForward", "StopAll");
 	}
 	
 	@Override
@@ -66,9 +62,9 @@ public class FinalMoveForward extends BaseAction {
 		builder.append("ActionType="+m_actionType);
 		builder.append(", angle="+TraceLog.Round2(m_angle));
 		builder.append(", distance="+TraceLog.Round2(m_distance));
-		builder.append(", leftMotorPower="+m_leftMotorPower);
-		builder.append(", rightMotorPower="+m_rightMotorPower);
-		builder.append(", toMoveTimeInMsec="+m_toMoveTimeInMsec);
+		builder.append(", leftMotorPower="+TraceLog.Round3(m_leftMotorPower));
+		builder.append(", rightMotorPower="+TraceLog.Round3(m_rightMotorPower));
+
 		return builder.toString();
 	}	
 }

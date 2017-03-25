@@ -15,8 +15,6 @@ public class VisionMain {
 	ImageProcessor processor = new ImageProcessor();
 	
 	int round = 0;
-	int goodResult = 0;
-	
 	CvSink cvSink;
 	Thread visionThread = null;
 	
@@ -71,32 +69,32 @@ public class VisionMain {
 		round++;
 		CurrentResult = null;
 		
-		long beforeTakePicture = System.currentTimeMillis();
+		long beforeTakePictureTime = System.currentTimeMillis();
 		if (cvSink.grabFrame(rawImage) == 0) {
 			TraceLog.Log("grabFrame", "Failed "+ cvSink.getError());
 			return;
 		}
-		long afterTakePicture = System.currentTimeMillis();
-		TraceLog.Log("grabFrame", "Success, picturetakingTime="+(afterTakePicture-beforeTakePicture));
-		String imageName = "Raw_" + round+".jpg";
+		long afterTakePictureTime = System.currentTimeMillis();
+		String imageName = "Raw_" + round + ".jpg";
 		if (saveAllPicture)
 		{
 			ImageProcessor.SavePicture(TraceLog.Instance.GetLogFolder(), imageName, rawImage);
 		}
+		long afterSaveRawTime = System.currentTimeMillis();
 		
 		CurrentResult = processor.ProcessImage(rawImage, imageName);
-		CurrentResult.m_pictureTimestamp = afterTakePicture;
-
-		long finishProcessTime = System.currentTimeMillis();
-		TraceLog.Log("VisionMain", "CurrentResult="+CurrentResult.toString()+ ",processTime="+(finishProcessTime-afterTakePicture));
+		CurrentResult.m_pictureTimestamp = beforeTakePictureTime;
+		CurrentResult.m_captureTime = afterTakePictureTime - beforeTakePictureTime;
+		CurrentResult.m_saveRawTime = afterSaveRawTime - afterTakePictureTime;
+		
+		TraceLog.Log("VisionMain", "CurrentResult="+CurrentResult.toString());
 
 		
 		if (2 == CurrentResult.m_targetCount){
-			goodResult++;
 			LastGoodResult = CurrentResult;
 		}
 	}
-	
+
 }
 
 

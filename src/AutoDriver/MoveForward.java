@@ -41,8 +41,8 @@ public class MoveForward extends BaseAction {
 		
 		m_toMoveTimeInMsec = AutoData.MoveBaseTime;
 		
-		m_leftMotorPower = AutoData.LeftPowerBase - m_angle* AutoData.Kp;//.5
-		m_rightMotorPower = AutoData.RightPowerBase + m_angle* AutoData.Kp;
+		m_leftMotorPower = AutoData.MovePowerBase - m_angle* AutoData.Kp;
+		m_rightMotorPower = AutoData.MovePowerBase + m_angle* AutoData.Kp;
 		
 		Robot.drivetrain.tankDrive(m_leftMotorPower, m_rightMotorPower);
 	}
@@ -54,9 +54,6 @@ public class MoveForward extends BaseAction {
 		if (m_actionRunPeriod > m_toMoveTimeInMsec){
 			m_finished = true;
 		}
-		
-		  //Robot.drivetrain.rotationLockDrive(0.3*m_data.m_lastGoodResult.m_sideDistance,0.5);
-		 
 	}
 
 	@Override
@@ -78,8 +75,8 @@ public class MoveForward extends BaseAction {
 		builder.append(", direction=" + m_direction);
 		builder.append(", angle="+TraceLog.Round2(m_angle));
 		builder.append(", distance="+TraceLog.Round2(m_distance));
-		builder.append(", leftMotorPower="+m_leftMotorPower);
-		builder.append(", rightMotorPower="+m_rightMotorPower);
+		builder.append(", leftMotorPower="+TraceLog.Round3(m_leftMotorPower));
+		builder.append(", rightMotorPower="+TraceLog.Round3(m_rightMotorPower));
 		builder.append(", toMoveTimeInMsec="+m_toMoveTimeInMsec);
 		return builder.toString();
 	}

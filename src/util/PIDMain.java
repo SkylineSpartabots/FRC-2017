@@ -34,7 +34,7 @@ public class PIDMain {
 	private double proportional; // P term
 	private double integral; // I term
 	private double derivative;// D term
-	private double kp, ki, kd; // tuning parameters, the hardest part of PID
+	public double kp, ki, kd; // tuning parameters, the hardest part of PID
 
 	/**
 	 * @param pidsource

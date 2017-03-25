@@ -15,7 +15,12 @@ public class ProcessResult {
 	
 	public long m_createTimestamp = 0;
 	public long m_pictureTimestamp = 0;
-	String m_string="";
+	
+	public long m_captureTime = 0;
+	public long m_saveRawTime = 0;
+	public long m_filterTime = 0;
+	public long m_saveBitMapTime = 0;
+	public long m_processTime = 0;
 
 	public ProcessResult(Target targetLeft, Target targetRight){
 		m_targetLeft = targetLeft;
@@ -28,14 +33,28 @@ public class ProcessResult {
 	@Override
 	public String toString()
     {
-		return m_string;
+		StringBuilder builder = new StringBuilder();
+		builder.append("TargetCount="+m_targetCount);
+		builder.append(", distance="+TraceLog.Round2(m_distance));
+		builder.append(", side="+TraceLog.Round2(m_sideDistance));
+		builder.append(", angle="+TraceLog.Round2(m_angle));
+		builder.append(", centerX="+m_centerX);
+		builder.append(", centerY="+m_centerY);	
+		if (m_targetLeft != null){
+			builder.append(", left="+m_targetLeft.m_index);
+		}
+		if (m_targetRight != null){
+			builder.append(", right="+m_targetRight.m_index);
+		}
+		builder.append(". Time spend capture="+m_captureTime);
+		builder.append(", SaveRaw="+m_saveRawTime);		
+		builder.append(", Filter="+m_filterTime);	
+		builder.append(", SaveBitmap="+m_saveBitMapTime);	
+		builder.append(", Process="+m_processTime);	
+		return builder.toString();
     }
     
 	public long age(){
-		if (m_pictureTimestamp > 0)
-		{
-			return System.currentTimeMillis()-m_pictureTimestamp;
-		}
 		return System.currentTimeMillis()-m_createTimestamp;
 	}
 
@@ -85,20 +104,7 @@ public class ProcessResult {
 			m_targetCount++;
 		} 
 		
-		StringBuilder builder = new StringBuilder();
-		builder.append("TargetCount="+m_targetCount);
-		builder.append(", distance="+TraceLog.Round2(m_distance));
-		builder.append(", side="+TraceLog.Round2(m_sideDistance));
-		builder.append(", angle="+TraceLog.Round2(m_angle));
-		builder.append(", centerX="+m_centerX);
-		builder.append(", centerY="+m_centerY);	
-		if (m_targetLeft != null){
-			builder.append(", left="+m_targetLeft.m_index);
-		}
-		if (m_targetRight != null){
-			builder.append(", right="+m_targetRight.m_index);
-		}
-		m_string = builder.toString();
+	
 	}
 
 }

@@ -5,7 +5,6 @@ import org.usfirst.frc.team2976.robot.Robot;
 import Vision.ProcessResult;
 import Vision.TraceLog;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class AutoMainDrive extends Command {
@@ -29,14 +28,13 @@ public class AutoMainDrive extends Command {
 	
 	protected void execute()
 	{
-		TraceLog.Log("Range", "Ultrasonic="+Robot.drivetrain.getDistanceInches());
-		
 		m_data.m_autoRunTime = System.currentTimeMillis() - m_data.m_autoStartTime;
+		
 		if (CheckToStartFinalMoveForward())
 		{
 			return;
 		}
-
+		
 		if (ActionState.StartAction == m_data.m_state)
 		{
 			switch (m_data.m_actionType)
@@ -97,7 +95,8 @@ public class AutoMainDrive extends Command {
 	void WaitForAction()
 	{
 		m_data.m_action.Execute();
-		TraceLog.Log("WaitForAction at " + m_data.m_autoRunTime, m_data.m_action.GetWaitLog());
+		TraceLog.Log("WaitForAction at " + m_data.m_autoRunTime, 
+			m_data.m_action.GetWaitLog() + ", Ultrasonic=" + TraceLog.Round2(Robot.drivetrain.getDistanceInches()));
 		if (m_data.m_action.IsFinished())
 		{
 			m_data.m_action.Stop();
@@ -114,6 +113,7 @@ public class AutoMainDrive extends Command {
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+		TraceLog.Log("AutoMainDrive", "interrupted()");
     }
 	
 }
