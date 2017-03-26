@@ -23,7 +23,6 @@ import util.RPS;
 public class DriveTrain extends Subsystem {
 	public CANTalon rightFrontMotor, leftFrontMotor;
 	public CANTalon rightBackMotor, leftBackMotor;
-	public Ultrasonic ultrasonic;
 	private RobotDrive m_drive;
 	public PIDMain rotationLock;
 	public PIDSource gyroSource;
@@ -35,7 +34,8 @@ public class DriveTrain extends Subsystem {
 		Robot.rps.reset();
 		Timer.delay(1); 
 		ultra = new Ultrasonic(2 /*output*/,1 /*input*/);
-		
+		//ultra.setAutomaticMode(true);
+		ultra.setEnabled(true);
 		gyroSource = new PIDSource() {
 			public double getInput() {
 				return getHeading();
@@ -51,12 +51,12 @@ public class DriveTrain extends Subsystem {
 		leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
 		rightBackMotor = new CANTalon(RobotMap.RightBackDriveMotor);
 		leftBackMotor = new CANTalon(RobotMap.LeftBackDriveMotor);
-		
+		/*
 		rightBackMotor.enableBrakeMode(true);
 		leftBackMotor.enableBrakeMode(true);
 		rightFrontMotor.enableBrakeMode(true);
 		leftFrontMotor.enableBrakeMode(true);
-		
+		*/
 		m_drive = new RobotDrive(leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor);
 		
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
@@ -76,7 +76,8 @@ public class DriveTrain extends Subsystem {
 		return Robot.rps.getAngle();
 	}
 	public double getDistanceInches()	{
-		return ultrasonic.getRangeInches();
+		SmartDashboard.putNumber("ultra", ultra.getRangeInches());
+		return ultra.getRangeInches();
 	}
 	// Rounds numbers to 2 decimal places to make SmartDashboard nicer. Could
 	// also be used to prevents OPs things
@@ -148,6 +149,7 @@ public class DriveTrain extends Subsystem {
 	}
 	
 	public double getUltrasonicDistance() {
+		SmartDashboard.putNumber("ultra", ultra.getRangeInches());
 		return ultra.getRangeInches();
 	}
 }

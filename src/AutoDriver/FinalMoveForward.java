@@ -20,7 +20,7 @@ public class FinalMoveForward extends BaseAction {
 	public void Start(AutoData p_data)
 	{
 		super.Start(p_data);	
-
+		m_data.m_finalFinished = true;
 		m_angle = m_data.m_lastGoodResult.m_angle;
 		m_distance = m_data.m_lastGoodResult.m_distance;
 		
@@ -34,12 +34,15 @@ public class FinalMoveForward extends BaseAction {
 	public void Execute()
 	{
 		super.Execute();
-		double distance = Robot.drivetrain.getDistanceInches();
+		Robot.drivetrain.tankDrive(m_leftMotorPower, m_rightMotorPower);
 		
-		if (distance <4 ){
+		//double distance = Robot.drivetrain.getDistanceInches();
+		/*
+		if (m_actionRunPeriod < 9000 ){
 			m_finished = true;
 			TraceLog.Log("FinalMoveForward", "finished by distance");
 		}
+		*/
 	}
 		
 	@Override

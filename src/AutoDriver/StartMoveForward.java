@@ -41,6 +41,7 @@ public class StartMoveForward extends BaseAction {
 	public void Execute()
 	{
 		super.Execute();
+		Robot.drivetrain.tankDrive(m_leftMotorPower, m_rightMotorPower);
 		if (m_actionRunPeriod > m_toMoveTimeInMsec){
 			m_finished = true;
 		}

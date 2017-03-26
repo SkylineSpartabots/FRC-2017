@@ -15,15 +15,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // Class works, don't touch
 
 public class DriveWithJoystick extends Command {
-	double prevTime;
-	boolean isReversed = false;
-
+	double prevTimeReverse;
+	double prevTimeSideways;
+	
+	boolean isReversed = false;	
+	boolean isSideways = false;
+	
 	public DriveWithJoystick() {
 		requires(Robot.drivetrain);
 	}
 
 	protected void initialize() {
-		prevTime = System.currentTimeMillis();
+		prevTimeReverse = System.currentTimeMillis();
 		Robot.rps.ahrs.reset();
 		Robot.drivetrain.rotationLock.resetPID();
 		Timer.delay(1);
@@ -40,19 +43,30 @@ public class DriveWithJoystick extends Command {
 		double heading = Robot.rps.getHeadingADNS();
 
 		if (Robot.oi.driveStick.getRawButton(OI.Button.RBumper.getBtnNumber())
-				&& (System.currentTimeMillis() - prevTime) > 500) {
+				&& (System.currentTimeMillis() - prevTimeReverse) > 500) {
 			isReversed = !isReversed; // toggle
-			prevTime = System.currentTimeMillis();
+			prevTimeReverse = System.currentTimeMillis();
+		}
+		if (Robot.oi.driveStick.getRawButton(OI.Button.LBumper.getBtnNumber())
+				&& (System.currentTimeMillis() - prevTimeSideways) > 500) {
+			isSideways = !isSideways; // toggle
+			prevTimeSideways = System.currentTimeMillis();
 		}
 		SmartDashboard.putBoolean("isReversed", isReversed);
-		SmartDashboard.putNumber("Ultra", Robot.drivetrain.getDistanceInches());
-		SmartDashboard.putBoolean("isPressed", Robot.oi.driveStick.getRawButton(OI.Button.RBumper.getBtnNumber()));
+		SmartDashboard.putBoolean("isSideways", isSideways);
+		
 		if (isReversed) {
 			strafe = -Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
 			forward = -Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
 			rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
 			slowMode = false;
-		} else {
+		} else if (isSideways){
+			strafe = Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
+			forward = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
+			rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
+			slowMode = false;
+		}
+		else {
 			strafe = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
 			forward = Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
 			rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
@@ -86,10 +100,10 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putNumber("Strafe", Robot.drivetrain.round(strafe));
 		SmartDashboard.putNumber("Rotation", Robot.drivetrain.round(rotation));
 		
-		if(Robot.oi.driveStick.getRawButton(OI.Button.Y.getBtnNumber()))	{
-			Robot.drivetrain.rotationLock.disable(0);
+		if(Robot.oi.driveStick.getRawButton(OI.Button.X.getBtnNumber()))	{
+			Robot.drivetrain.rotationLock.disable(0); 
 		}	
-		if(Robot.oi.driveStick.getRawButton(OI.Button.X.getBtnNumber())){
+		if(Robot.oi.driveStick.getRawButton(OI.Button.Y.getBtnNumber())){
 			Robot.drivetrain.rotationLock.enable(true);
 		}
 		

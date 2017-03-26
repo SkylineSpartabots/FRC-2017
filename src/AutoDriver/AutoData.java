@@ -18,10 +18,12 @@ enum ActionType {
 }
 
 
-public class AutoData {
-	public static final long FinalTimeoutThresholdMs = 9000;
+public class AutoData {	
+	
+	public static final long FinalTimeoutThresholdMs = 5000;
 	public static final long FinalStartDistanceInches = 25;
 	public static final long FinalStartAngleDegree = 1;
+	
 	
 	
 	public static final long StartMoveTime = 400;
@@ -34,9 +36,9 @@ public class AutoData {
 	
 	
 	
-	public static final long MoveBaseTime = 325;
-	public static final double MovePowerBase = .6;
-	public static final double Kp = .03;
+	public static final long MoveBaseTime = 400;
+	public static final double MovePowerBase = .5;
+	public static double Kp = .03;
 
 	
 	ActionState m_state = ActionState.StartAction;
