@@ -20,7 +20,7 @@ enum ActionType {
 
 public class AutoData {	
 	
-	public static final long FinalTimeoutThresholdMs = 5000;
+	public static final long FinalTimeoutThresholdMs = 3000;
 	public static final long FinalStartDistanceInches = 25;
 	public static final long FinalStartAngleDegree = 1;
 	
@@ -36,7 +36,7 @@ public class AutoData {
 	
 	
 	
-	public static final long MoveBaseTime = 400;
+	public static final long MoveBaseTime = 500;
 	public static final double MovePowerBase = .5;
 	public static double Kp = .03;
 

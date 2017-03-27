@@ -62,8 +62,8 @@ public class Robot extends IterativeRobot {
 		vision.start(); 
         chooser = new SendableChooser<Command>();
         chooser.addObject("Center", new CenterAuto());
-        chooser.addObject("Left", new LeftAuto());
-        chooser.addObject("Right", new RightAuto());
+        chooser.addObject("LeftSideOfField", new LeftAuto());
+        chooser.addObject("RightSide", new RightAuto());
         chooser.addDefault("Default Auto", new CenterAuto());
         SmartDashboard.putData("Auto mode", chooser);
         
@@ -93,8 +93,8 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-	 	autonomousCommand = (Command) chooser.getSelected();
-	    
+	 	//autonomousCommand = (Command) chooser.getSelected();
+	    autonomousCommand = (Command) new RightAuto();
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
     }

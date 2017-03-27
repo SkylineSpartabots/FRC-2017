@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class OfCenterTurn extends Command {
+public class OnCenterTurn extends Command {
 	long initialTime;
 	long duration;
 	double power;
@@ -20,7 +20,7 @@ public class OfCenterTurn extends Command {
 	 * @param direction
 	 *            this is either left (false) or right(true)
 	 */
-	public OfCenterTurn(int time_ms, double power, boolean direction) {
+	public OnCenterTurn(int time_ms, double power, boolean direction) {
 		requires(Robot.drivetrain);
 		duration = time_ms;
 		this.power = power;

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 
 public class VisionMain {
 	
-	VisionConfig config = new VisionConfig();
+	public VisionConfig config = new VisionConfig();
 	ImageProcessor processor = new ImageProcessor();
 	
 	int round = 0;

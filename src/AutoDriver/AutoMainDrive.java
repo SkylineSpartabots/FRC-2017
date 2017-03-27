@@ -23,6 +23,11 @@ public class AutoMainDrive extends Command {
 		m_data.m_lastGoodResult = new ProcessResult(null, null);
 		m_data.m_lastGoodResult.m_distance = 100;
 		
+		Robot.vision.config.logTopTarget = true;
+		Robot.vision.config.logMatchTarget = true;
+		Robot.vision.config.saveBitmap = true;
+		Robot.vision.saveAllPicture = true;
+		
 		StartAction(new StartMoveForward());
 	}
 	
@@ -108,13 +113,18 @@ public class AutoMainDrive extends Command {
 	}
     // Called once after isFinished returns true
     protected void end() {
-  
+    	Robot.vision.config.logTopTarget = false;
+		Robot.vision.config.logMatchTarget = false;
+		Robot.vision.config.saveBitmap = false;
+		Robot.vision.saveAllPicture = false;
+		
     	TraceLog.Log("AutoMainDrive", "End");
     }
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
 		TraceLog.Log("AutoMainDrive", "interrupted()");
+		this.end();
     }
 	
 }
