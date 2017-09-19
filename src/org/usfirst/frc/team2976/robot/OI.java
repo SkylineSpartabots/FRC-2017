@@ -36,7 +36,7 @@ public class OI {
 	}
 
 	public enum Axis {
-		LX(0), LY(1), LTrigger(2), RTrigger(3), RX(4), RY(5);
+		LX(0), LY(1), LTrigger(2), RTrigger(3), RX(4), RY(5), X(0), Y(1), Z(2);
 		private final int number;
 
 		Axis(int number) {

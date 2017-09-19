@@ -41,6 +41,15 @@ public class DriveWithJoystick extends Command {
 		double x_relative = Robot.rps.getXDisplacementADNS();
 		double y_relative = Robot.rps.getYDisplacementADNS();
 		double heading = Robot.rps.getHeadingADNS();
+		
+		int LX = OI.Axis.LX.getAxisNumber();
+		int LY = OI.Axis.LY.getAxisNumber();
+		int RX = OI.Axis.RX.getAxisNumber();
+		
+		int X = OI.Axis.X.getAxisNumber();
+		int Y = OI.Axis.Y.getAxisNumber();
+		int Z = OI.Axis.Z.getAxisNumber();
+		
 
 		if (Robot.oi.driveStick.getRawButton(OI.Button.RBumper.getBtnNumber())
 				&& (System.currentTimeMillis() - prevTimeReverse) > 500) {
@@ -56,20 +65,20 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putBoolean("isSideways", isSideways);
 		
 		if (isReversed) {
-			strafe = -Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
-			forward = -Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
-			rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
+			strafe = -Robot.oi.driveStick.getRawAxis(X);
+			forward = -Robot.oi.driveStick.getRawAxis(Y);
+			rotation = Robot.oi.driveStick.getRawAxis(Z);
 			slowMode = false;
 		} else if (isSideways){
-			strafe = Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
-			forward = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
-			rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
+			strafe = Robot.oi.driveStick.getRawAxis(Y);
+			forward = Robot.oi.driveStick.getRawAxis(X);
+			rotation = Robot.oi.driveStick.getRawAxis(Z);
 			slowMode = false;
 		}
 		else {
-			strafe = Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
-			forward = Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
-			rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
+			strafe = Robot.oi.driveStick.getRawAxis(X);
+			forward = Robot.oi.driveStick.getRawAxis(Y);
+			rotation = Robot.oi.driveStick.getRawAxis(Z);
 			slowMode = false;
 		}
 
