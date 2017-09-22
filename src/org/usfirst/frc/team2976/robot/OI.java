@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import org.usfirst.frc.team2976.robot.commands.Climb;
 import org.usfirst.frc.team2976.robot.commands.EmptyHopper;
 import org.usfirst.frc.team2976.robot.commands.ExampleCommand;
+import org.usfirst.frc.team2976.robot.commands.IntakeGear;
+import org.usfirst.frc.team2976.robot.commands.LiftGear;
 import org.usfirst.frc.team2976.robot.commands.StopHopper;
 import org.usfirst.frc.team2976.robot.commands.TakePicture;
 import org.usfirst.frc.team2976.robot.commands.TimedDrive;
@@ -36,7 +38,7 @@ public class OI {
 	}
 
 	public enum Axis {
-		LX(0), LY(1), LTrigger(2), RTrigger(3), RX(4), RY(5), X(0), Y(1), Z(2);
+		LX(0), LY(1), LTrigger(2), RTrigger(3), RX(4), RY(5);
 		private final int number;
 
 		Axis(int number) {
@@ -59,5 +61,8 @@ public class OI {
 		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.5));
 		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whenPressed(new EmptyHopper());
 		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new StopHopper());
+		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whenPressed(new LiftGear(0.0));
+		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whenPressed(new LiftGear(0.25));
+		new JoystickButton(secondStick, OI.Button.A.getBtnNumber()).whileHeld(new IntakeGear());
 	}
 }

@@ -15,10 +15,17 @@ public class RobotMap {
 	public static final int intakeMotor = 5;
 	public static final int climberMotor = 6;
 	public static final int hopperMotor = 7; //TODO
+	public static final int shooter = 9;
 	//servos for hopper
 	public static final int hopperServoRight = 1;
 	public static final int hopperServoLeft = 0;
+	//servos for gear
+	public static final int gearServoRight = 1;
+	public static final int gearServoLeft = 0;
+	public static final int gearMotor = 8;
 	//ultrasonic sensors-- two ports
 	public static final int ultrasonicSensorA = 2; 
 	public static final int ultrasonicSensorB = 1; 
+	
+	
 }

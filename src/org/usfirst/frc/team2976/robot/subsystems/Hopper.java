@@ -18,8 +18,8 @@ public class Hopper extends Subsystem {
 	 
 	public Hopper()	{
     	hopperMotor = new CANTalon(RobotMap.hopperMotor);
-       	hopperServoRight = new Servo(RobotMap.hopperServoRight);
-    	hopperServoLeft = new Servo(RobotMap.hopperServoLeft);
+       	//hopperServoRight = new Servo(RobotMap.hopperServoRight);
+    	//hopperServoLeft = new Servo(RobotMap.hopperServoLeft);
 	}
     
     public void raiseHopper(double power)	{
@@ -30,8 +30,8 @@ public class Hopper extends Subsystem {
     	hopperMotor.set(power);
     }
     public void setHopperServos(double scaledPosition) {
-    	hopperServoRight.set(scaledPosition);
-        hopperServoLeft.set(1.0-scaledPosition);	
+    	//hopperServoRight.set(scaledPosition);
+        // hopperServoLeft.set(1.0-scaledPosition);	
     	
     }
     public boolean isRaised()	{

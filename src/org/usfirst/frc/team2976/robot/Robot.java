@@ -11,6 +11,7 @@ import org.usfirst.frc.team2976.robot.commands.RightAuto;
 import org.usfirst.frc.team2976.robot.subsystems.Climber;
 import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team2976.robot.subsystems.Gear;
 import org.usfirst.frc.team2976.robot.subsystems.IntakeRoller;
 
 import Vision.*;
@@ -39,6 +40,7 @@ public class Robot extends IterativeRobot {
 	public static IntakeRoller intakeroller;
 	public static DriveTrain drivetrain;
 	public static Hopper hopper;
+	public static Gear gear;
 	public static VisionMain vision;
     Command autonomousCommand;
     SendableChooser<Command> chooser;
@@ -57,6 +59,7 @@ public class Robot extends IterativeRobot {
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
     	hopper = new Hopper();
+    	gear = new Gear();
     	oi = new OI();
 		vision = new VisionMain();
 		vision.start(); 
