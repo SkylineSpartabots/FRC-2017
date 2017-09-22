@@ -14,23 +14,21 @@ import edu.wpi.first.wpilibj.Servo;
 public class Gear extends Subsystem {
 	private Jaguar gearMotor;
 	
-	private Servo gearServoRight;
-	private Servo gearServoLeft;
+	private CANTalon gearPivot;
 	 
 	public Gear()	{
     	gearMotor = new Jaguar(RobotMap.gearMotor);
-       	gearServoRight = new Servo(RobotMap.gearServoRight);
-    	gearServoLeft = new Servo(RobotMap.gearServoLeft);
+       	gearPivot= new CANTalon(RobotMap.gearPivotMotor);
+
 	}
     
     public void intakeGear(double power)	{
     	gearMotor.set(power);
     }
     
-    public void setGearServos(double scaledPosition) {
-    	gearServoRight.set(scaledPosition);
-    	//gearServoLeft.set(scaledPosition);
-        gearServoLeft.set(1.0-scaledPosition);	
+    public void setGearPivot(double power) {
+    	gearPivot.set(power);
+    	//gearServoLeft.set(scaledPosition);	
     	
     }
     public boolean isRaised()	{

@@ -59,10 +59,10 @@ public class OI {
 		new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whenPressed(new TimedDrive(50,-0.5,true));
 		new JoystickButton(secondStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(0.9));
 		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.5));
-		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whenPressed(new EmptyHopper());
-		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new StopHopper());
-		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whenPressed(new LiftGear(0.0));
-		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whenPressed(new LiftGear(0.25));
+		//new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whenPressed(new EmptyHopper());
+		//new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new StopHopper());
+		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whileHeld(new LiftGear(-0.35));
+		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new LiftGear(0.35));
 		new JoystickButton(secondStick, OI.Button.A.getBtnNumber()).whileHeld(new IntakeGear());
 	}
 }

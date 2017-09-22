@@ -8,12 +8,12 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class LiftGear extends Command {
-	private double m_position;
-    public LiftGear(double m_position) {
+	private double m_power;
+    public LiftGear(double m_power) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.gear);
-    	this.m_position = m_position;
+    	this.m_power = m_power;
     }
 
     // Called just before this Command runs the first time
@@ -22,7 +22,7 @@ public class LiftGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.gear.setGearServos(m_position);
+    	Robot.gear.setGearPivot(m_power);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,7 +32,7 @@ public class LiftGear extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+    	Robot.gear.setGearPivot(0);
     }
 
     // Called when another command which requires one or more of the same

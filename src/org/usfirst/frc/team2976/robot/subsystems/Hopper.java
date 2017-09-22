@@ -17,17 +17,17 @@ public class Hopper extends Subsystem {
 	private Servo hopperServoLeft;
 	 
 	public Hopper()	{
-    	hopperMotor = new CANTalon(RobotMap.hopperMotor);
+    	//hopperMotor = new CANTalon(RobotMap.hopperMotor);
        	//hopperServoRight = new Servo(RobotMap.hopperServoRight);
     	//hopperServoLeft = new Servo(RobotMap.hopperServoLeft);
 	}
     
     public void raiseHopper(double power)	{
-    	hopperMotor.set(power);
+    	//hopperMotor.set(power);
     }
     
     public void lowerHopper(double power)	{
-    	hopperMotor.set(power);
+    	//hopperMotor.set(power);
     }
     public void setHopperServos(double scaledPosition) {
     	//hopperServoRight.set(scaledPosition);
