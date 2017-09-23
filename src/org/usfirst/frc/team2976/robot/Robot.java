@@ -16,7 +16,6 @@ import org.usfirst.frc.team2976.robot.subsystems.IntakeRoller;
 
 import Vision.*;
 
-import org.usfirst.frc.team2976.robot.subsystems.Hopper;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,7 +38,6 @@ public class Robot extends IterativeRobot {
 	public static Climber climber;
 	public static IntakeRoller intakeroller;
 	public static DriveTrain drivetrain;
-	public static Hopper hopper;
 	public static Gear gear;
 	public static VisionMain vision;
     Command autonomousCommand;
@@ -58,7 +56,6 @@ public class Robot extends IterativeRobot {
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
-    	hopper = new Hopper();
     	gear = new Gear();
     	oi = new OI();
 		vision = new VisionMain();

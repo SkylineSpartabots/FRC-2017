@@ -22,7 +22,7 @@ public class IntakeGear extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.gear.setGearPivot(m_power);
+    	Robot.gear.intakeGear(m_power);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -32,7 +32,7 @@ public class IntakeGear extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.gear.setGearPivot(0);
+    	Robot.gear.intakeGear(0);
     }
 
     // Called when another command which requires one or more of the same

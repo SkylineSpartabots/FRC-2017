@@ -25,4 +25,17 @@ public class RobotMap {
 	public static final int ultrasonicSensorB = 1; 
 	
 	
+	
+	
+	
+	public static final int climbButton = 0;
+	
+	public static final int intakeBalls = 0;
+	public static final int shoot = 0;
+	
+	public static final int raiseGearMech = 0;
+	public static final int lowerGearMech = 0;
+	
+	
+	
 }
