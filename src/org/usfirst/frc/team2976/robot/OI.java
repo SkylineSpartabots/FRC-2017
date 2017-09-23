@@ -63,6 +63,5 @@ public class OI {
 		//new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new StopHopper());
 		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whileHeld(new IntakeGear(-0.35));
 		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new IntakeGear(0.35));
-		new JoystickButton(secondStick, OI.Button.A.getBtnNumber()).whileHeld(new LiftGear());
 	}
 }
