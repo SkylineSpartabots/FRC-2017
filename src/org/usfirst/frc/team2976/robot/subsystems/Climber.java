@@ -5,6 +5,7 @@ import org.usfirst.frc.team2976.robot.commands.Climb;
 
 import com.ctre.CANTalon;
 
+import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -12,10 +13,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Climber extends Subsystem {
-	private CANTalon climberMotor;
+	private Jaguar climberMotor;
 	
 	public Climber(){
-		climberMotor = new CANTalon(RobotMap.climberMotor);
+		climberMotor = new Jaguar(RobotMap.climberMotor);
 	}
 	public void setClimber(double power){
 		climberMotor.set(power); 

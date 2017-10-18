@@ -3,6 +3,7 @@ package AutoDriver;
 import org.usfirst.frc.team2976.robot.Robot;
 
 import Vision.TraceLog;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 enum MoveForwardDirection {
 	Left,
@@ -41,8 +42,13 @@ public class MoveForward extends BaseAction {
 		
 		m_toMoveTimeInMsec = AutoData.MoveBaseTime;
 		
-		m_leftMotorPower = AutoData.MovePowerBase - m_angle* AutoData.Kp;
-		m_rightMotorPower = AutoData.MovePowerBase + m_angle* AutoData.Kp;
+		m_leftMotorPower = AutoData.MovePowerBase - m_angle* 0.01;//AutoData.Kp;
+		m_rightMotorPower = AutoData.MovePowerBase + m_angle* 0.01;//AutoData.Kp;
+		
+		SmartDashboard.putNumber("Angle", m_data.m_lastGoodResult.m_angle);
+		SmartDashboard.putNumber("Distance",  m_data.m_lastGoodResult.m_distance);
+		SmartDashboard.putNumber("MoveForward Left", m_leftMotorPower);
+		SmartDashboard.putNumber("MoveForward Right", m_rightMotorPower);
 		
 		Robot.drivetrain.tankDrive(m_leftMotorPower, m_rightMotorPower);
 	}

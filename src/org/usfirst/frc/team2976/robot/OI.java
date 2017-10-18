@@ -38,7 +38,7 @@ public class OI {
 	}
 
 	public enum Axis {
-		LX(0), LY(1), LTrigger(2), RTrigger(3), RX(4), RY(5);
+		LX(0), LY(1), LTrigger(2), RTrigger(3), RX(4), RY(5), X(0), Y(1), Z(2);
 		private final int number;
 
 		Axis(int number) {
@@ -55,13 +55,14 @@ public class OI {
 		secondStick = new Joystick(1);
 		
 		
-		new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new TimedDrive(50,0.5,true));
-		new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whenPressed(new TimedDrive(50,-0.5,true));
-		new JoystickButton(secondStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(0.9));
-		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.5));
+		//new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new TimedDrive(50,0.5,true));
+		//new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whenPressed(new TimedDrive(50,-0.5,true));
+		new JoystickButton(secondStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new SpinIntake(0.2)); //lowering the gear
+		new JoystickButton(secondStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new SpinIntake(-0.8)); //lifting the gear
 		//new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whenPressed(new EmptyHopper());
 		//new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new StopHopper());
 		new JoystickButton(secondStick, OI.Button.X.getBtnNumber()).whileHeld(new IntakeGear(-0.35));
 		new JoystickButton(secondStick, OI.Button.Y.getBtnNumber()).whileHeld(new IntakeGear(0.35));
+		new JoystickButton(driveStick, OI.Button.Y.getBtnNumber()).whenPressed(new LiftGear());
 	}
 }

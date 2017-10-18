@@ -5,6 +5,7 @@ import org.usfirst.frc.team2976.robot.Robot;
 import Vision.ProcessResult;
 import Vision.TraceLog;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class AutoMainDrive extends Command {
@@ -42,6 +43,7 @@ public class AutoMainDrive extends Command {
 		
 		if (ActionState.StartAction == m_data.m_state)
 		{
+			SmartDashboard.putString("Action Type", m_data.m_actionType.toString());
 			switch (m_data.m_actionType)
 			{
 			 case TakePicture:

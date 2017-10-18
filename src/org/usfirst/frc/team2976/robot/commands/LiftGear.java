@@ -1,4 +1,5 @@
 package org.usfirst.frc.team2976.robot.commands;
+import org.usfirst.frc.team2976.robot.OI;
 import org.usfirst.frc.team2976.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -6,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
  *@author NeilHazra
  */
 public class LiftGear extends Command {
+	double power;
     public LiftGear() {
     	requires(Robot.gear);
     }
@@ -15,11 +17,12 @@ public class LiftGear extends Command {
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.gear.setGearPivot(0.5);
+    	power = 0.1;
+    	Robot.gear.setGearPivot(power);
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return Robot.gear.getLimitSwitch();
     }
     // Called once after isFinished returns true
     protected void end() {

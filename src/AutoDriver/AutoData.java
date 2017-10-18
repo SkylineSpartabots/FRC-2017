@@ -38,7 +38,7 @@ public class AutoData {
 	
 	public static final long MoveBaseTime = 500;
 	public static final double MovePowerBase = .5;
-	public static double Kp = .03;
+	public static double Kp = 0.03;
 
 	
 	ActionState m_state = ActionState.StartAction;

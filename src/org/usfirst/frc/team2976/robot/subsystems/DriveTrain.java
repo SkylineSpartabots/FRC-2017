@@ -51,6 +51,7 @@ public class DriveTrain extends Subsystem {
 		leftFrontMotor = new CANTalon(RobotMap.LeftFrontDriveMotor);
 		rightBackMotor = new CANTalon(RobotMap.RightBackDriveMotor);
 		leftBackMotor = new CANTalon(RobotMap.LeftBackDriveMotor);
+	
 		/*
 		rightBackMotor.enableBrakeMode(true);
 		leftBackMotor.enableBrakeMode(true);
@@ -61,6 +62,11 @@ public class DriveTrain extends Subsystem {
 		
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, true);
 		m_drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, true);
+		
+		/*m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontLeft, false);
+		m_drive.setInvertedMotor(RobotDrive.MotorType.kRearLeft, false);
+		m_drive.setInvertedMotor(RobotDrive.MotorType.kFrontRight, true);
+		m_drive.setInvertedMotor(RobotDrive.MotorType.kRearRight, true);*/
 	}
 
 	public void initDefaultCommand() {

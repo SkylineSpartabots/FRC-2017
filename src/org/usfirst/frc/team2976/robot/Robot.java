@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team2976.robot.commands.CenterAuto;
 import org.usfirst.frc.team2976.robot.commands.LeftAuto;
 import org.usfirst.frc.team2976.robot.commands.RightAuto;
+import org.usfirst.frc.team2976.robot.commands.TimedDrive;
 import org.usfirst.frc.team2976.robot.subsystems.Climber;
 import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
@@ -97,7 +98,8 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
 	 	//autonomousCommand = (Command) chooser.getSelected();
-	    autonomousCommand = (Command) new RightAuto();
+	    //autonomousCommand = (Command) new TimedDrive(2000, -0.5, true);
+    	autonomousCommand = (Command) new LeftAuto();
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
     }
