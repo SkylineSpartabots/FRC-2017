@@ -56,20 +56,10 @@ public class DriveWithJoystick extends Command {
 		SmartDashboard.putBoolean("isSideways", isSideways);
 		
 
-boolean isJoystick = false;
-if (isJoystick) {
-	strafe = Robot.oi.driveStick.getRawAxis(OI.Axis.X.getAxisNumber());
-	forward = -Robot.oi.driveStick.getRawAxis(OI.Axis.Y.getAxisNumber());
-	rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.Z.getAxisNumber());
-	slowMode = false;
-} else {
-	strafe = -Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
-	forward = -Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
-	rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
-	slowMode = false;
-}
-		
-
+		strafe = -Robot.oi.driveStick.getRawAxis(OI.Axis.LX.getAxisNumber());
+		forward = -Robot.oi.driveStick.getRawAxis(OI.Axis.LY.getAxisNumber());
+		rotation = Robot.oi.driveStick.getRawAxis(OI.Axis.RX.getAxisNumber());
+		slowMode = false;	
 
 		forward = Robot.drivetrain.driveCurve(forward, false, slowMode);
 		strafe = Robot.drivetrain.driveCurve(strafe, true, slowMode);

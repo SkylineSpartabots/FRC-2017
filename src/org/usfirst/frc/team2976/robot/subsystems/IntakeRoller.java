@@ -13,7 +13,7 @@ public class IntakeRoller extends Subsystem {
 	private CANTalon intakeMotor;
 	
 	public IntakeRoller(){
-		intakeMotor = new CANTalon(RobotMap.intakeMotor);
+		intakeMotor = new CANTalon(RobotMap.gearIntakeMotor);
 	}
 	
 	public void setRoller(double power){

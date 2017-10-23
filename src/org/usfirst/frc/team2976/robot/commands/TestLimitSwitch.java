@@ -9,9 +9,9 @@ import org.usfirst.frc.team2976.robot.Robot;
 /**
  *
  */
-public class LimitSwitch extends Command {
+public class TestLimitSwitch extends Command {
 
-    public LimitSwitch() {
+    public TestLimitSwitch() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.gear);
     }

@@ -8,13 +8,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team2976.robot.commands.CenterAuto;
 import org.usfirst.frc.team2976.robot.commands.LeftAuto;
 import org.usfirst.frc.team2976.robot.commands.RightAuto;
-import org.usfirst.frc.team2976.robot.commands.TimedDrive;
 import org.usfirst.frc.team2976.robot.subsystems.Climber;
 import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team2976.robot.subsystems.Gear;
 import org.usfirst.frc.team2976.robot.subsystems.IntakeRoller;
-import org.usfirst.frc.team2976.robot.subsystems.Shooter;
 
 import Vision.*;
 
@@ -41,7 +39,6 @@ public class Robot extends IterativeRobot {
 	public static DriveTrain drivetrain;
 	public static Gear gear;
 	public static VisionMain vision;
-	public static Shooter shooter;
     Command autonomousCommand;
     SendableChooser<Command> chooser;
 
@@ -58,7 +55,6 @@ public class Robot extends IterativeRobot {
 		climber = new Climber();
     	drivetrain = new DriveTrain();
     	intakeroller = new IntakeRoller();
-    	shooter = new Shooter();
     	gear = new Gear();
     	oi = new OI();
 		vision = new VisionMain();

@@ -23,12 +23,13 @@ public class Climb extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	double power = 0;
-    	if (Robot.oi.driveStick.getRawButton(1)) {
+    	/*if (Robot.oi.driveStick.getRawButton(1)) {
     		power = 0.7;
     	} else {
     		power = 0;
-    	}
+    	}*/
     	
+    	power = Robot.oi.driveStick.getRawAxis(OI.Axis.LTrigger.getAxisNumber());
     	Robot.climber.setClimber(power);
     	SmartDashboard.putNumber("Climber", power);
     }

@@ -7,8 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
  *@author NeilHazra
  */
 public class LiftGear extends Command {
-	double power;
-    public LiftGear() {
+	double m_power;
+    public LiftGear(double power) {
+    	m_power = power;
     	requires(Robot.gear);
     }
     // Called just before this Command runs the first time
@@ -17,8 +18,7 @@ public class LiftGear extends Command {
     }
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	power = 0.1;
-    	Robot.gear.setGearPivot(power);
+    	Robot.gear.setGearPivot(m_power);
     }
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {

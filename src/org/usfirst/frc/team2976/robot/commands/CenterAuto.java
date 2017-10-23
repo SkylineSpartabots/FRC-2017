@@ -19,9 +19,9 @@ public class CenterAuto extends CommandGroup {
 	   	//addSequential(new TimedDrive(900, -0.40, true)); //2 foot
 	   	
 	   	//Center Auto
-	   	//addSequential(new TimedDrive(600, -0.40, true)); //1 foot
+	   	addSequential(new TimedDrive(600, -0.40, true)); //1 foot
 	   	addSequential(new AutoMainDrive(AutoDriver.StartPosition.Center));
-	   	//addSequential(new TimedDrive(800, -0.40, true)); //2 foot
+	   	addSequential(new TimedDrive(800, -0.40, true)); //2 foot
 	   	//addSequential(new TimedDrive(400, -0.30, true)); //2 foot
 		
 	   	/*
