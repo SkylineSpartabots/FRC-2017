@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Jaguar;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 import org.usfirst.frc.team2976.robot.RobotMap;
+import org.usfirst.frc.team2976.robot.commands.LowerGear;
 import org.usfirst.frc.team2976.robot.commands.TestLimitSwitch;
 
 import com.ctre.CANTalon;
@@ -19,10 +20,9 @@ public class Gear extends Subsystem {
 	private CANTalon gearPivot;
     private DigitalInput limitSwitch;
 	public Gear()	{
-    	gearIntake = new CANTalon(8);
+    	gearIntake = new CANTalon(RobotMap.gearIntakeMotor);
+    	gearPivot = new CANTalon(RobotMap.gearPivotMotor);
     	limitSwitch = new DigitalInput(RobotMap.limitSwitch);
-      // 	gearPivot= new CANTalon(RobotMap.gearPivotMotor);
-
 	}
 	
 	public boolean getLimitSwitch() {
@@ -35,16 +35,15 @@ public class Gear extends Subsystem {
     
     public void setGearPivot(double power) {
     	gearPivot.set(power);
-    	//gearServoLeft.set(scaledPosition);	
-    	
     }
+    
     public boolean isRaised()	{
     	return false;//beamBreak.get(); //might need to negate this value depending on wiring of sensor
     }
     
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
-        setDefaultCommand(new TestLimitSwitch());
+       setDefaultCommand(new TestLimitSwitch());
     }
 }
 
