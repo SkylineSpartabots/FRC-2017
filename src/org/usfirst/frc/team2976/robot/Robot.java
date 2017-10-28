@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import org.usfirst.frc.team2976.robot.commands.CenterAuto;
 import org.usfirst.frc.team2976.robot.commands.LeftAuto;
 import org.usfirst.frc.team2976.robot.commands.RightAuto;
+import org.usfirst.frc.team2976.robot.commands.TimedDrive;
 import org.usfirst.frc.team2976.robot.subsystems.Climber;
 import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team2976.robot.subsystems.ExampleSubsystem;
-import org.usfirst.frc.team2976.robot.subsystems.Gear;
-import org.usfirst.frc.team2976.robot.subsystems.IntakeRoller;
 
 import Vision.*;
 
@@ -35,9 +34,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static RPS rps;
 	public static Climber climber;
-	public static IntakeRoller intakeroller;
 	public static DriveTrain drivetrain;
-	public static Gear gear;
 	public static VisionMain vision;
     Command autonomousCommand;
     SendableChooser<Command> chooser;
@@ -54,8 +51,6 @@ public class Robot extends IterativeRobot {
 
 		climber = new Climber();
     	drivetrain = new DriveTrain();
-    	intakeroller = new IntakeRoller();
-    	gear = new Gear();
     	oi = new OI();
 		vision = new VisionMain();
 		vision.start(); 
@@ -93,8 +88,8 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
 	 	//autonomousCommand = (Command) chooser.getSelected();
-	    //autonomousCommand = (Command) new TimedDrive(2000, -0.5, true);
-    	autonomousCommand = (Command) new LeftAuto();
+	    autonomousCommand = (Command) new TimedDrive(2000, -0.5, true); //-0.5
+    	//autonomousCommand = (Command) new ();
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
     }

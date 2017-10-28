@@ -65,8 +65,8 @@ public class DriveWithJoystick extends Command {
 		strafe = Robot.drivetrain.driveCurve(strafe, true, slowMode);
 		rotation = Robot.drivetrain.driveCurve(rotation, false, slowMode);
 
-		double RT = Robot.oi.driveStick.getRawAxis(OI.Axis.RTrigger.getAxisNumber());
-		double LT = Robot.oi.driveStick.getRawAxis(OI.Axis.LTrigger.getAxisNumber());
+		//double RT = Robot.oi.driveStick.getRawAxis(OI.Axis.RTrigger.getAxisNumber());
+		//double LT = Robot.oi.driveStick.getRawAxis(OI.Axis.LTrigger.getAxisNumber());
 		
 		/*if (isReversed) {
 			if (RT > 0.1) {

@@ -91,6 +91,9 @@ public class ProcessResult {
 					Target.TargetWidth);
 		}
 		
+		//Added code for offset of camera. Camera sees it 6 inches to the left of what it actually is
+		m_centerX += 6;
+		
 		if (m_distance>0)
 		{
 			m_angle = Math.atan(m_sideDistance/m_distance)*180/Math.PI;

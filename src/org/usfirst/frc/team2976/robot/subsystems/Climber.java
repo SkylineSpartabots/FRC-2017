@@ -15,10 +15,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class Climber extends Subsystem {
-	private Talon climberMotor;
+	private CANTalon climberMotor;
 	
 	public Climber(){
-		climberMotor = new Talon(RobotMap.climberMotor);
+		climberMotor = new CANTalon(RobotMap.climberMotor);
 	}
 	public void setClimber(double power){
 		climberMotor.set(power); 

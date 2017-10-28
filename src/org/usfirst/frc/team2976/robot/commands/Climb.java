@@ -29,7 +29,7 @@ public class Climb extends Command {
     		power = 0;
     	}*/
     	
-    	power = Robot.oi.driveStick.getRawAxis(OI.Axis.LTrigger.getAxisNumber());
+    	power = Robot.oi.secondStick.getRawAxis(OI.Axis.LTrigger.getAxisNumber());
     	Robot.climber.setClimber(power);
     	SmartDashboard.putNumber("Climber", power);
     }

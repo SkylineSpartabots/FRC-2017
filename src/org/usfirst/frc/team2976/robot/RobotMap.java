@@ -9,13 +9,13 @@ public class RobotMap {
 //4 Drive Motors
 	public static final int RightFrontDriveMotor = 1; 
 	public static final int LeftFrontDriveMotor = 2; 
-	public static final int RightBackDriveMotor = 6; 
-	public static final int LeftBackDriveMotor = 3;	
+	public static final int RightBackDriveMotor = 3; 
+	public static final int LeftBackDriveMotor = 5;	
 	
 	//Other motors
-	public static final int climberMotor = 0;
-	public static final int gearIntakeMotor = 5; //lifts the robot //should be 5
-	public static final int gearPivotMotor = 4; //TODO
+	public static final int climberMotor = 4; //should be 0
+	public static final int gearIntakeMotor = 6; //lifts the robot //should be 5
+	public static final int gearPivotMotor = 5; //TODO //supposed to be 4
 	
 	//limit switch for gear
 	public static final int limitSwitch = 0;
