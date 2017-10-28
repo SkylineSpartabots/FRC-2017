@@ -3,11 +3,6 @@ package org.usfirst.frc.team2976.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
-import org.usfirst.frc.team2976.robot.commands.GearIn;
-import org.usfirst.frc.team2976.robot.commands.GearOut;
-import org.usfirst.frc.team2976.robot.commands.LiftGear;
-import org.usfirst.frc.team2976.robot.commands.LowerGear;
-import org.usfirst.frc.team2976.robot.commands.IntakeGear;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -51,12 +46,6 @@ public class OI {
 		
 		//new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new TimedDrive(50,0.5,true));
 		//new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whenPressed(new TimedDrive(50,-0.5,true));
-		new JoystickButton(driveStick, OI.Button.A.getBtnNumber()).whenPressed(new LowerGear()); //lowering the gear
-		new JoystickButton(driveStick, OI.Button.Y.getBtnNumber()).whenPressed(new LiftGear()); //lifting the gear
-		new JoystickButton(driveStick, OI.Button.B.getBtnNumber()).whileHeld(new IntakeGear(-0.6)); //in
-		new JoystickButton(driveStick, OI.Button.X.getBtnNumber()).whileHeld(new IntakeGear(0.6)); //out
-		new JoystickButton(driveStick, OI.Button.LBumper.getBtnNumber()).whileHeld(new GearOut()); //out
-		new JoystickButton(driveStick, OI.Button.RBumper.getBtnNumber()).whileHeld(new GearIn()); //out
 		
 	}
 }

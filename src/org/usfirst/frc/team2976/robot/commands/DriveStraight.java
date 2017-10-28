@@ -1,5 +1,4 @@
-/*
-package org.usfirst.frc.team2976.robot.commands;
+/*package org.usfirst.frc.team2976.robot.commands;
 
 import org.usfirst.frc.team2976.robot.Robot;
 
@@ -56,5 +55,4 @@ public class DriveStraight extends Command {
     protected void interrupted() {
  
     }
-}
-*/
+}*/
