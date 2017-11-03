@@ -5,9 +5,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
-import org.usfirst.frc.team2976.robot.commands.CenterAuto;
-import org.usfirst.frc.team2976.robot.commands.LeftAuto;
-import org.usfirst.frc.team2976.robot.commands.RightAuto;
+
 import org.usfirst.frc.team2976.robot.commands.TimedDrive;
 import org.usfirst.frc.team2976.robot.subsystems.Climber;
 import org.usfirst.frc.team2976.robot.subsystems.DriveTrain;
@@ -19,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import util.RPS;
 
-
+///Jasmine was here
 
 /**
  * The VM is configured to automatically run this class, and to call the
